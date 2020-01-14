@@ -145,11 +145,6 @@ public class Robot extends TimedRobot {
     }
 
     colorMatched = match.color == targetColor;
-    // if (match.color == targetColor) {
-    //   colorMatched = true;
-    // }else{
-    //   colorMatched = false;
-    // }
 
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the sensor.

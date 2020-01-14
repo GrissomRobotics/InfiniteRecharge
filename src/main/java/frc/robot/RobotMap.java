@@ -7,8 +7,25 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PWMVictorSPX;
+
 /**
  * Add your docs here.
  */
 public class RobotMap {
+    //spinner
+    public static PWMVictorSPX spinnerWheel;
+    //constants
+    public static final double SPINNER_WHEEL_SPEED = 0.5;
+
+    public static void init(){
+
+        //spinner subsystem
+        spinnerWheel = new PWMVictorSPX(3);
+
+        
+
+
+    }
 }
+
