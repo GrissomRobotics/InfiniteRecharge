@@ -15,6 +15,7 @@ public class RotationControl extends CommandBase {
    */
   public RotationControl() {
     // Use addRequirements() here to declare subsystem dependencies.
+    
   }
 
   // Called when the command is initially scheduled.
