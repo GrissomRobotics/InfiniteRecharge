@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.PositionControl;
+import frc.robot.commands.DisableSpinner;
 
 /**
  * Add your docs here.
@@ -22,7 +25,11 @@ public class OI {
 
         driveStick = new Joystick(0);
         otherStick = new Joystick(1);
+        JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
+        JoystickButton positionControlStop = new JoystickButton(otherStick, 5);
 
+        positionControlButton.whenPressed(new PositionControl());
+        positionControlButton.whenPressed(new DisableSpinner());
     }
 
     public double getXValue() {
