@@ -7,25 +7,61 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import com.revrobotics.ColorSensorV3;
 
 /**
  * Add your docs here.
  */
 public class RobotMap {
-    //spinner
+
+    // spinner and color detection stuff
+    public static I2C.Port i2cPort;
+    public static ColorSensorV3 m_colorSensor;
     public static PWMVictorSPX spinnerWheel;
-    //constants
+
+    // drivetrain
+    public static SpeedController driveTrainLeftFront;
+    public static SpeedController driveTrainRightFront;
+    public static SpeedController driveTrainLeftRear;
+    public static SpeedController driveTrainRightRear;
+    public static MecanumDrive driveTrainMecanumDrive;
+
+    // constants
     public static final double SPINNER_WHEEL_SPEED = 0.5;
 
-    public static void init(){
+    public static void init() {
 
-        //spinner subsystem
+        // spinner subsystem
         spinnerWheel = new PWMVictorSPX(3);
 
-        
+        // drive train
+        driveTrainLeftFront = new Talon(0);
+        driveTrainLeftFront.setInverted(true);
 
+        driveTrainRightFront = new Talon(1);
+        driveTrainRightFront.setInverted(false);
 
+        driveTrainLeftRear = new Talon(2);
+        driveTrainLeftRear.setInverted(true);
+
+        driveTrainRightRear = new Talon(3);
+        driveTrainRightRear.setInverted(false);
+
+        driveTrainMecanumDrive = new MecanumDrive(driveTrainLeftFront, driveTrainLeftRear, driveTrainRightFront,
+                driveTrainRightRear);
+
+        driveTrainMecanumDrive.setSafetyEnabled(true);
+        driveTrainMecanumDrive.setExpiration(0.1);
+        driveTrainMecanumDrive.setMaxOutput(1.0);
+
+        // spinner and color sensor
+        i2cPort = I2C.Port.kOnboard;
+        m_colorSensor = new ColorSensorV3(i2cPort);
     }
 }
-
