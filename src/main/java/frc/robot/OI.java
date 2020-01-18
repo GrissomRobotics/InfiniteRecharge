@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.PositionControl;
+import frc.robot.commands.RotationControl;
+import frc.robot.commands.Climb;
 import frc.robot.commands.DisableSpinner;
 
 /**
@@ -25,11 +27,22 @@ public class OI {
 
         driveStick = new Joystick(0);
         otherStick = new Joystick(1);
-        JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
-        JoystickButton positionControlStop = new JoystickButton(otherStick, 5);
 
+        //driveStick buttons
+        JoystickButton climbButton = new JoystickButton(driveStick, 4);
+
+        //otherStick buttons
+        JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
+        JoystickButton rotationControlButton = new JoystickButton(otherStick, 5);
+        JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 6);
+
+        //driveStick controls
+        climbButton.whileHeld(new Climb());
+
+        //otherStick controls
         positionControlButton.whenPressed(new PositionControl());
-        positionControlButton.whenPressed(new DisableSpinner());
+        rotationControlButton.whenPressed(new RotationControl());
+        cancelSpinnerButton.whenPressed(new DisableSpinner());
     }
 
     public double getXValue() {

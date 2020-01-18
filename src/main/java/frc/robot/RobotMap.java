@@ -25,6 +25,9 @@ public class RobotMap {
     public static ColorSensorV3 m_colorSensor;
     public static PWMVictorSPX spinnerWheel;
 
+    //climber
+    public static SpeedController climberWinch;
+
     // drivetrain
     public static SpeedController driveTrainLeftFront;
     public static SpeedController driveTrainRightFront;
@@ -34,11 +37,15 @@ public class RobotMap {
 
     // constants
     public static final double SPINNER_WHEEL_SPEED = 0.5;
+    public static final double WINCH_SPEED = 0.5;
 
     public static void init() {
 
         // spinner subsystem
-        spinnerWheel = new PWMVictorSPX(3);
+        spinnerWheel = new PWMVictorSPX(4);
+
+        //climber
+        climberWinch = new PWMVictorSPX(5);
 
         // drive train
         driveTrainLeftFront = new Talon(0);

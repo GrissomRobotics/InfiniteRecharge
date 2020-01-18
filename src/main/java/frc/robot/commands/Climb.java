@@ -8,49 +8,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
-import frc.robot.custom.WheelTracker;
 
-public class RotationControl extends CommandBase {
+public class Climb extends CommandBase {
   /**
-   * Creates a new RotationControl.
+   * Creates a new Climb.
    */
-  private WheelTracker wheelTracker;
-
-  public RotationControl() {
+  public Climb() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
+    addRequirements(Robot.climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Color detectedColor = RobotMap.m_colorSensor.getColor();
-    // Called every time the scheduler runs while the command is scheduled.
-    wheelTracker= new WheelTracker(Robot.spinner.getColor(), 4);
-
+    Robot.climber.ascend();
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.spinner.spinPanelClockwise();
-    wheelTracker.setNewColor(Robot.spinner.getColor());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.spinner.stopSpinner();
+    Robot.climber.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    if(wheelTracker.getNumRotations() >= 3.0)
-      return true;
     return false;
-    
   }
 }

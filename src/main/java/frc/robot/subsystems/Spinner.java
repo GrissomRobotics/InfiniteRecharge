@@ -18,14 +18,12 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
 
-
-
 public class Spinner extends SubsystemBase {
 
   private PWMVictorSPX spinnerWheel = RobotMap.spinnerWheel;
   public static final ColorSensorV3 colorSensor = RobotMap.m_colorSensor;
   public static ColorMatch colorMatcher;
-  private static Color kBlueTarget; 
+  private static Color kBlueTarget;
   private static Color kGreenTarget;
   private static Color kRedTarget;
   private static Color kYellowTarget;
@@ -76,26 +74,27 @@ public class Spinner extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void spinPanelClockwise(){
-     spinnerWheel.set(RobotMap.SPINNER_WHEEL_SPEED);
-   }
+  public void spinPanelClockwise() {
+    spinnerWheel.set(RobotMap.SPINNER_WHEEL_SPEED);
+  }
 
-  public void spinPanelCClockwise(){
+  public void spinPanelCClockwise() {
     spinnerWheel.set(-RobotMap.SPINNER_WHEEL_SPEED);
   }
 
-  public void stopSpinner(){
-     spinnerWheel.set(0.0);
+  public void stopSpinner() {
+    spinnerWheel.set(0.0);
   }
 
-  public boolean colorIsMatched(){
+  public boolean colorIsMatched() {
     detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     boolean colorIsMatched = match.color == targetColor;
     return colorIsMatched;
   }
 
-  public String getColorString(){
+  public String getColorString() {
+    detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     String colorString;
     if (match.color == kBlueTarget) {
@@ -111,4 +110,10 @@ public class Spinner extends SubsystemBase {
     }
     return colorString;
   }
+  public Color getColor() {
+    detectedColor = colorSensor.getColor();
+    return detectedColor;
+  }
+
+
 }

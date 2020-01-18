@@ -7,12 +7,16 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
+  private SpeedController winch = RobotMap.climberWinch;
+
   public Climber() {
 
   }
@@ -20,5 +24,17 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void ascend() {
+    winch.set(RobotMap.WINCH_SPEED);
+  }
+
+  public void descend() {
+    winch.set(-RobotMap.WINCH_SPEED);
+  }
+
+  public void stop(){
+    winch.set(0.0);
   }
 }
