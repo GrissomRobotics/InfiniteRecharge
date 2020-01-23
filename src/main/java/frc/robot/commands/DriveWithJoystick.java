@@ -15,7 +15,7 @@ public class DriveWithJoystick extends CommandBase {
   /**
    * Creates a new DriveWithJoystick.
    */
-
+  //private final DriveSubsystem driveTrain;
   private Ramper rampForward;
   private Ramper rampRight;
   

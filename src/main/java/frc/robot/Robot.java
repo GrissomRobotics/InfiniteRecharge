@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -23,6 +25,7 @@ import frc.robot.subsystems.Spinner;
 public class Robot extends TimedRobot {
 
   //subsystems
+  public static RobotMap RobotMap;
 	public static DriveSubsystem driveTrain;
 	public static Spinner spinner;
 	public static Climber climber;
@@ -48,15 +51,28 @@ public class Robot extends TimedRobot {
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
   */
+  public Robot(){
 
-  @Override
-  public void robotInit() {
+    RobotMap = new RobotMap();
 
     driveTrain = new DriveSubsystem();
     spinner = new Spinner();
     climber = new Climber();
 
     oi = new OI();
+    CommandScheduler.getInstance().registerSubsystem(driveTrain);
+  }
+
+  @Override
+  public void robotInit() {
+
+    /*
+    driveTrain = new DriveSubsystem();
+    spinner = new Spinner();
+    climber = new Climber();
+
+    oi = new OI();
+    */
 
 
     /*
@@ -79,6 +95,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void teleopInit() {
+  }
+
+  @Override
   public void teleopPeriodic() {
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
@@ -91,5 +111,6 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Confidence", match.confidence);
     //SmartDashboard.putString("Detected Color", colorString);
     //SmartDashboard.putBoolean("Color Match", colorMatched);
+    CommandScheduler.getInstance().run();
   }
 }

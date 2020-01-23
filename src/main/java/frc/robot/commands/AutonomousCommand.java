@@ -8,34 +8,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 
-public class ManualSpinning extends CommandBase {
+
+public class AutonomousCommand extends CommandBase {
   /**
-   * Creates a new ManualSpinning.
+   * Creates a new AutonomousCommand.
    */
-  public ManualSpinning() {
+  public AutonomousCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
+    addRequirements(Robot.driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.spinner.spinManual(Robot.oi.getManualSpinnerRotation());
+    new WaitCommand(3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.spinner.stopSpinner();
   }
 
   // Returns true when the command should end.

@@ -74,6 +74,10 @@ public class Spinner extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void spinManual(double speed){
+    spinnerWheel.set(speed);
+  }
+
   public void spinPanelClockwise() {
     spinnerWheel.set(RobotMap.SPINNER_WHEEL_SPEED);
   }

@@ -26,31 +26,36 @@ public class OI {
     public OI(){
 
         driveStick = new Joystick(0);
+
         otherStick = new Joystick(1);
 
         //driveStick buttons
         JoystickButton climbButton = new JoystickButton(driveStick, 4);
 
         //otherStick buttons
+        
         JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
-        JoystickButton rotationControlButton = new JoystickButton(otherStick, 5);
-        JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 6);
+        JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
+        JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 3);
+        
 
         //driveStick controls
         climbButton.whileHeld(new Climb());
 
         //otherStick controls
+        
         positionControlButton.whenPressed(new PositionControl());
         rotationControlButton.whenPressed(new RotationControl());
         cancelSpinnerButton.whenPressed(new DisableSpinner());
+        
     }
 
     public double getXValue() {
-    	return driveStick.getX();// + (otherStick.getRawAxis(4)/otherSensitivity);
+    	return driveStick.getRawAxis(0);// + (otherStick.getRawAxis(4)/otherSensitivity);
     }
     
     public double getYValue() {
-    	return driveStick.getY();// + (otherStick.getRawAxis(5)/otherSensitivity);
+    	return driveStick.getRawAxis(1);// + (otherStick.getRawAxis(5)/otherSensitivity);
     }
     
     
@@ -60,5 +65,11 @@ public class OI {
     
     public double getRotationRight() {
     	return driveStick.getRawAxis(3);// + (otherStick.getRawAxis(3)/otherSensitivity);
+    }
+
+    //TODO: Map xbox axes
+
+    public double getManualSpinnerRotation(){
+        return driveStick.getRawAxis(3);
     }
 }

@@ -7,8 +7,8 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -48,16 +48,16 @@ public class RobotMap {
         climberWinch = new PWMVictorSPX(5);
 
         // drive train
-        driveTrainLeftFront = new Talon(0);
+        driveTrainLeftFront = new Jaguar(0);
         driveTrainLeftFront.setInverted(true);
 
-        driveTrainRightFront = new Talon(1);
+        driveTrainRightFront = new Jaguar(1);
         driveTrainRightFront.setInverted(false);
 
-        driveTrainLeftRear = new Talon(2);
+        driveTrainLeftRear = new Jaguar(2);
         driveTrainLeftRear.setInverted(true);
 
-        driveTrainRightRear = new Talon(3);
+        driveTrainRightRear = new Jaguar(3);
         driveTrainRightRear.setInverted(false);
 
         driveTrainMecanumDrive = new MecanumDrive(driveTrainLeftFront, driveTrainLeftRear, driveTrainRightFront,
