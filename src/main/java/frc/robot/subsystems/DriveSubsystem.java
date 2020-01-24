@@ -60,4 +60,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     }
 
+    public void resetGyro() {
+		gyro.setFusedHeading(0);
+	}
+
 }
