@@ -36,6 +36,14 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.driveCartesian(-xValue, yValue, rotationValue);
     }
 
+    public void moveForward() {
+        leftFront.set(0.5);
+        rightFront.set(0.5);
+        leftRear.set(0.5);
+        rightRear.set(0.5);
+
+    }
+
     public void stop() {
         leftFront.stopMotor();
         rightFront.stopMotor();

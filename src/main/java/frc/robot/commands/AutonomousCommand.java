@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
@@ -16,6 +19,8 @@ public class AutonomousCommand extends CommandBase {
   /**
    * Creates a new AutonomousCommand.
    */
+  private static Timer timer;
+
   public AutonomousCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.driveTrain);
@@ -24,7 +29,10 @@ public class AutonomousCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    new WaitCommand(3);
+    Robot.driveTrain.moveForward();
+    Timer.delay(3);
+    Robot.driveTrain.stop();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +44,7 @@ public class AutonomousCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.driveTrain.stop();
   }
 
   // Returns true when the command should end.
