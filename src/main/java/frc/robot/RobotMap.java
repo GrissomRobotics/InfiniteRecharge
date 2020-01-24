@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import com.revrobotics.ColorSensorV3;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 /**
  * Add your docs here.
@@ -25,15 +26,18 @@ public class RobotMap {
     public static ColorSensorV3 m_colorSensor;
     public static PWMVictorSPX spinnerWheel;
 
-    //climber
+    // climber subsystem
     public static SpeedController climberWinch;
 
-    // drivetrain
+    // drivetrain subsystem
     public static SpeedController driveTrainLeftFront;
     public static SpeedController driveTrainRightFront;
     public static SpeedController driveTrainLeftRear;
     public static SpeedController driveTrainRightRear;
     public static MecanumDrive driveTrainMecanumDrive;
+
+    // sensors
+	public static PigeonIMU gyro;
 
     // constants
     public static final double SPINNER_WHEEL_SPEED = 0.5;
@@ -70,5 +74,9 @@ public class RobotMap {
         // spinner and color sensor
         i2cPort = I2C.Port.kOnboard;
         m_colorSensor = new ColorSensorV3(i2cPort);
+
+        // sensor
+        //sensors
+		gyro = new PigeonIMU(0);
     }
 }

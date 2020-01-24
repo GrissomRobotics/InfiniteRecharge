@@ -10,10 +10,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoystick;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class DriveSubsystem extends SubsystemBase {
+
+    //motors
 
     private final SpeedController leftFront = RobotMap.driveTrainLeftFront;
     private final SpeedController rightFront = RobotMap.driveTrainRightFront;
@@ -22,12 +26,16 @@ public class DriveSubsystem extends SubsystemBase {
     protected final MecanumDrive mecanumDrive = RobotMap.driveTrainMecanumDrive;
     public final double defaultRampStep = 0.01;
 
+    //gyro
+    private PigeonIMU gyro = RobotMap.gyro;
+
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithJoystick());
     }
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
 
     }
 
