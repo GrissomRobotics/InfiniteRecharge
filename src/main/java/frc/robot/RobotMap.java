@@ -13,8 +13,16 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import frc.robot.custom.UltrasonicSensor;
+
 import com.revrobotics.ColorSensorV3;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import edu.wpi.first.wpilibj.AnalogInput;
+
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Parity;
+import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.SerialPort.StopBits;
 
 /**
  * Add your docs here.
@@ -37,7 +45,8 @@ public class RobotMap {
     public static MecanumDrive driveTrainMecanumDrive;
 
     // sensors
-	public static PigeonIMU gyro;
+    public static PigeonIMU gyro;
+    public static UltrasonicSensor ultra;
 
     // constants
     public static final double SPINNER_WHEEL_SPEED = 0.5;
@@ -76,7 +85,11 @@ public class RobotMap {
         m_colorSensor = new ColorSensorV3(i2cPort);
 
         // sensor
-        //sensors
-		gyro = new PigeonIMU(0);
+
+        SerialPort ultraSerial = new SerialPort(9600, Port.kOnboard, 8, Parity.kNone, StopBits.kOne);
+        ultraSerial.reset();
+        
+        gyro = new PigeonIMU(0);
+        ultra = new UltrasonicSensor(ultraSerial);
     }
 }
