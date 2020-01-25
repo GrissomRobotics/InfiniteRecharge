@@ -15,6 +15,8 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 
+import edu.wpi.first.wpiutil.math.MathUtil;
+
 public class RotateToAngle extends CommandBase {
   /**
    * Creates a new RotateToAngle.
@@ -24,13 +26,16 @@ public class RotateToAngle extends CommandBase {
   private static final double kI = 0.0;
   private static final double kD = 0.0;
   private final PIDController pid = new PIDController(kP, kI, kD);
+  private static boolean commandIsFinished = false;
+  private static double angleTolerance;
   
   
   private static PigeonIMU gyro; 
 
-  public RotateToAngle(double angle) {
+  public RotateToAngle(double angle, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.  
     gyro = RobotMap.gyro;
+    angleTolerance = tolerance;
     pid.setSetpoint(angle);
   }
 
@@ -44,7 +49,14 @@ public class RotateToAngle extends CommandBase {
   public void execute() {
     double gyroAngle = gyro.getFusedHeading();
     double rotationRate = pid.calculate(gyroAngle);
-    Robot.driveTrain.cartesianDrive(0.0, 0.0, rotationRate);    
+    rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
+
+    if(Math.abs(gyroAngle-pid.getSetpoint()) <= angleTolerance){
+      Robot.driveTrain.stop();
+      commandIsFinished = true;
+    }else{
+      Robot.driveTrain.cartesianDrive(0.0, 0.0, rotationRate);
+    }    
   }
 
   // Called once the command ends or is interrupted.

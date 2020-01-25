@@ -16,7 +16,7 @@ import frc.robot.RobotMap;
 import frc.robot.custom.UltrasonicSensor;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
-public class DriveWithUltrasonic extends CommandBase {
+public class DriveByUltrasonic extends CommandBase {
   /**
    * Creates a new DriveWithUltrasonic.
    */
@@ -34,13 +34,17 @@ public class DriveWithUltrasonic extends CommandBase {
   private static PigeonIMU gyro;
   private static UltrasonicSensor ultra;
   private static double distanceSetpoint;
+  private static double distanceTolerance;
+  private static boolean commandIsFinished = false;
 
-  public DriveWithUltrasonic(double distance) {
+  //give input in inches
+  public DriveByUltrasonic(double distance, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.
     gyro = RobotMap.gyro;
     pid_Gyro.setSetpoint(gyro.getFusedHeading());
     //converts input in inches to millimeters
     distanceSetpoint = distance * 25.400013716;
+    distanceTolerance = tolerance;
     ultra = RobotMap.ultra;
     pid_Ultra.setSetpoint(distanceSetpoint);
   }
@@ -59,7 +63,16 @@ public class DriveWithUltrasonic extends CommandBase {
     double driveRate = pid_Ultra.calculate(ultraDistance);
     double rotationRate = pid_Gyro.calculate(gyroAngle);
     driveRate = MathUtil.clamp(driveRate, -0.1, 0.1);
-    Robot.driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
+    rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
+
+    if(Math.abs(ultraDistance-pid_Ultra.getSetpoint()) <= distanceTolerance){
+      Robot.driveTrain.stop();
+      commandIsFinished = true;
+    }else{
+      Robot.driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
+    }
+    
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -70,6 +83,6 @@ public class DriveWithUltrasonic extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return commandIsFinished;
   }
 }

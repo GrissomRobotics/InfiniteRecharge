@@ -61,16 +61,16 @@ public class RobotMap {
         climberWinch = new PWMVictorSPX(5);
 
         // drive train
-        driveTrainLeftFront = new Jaguar(0);
+        driveTrainLeftFront = new PWMVictorSPX(0);
         driveTrainLeftFront.setInverted(true);
 
-        driveTrainRightFront = new Jaguar(1);
+        driveTrainRightFront = new PWMVictorSPX(1);
         driveTrainRightFront.setInverted(false);
 
-        driveTrainLeftRear = new Jaguar(2);
+        driveTrainLeftRear = new PWMVictorSPX(2);
         driveTrainLeftRear.setInverted(true);
 
-        driveTrainRightRear = new Jaguar(3);
+        driveTrainRightRear = new PWMVictorSPX(3);
         driveTrainRightRear.setInverted(false);
 
         driveTrainMecanumDrive = new MecanumDrive(driveTrainLeftFront, driveTrainLeftRear, driveTrainRightFront,

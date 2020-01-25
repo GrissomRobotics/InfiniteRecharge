@@ -13,7 +13,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.custom.UltrasonicSensor;
+
 import com.ctre.phoenix.sensors.PigeonIMU;
+import frc.robot.custom.UltrasonicSensor;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -28,6 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     //gyro
     private PigeonIMU gyro = RobotMap.gyro;
+    private UltrasonicSensor ultra = RobotMap.ultra;
 
     public void initDefaultCommand() {
         setDefaultCommand(new DriveWithJoystick());
@@ -36,6 +40,7 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
+        SmartDashboard.putNumber("Ultra", ultra.readLastRange());
 
     }
 

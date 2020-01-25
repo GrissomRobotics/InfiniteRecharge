@@ -13,22 +13,26 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 
 
-public class AutonomousCommand extends CommandBase {
+public class DriveByTime extends CommandBase {
   /**
    * Creates a new AutonomousCommand.
    */
   private static Timer timer;
-
-  public AutonomousCommand() {
+  private static double driveTime;
+  
+  //give time in seconds
+  public DriveByTime(double time) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.driveTrain);
+    driveTime = time;
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Robot.driveTrain.moveForward();
-    Timer.delay(3);
+    Timer.delay(driveTime);
     Robot.driveTrain.stop();
     
   }
