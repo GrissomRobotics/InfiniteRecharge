@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveWithJoystick;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Spinner;
@@ -25,15 +26,8 @@ import frc.robot.subsystems.Spinner;
  */
 public class Robot extends TimedRobot {
 
-  // subsystems
-  public static RobotMap RobotMap;
-  public static DriveSubsystem driveTrain;
-  public static Spinner spinner;
-  public static Climber climber;
-
-  // OI
-  public static OI oi;
-
+private RobotMap robotMap;
+  
   // Drive Train
   /*
    * private static final int kFrontLeftChannel = 2; private static final int
@@ -50,20 +44,20 @@ public class Robot extends TimedRobot {
    * private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524,
    * 0.113);
    */
+
   public Robot() {
 
-    RobotMap = new RobotMap();
+    robotMap = new RobotMap();
 
-    driveTrain = new DriveSubsystem();
-    spinner = new Spinner();
-    climber = new Climber();
-
-    oi = new OI();
-    CommandScheduler.getInstance().registerSubsystem(Robot.driveTrain);
+    // CommandScheduler.getInstance().registerSubsystem(Robot.driveTrain);
   }
 
   @Override
   public void robotInit() {
+
+
+    // CommandScheduler.getInstance().setDefaultCommand(driveTrain, new
+    // DriveWithJoystick());
 
     /*
      * driveTrain = new DriveSubsystem(); spinner = new Spinner(); climber = new
@@ -85,7 +79,6 @@ public class Robot extends TimedRobot {
      * 
      * m_stick = new Joystick(kJoystickChannel);
      */
-
   }
 
   public void robotPeriodic() {
@@ -99,22 +92,29 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
 
   }
-    
+
   @Override
   public void teleopPeriodic() {
-    // Use the joystick X axis for lateral movement, Y axis for forward
-    // movement, and Z axis for rotation.
-
-    // m_robotDrive.driveCartesian(m_stick.getY(), -m_stick.getZ(), m_stick.getX(),
-    // 0.0);
-  }
-
-  public void autonomousInit(){
 
   }
 
-  public void autonomousPeriodic(){
-    
+  public void autonomousInit() {
+
+  }
+
+  public void autonomousPeriodic() {
+
+  }
+
+  @Override
+  public void disabledInit() {
+  }
+
+  @Override
+  public void disabledPeriodic() {
+    // This must be here for sensor data to be updated to the dashboard while
+    // disabled, do not remove it
+    CommandScheduler.getInstance().run();
   }
 
 }

@@ -9,20 +9,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.Spinner;
 
 public class DisableSpinner extends CommandBase {
   /**
    * Creates a new DisableSpinner.
    */
-  public DisableSpinner() {
+  private final Spinner m_Spinner;
+
+  public DisableSpinner(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
+    m_Spinner = spinner;
+    addRequirements(m_Spinner);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.spinner.stopSpinner();
+    m_Spinner.stopSpinner();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

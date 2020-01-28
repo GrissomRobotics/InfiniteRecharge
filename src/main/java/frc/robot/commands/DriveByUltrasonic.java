@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.custom.UltrasonicSensor;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class DriveByUltrasonic extends CommandBase {
   /**
    * Creates a new DriveWithUltrasonic.
    */
+  private final DriveSubsystem m_driveTrain;
 
   private static final double kP_Ultra = 1.0;
   private static final double kI_Ultra = 0.0;
@@ -38,8 +40,9 @@ public class DriveByUltrasonic extends CommandBase {
   private static boolean commandIsFinished = false;
 
   //give input in inches
-  public DriveByUltrasonic(double distance, double tolerance) {
+  public DriveByUltrasonic(DriveSubsystem driveTrain, double distance, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_driveTrain = driveTrain;
     gyro = RobotMap.gyro;
     pid_Gyro.setSetpoint(gyro.getFusedHeading());
     //converts input in inches to millimeters
@@ -66,10 +69,10 @@ public class DriveByUltrasonic extends CommandBase {
     rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
 
     if(Math.abs(ultraDistance-pid_Ultra.getSetpoint()) <= distanceTolerance){
-      Robot.driveTrain.stop();
+      m_driveTrain.stop();
       commandIsFinished = true;
     }else{
-      Robot.driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
+      m_driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
     }
     
     

@@ -11,36 +11,75 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.custom.Ramper;
 import frc.robot.custom.UltrasonicSensor;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.SpeedController;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 import frc.robot.custom.UltrasonicSensor;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    //motors
-
-    private final SpeedController leftFront = RobotMap.driveTrainLeftFront;
-    private final SpeedController rightFront = RobotMap.driveTrainRightFront;
-    private final SpeedController leftRear = RobotMap.driveTrainLeftRear;
-    private final SpeedController rightRear = RobotMap.driveTrainRightRear;
-    protected final MecanumDrive mecanumDrive = RobotMap.driveTrainMecanumDrive;
+    // motors
+    private final SpeedController leftFront;
+    private final SpeedController rightFront;
+    private final SpeedController leftRear;
+    private final SpeedController rightRear;
+    private final MecanumDrive mecanumDrive;
     public final double defaultRampStep = 0.01;
 
-    //gyro
+    // gyro
     private PigeonIMU gyro = RobotMap.gyro;
     private UltrasonicSensor ultra = RobotMap.ultra;
 
-    public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithJoystick());
+    // rampers
+    private Ramper rampForward;
+    private Ramper rampRight;
+
+    public DriveSubsystem() {
+
+        // sensor
+        // ultraSerial = new SerialPort(9600, Port.kOnboard, 8, Parity.kNone,
+        // StopBits.kOne);
+        // ultraSerial.reset();
+
+        // gyro = new PigeonIMU(0);
+        // ultra = new UltrasonicSensor(ultraSerial);
+
+        // drive train
+        // sides weree going in different directions, so not inverting left side. 
+        // this might need to be undone later
+        leftFront = new PWMVictorSPX(0);
+        leftFront.setInverted(false);
+
+        rightFront = new PWMVictorSPX(1);
+        rightFront.setInverted(false);
+
+        leftRear = new PWMVictorSPX(2);
+        leftRear.setInverted(false);
+
+        rightRear = new PWMVictorSPX(3);
+        rightRear.setInverted(false);
+
+        mecanumDrive = new MecanumDrive(leftFront, leftRear, rightFront, rightRear);
+
+        mecanumDrive.setSafetyEnabled(true);
+        mecanumDrive.setExpiration(0.1);
+        mecanumDrive.setMaxOutput(1.0);
+        rampForward = new Ramper(defaultRampStep);
+        rampRight = new Ramper(defaultRampStep);
+
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
-        SmartDashboard.putNumber("Ultra", ultra.readLastRange());
+        // TODO: Uncomment when ultra and gyro added for debugging purposes
+        // SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
+        // SmartDashboard.putNumber("Ultra", ultra.readLastRange());
 
     }
 
@@ -49,12 +88,42 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.driveCartesian(-xValue, yValue, rotationValue);
     }
 
-    public void moveForward() {
-        leftFront.set(0.5);
-        rightFront.set(0.5);
-        leftRear.set(0.5);
-        rightRear.set(0.5);
+    public void driveWithJoystick(double turn, double right, double forward) {
 
+        double turnSet;
+        double forwardSet;
+        double rightSet;
+        double rightThreshold = 0.1;
+        double deadThreshold = 0.1;
+
+        // Correct deadzones
+        // Logic is: if the r
+
+        // reading is greater than the threshold, make the setter equal to it,
+        // otherwise, make the setter equal to 0
+        // turn = Robot.oi.getRotationLeft() - Robot.oi.getRotationRight();
+        // right = Robot.oi.getXValue();
+        // forward = Robot.oi.getYValue();
+
+        if (Math.abs(turn) > deadThreshold) {
+            turnSet = turn;
+        } else {
+            turnSet = 0;
+        }
+
+        if (Math.abs(forward) > deadThreshold) {
+            forwardSet = rampForward.ramp(forward);
+        } else {
+            forwardSet = 0;
+        }
+
+        if (Math.abs(right) > rightThreshold) {
+            rightSet = rampRight.ramp(right);
+        } else {
+            rightSet = 0;
+        }
+
+        cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
     }
 
     public void stop() {
@@ -66,7 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetGyro() {
-		gyro.setFusedHeading(0);
-	}
+        gyro.setFusedHeading(0);
+    }
 
 }

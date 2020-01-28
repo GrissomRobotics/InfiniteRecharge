@@ -28,25 +28,6 @@ public class OI {
         driveStick = new Joystick(0);
 
         otherStick = new Joystick(1);
-
-        //driveStick buttons
-        JoystickButton climbButton = new JoystickButton(driveStick, 4);
-
-        //otherStick buttons
-        
-        JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
-        JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
-        JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 3);
-        
-
-        //driveStick controls
-        climbButton.whileHeld(new Climb());
-
-        //otherStick controls
-        
-        positionControlButton.whenPressed(new PositionControl());
-        rotationControlButton.whenPressed(new RotationControl());
-        cancelSpinnerButton.whenPressed(new DisableSpinner());
         
     }
 

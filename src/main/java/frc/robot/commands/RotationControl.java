@@ -11,16 +11,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.custom.WheelTracker;
+import frc.robot.subsystems.Spinner;
 
 public class RotationControl extends CommandBase {
   /**
    * Creates a new RotationControl.
    */
+  private final Spinner m_Spinner;
   private WheelTracker wheelTracker;
 
-  public RotationControl() {
+  public RotationControl(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
+    m_Spinner = spinner;
+    addRequirements(m_Spinner);
   }
 
   // Called when the command is initially scheduled.
@@ -28,20 +31,20 @@ public class RotationControl extends CommandBase {
   public void initialize() {
     // Color detectedColor = RobotMap.m_colorSensor.getColor();
     // Called every time the scheduler runs while the command is scheduled.
-    wheelTracker= new WheelTracker(Robot.spinner.getColor(), 4);
+    wheelTracker= new WheelTracker(m_Spinner.getColor(), 4);
 
   }
 
   @Override
   public void execute() {
-    Robot.spinner.spinPanelClockwise();
-    wheelTracker.setNewColor(Robot.spinner.getColor());
+    m_Spinner.spinPanelClockwise();
+    wheelTracker.setNewColor(m_Spinner.getColor());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.spinner.stopSpinner();
+    m_Spinner.stopSpinner();
   }
 
   // Returns true when the command should end.

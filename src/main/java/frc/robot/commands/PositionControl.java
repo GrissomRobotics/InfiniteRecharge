@@ -9,15 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.Spinner;
 
 public class PositionControl extends CommandBase {
   /**
    * Creates a new PositionControl.
    */
+  private final Spinner m_Spinner;
 
-  public PositionControl() {
+  public PositionControl(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
+    m_Spinner = spinner;
+    addRequirements(m_Spinner);
   }
 
   // Called when the command is initially scheduled.
@@ -28,22 +31,22 @@ public class PositionControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!Robot.spinner.colorIsMatched()){
-      Robot.spinner.spinPanelClockwise();
-    }else{
-      Robot.spinner.stopSpinner();
+    if (!m_Spinner.colorIsMatched()) {
+      m_Spinner.spinPanelClockwise();
+    } else {
+      m_Spinner.stopSpinner();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.spinner.stopSpinner();
+    m_Spinner.stopSpinner();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot.spinner.colorIsMatched();
+    return m_Spinner.colorIsMatched();
   }
 }

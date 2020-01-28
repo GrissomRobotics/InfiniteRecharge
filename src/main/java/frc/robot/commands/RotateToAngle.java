@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.DriveSubsystem;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -21,6 +22,7 @@ public class RotateToAngle extends CommandBase {
   /**
    * Creates a new RotateToAngle.
    */
+  private final DriveSubsystem m_driveTrain;
  
   private static final double kP = 1.0;
   private static final double kI = 0.0;
@@ -32,8 +34,9 @@ public class RotateToAngle extends CommandBase {
   
   private static PigeonIMU gyro; 
 
-  public RotateToAngle(double angle, double tolerance) {
+  public RotateToAngle(DriveSubsystem driveTrain, double angle, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.  
+    m_driveTrain = driveTrain;
     gyro = RobotMap.gyro;
     angleTolerance = tolerance;
     pid.setSetpoint(angle);
@@ -52,10 +55,10 @@ public class RotateToAngle extends CommandBase {
     rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
 
     if(Math.abs(gyroAngle-pid.getSetpoint()) <= angleTolerance){
-      Robot.driveTrain.stop();
+      m_driveTrain.stop();
       commandIsFinished = true;
     }else{
-      Robot.driveTrain.cartesianDrive(0.0, 0.0, rotationRate);
+      m_driveTrain.cartesianDrive(0.0, 0.0, rotationRate);
     }    
   }
 
@@ -67,6 +70,6 @@ public class RotateToAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return commandIsFinished;
   }
 }

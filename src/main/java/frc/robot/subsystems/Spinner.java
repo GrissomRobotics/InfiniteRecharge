@@ -17,11 +17,14 @@ import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
 
 public class Spinner extends SubsystemBase {
 
-  private PWMVictorSPX spinnerWheel = RobotMap.spinnerWheel;
-  public static final ColorSensorV3 colorSensor = RobotMap.m_colorSensor;
+  private PWMVictorSPX spinnerWheel;
+  //was originally public static just incase things go badly now
+  public static I2C.Port i2cPort;
+  private final ColorSensorV3 colorSensor;
   public static ColorMatch colorMatcher;
   private static Color kBlueTarget;
   private static Color kGreenTarget;
@@ -34,6 +37,11 @@ public class Spinner extends SubsystemBase {
    * Creates a new Spinner.
    */
   public Spinner() {
+
+    spinnerWheel = new PWMVictorSPX(4);
+    i2cPort = I2C.Port.kOnboard;
+    colorSensor = new ColorSensorV3(i2cPort);
+    
     kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
     kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
     kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);

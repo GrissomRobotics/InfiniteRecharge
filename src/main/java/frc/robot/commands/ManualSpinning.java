@@ -8,21 +8,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.Spinner;
 
 public class ManualSpinning extends CommandBase {
   /**
    * Creates a new ManualSpinning.
    */
-  public ManualSpinning() {
+  private final Spinner m_Spinner; 
+  private final OI m_oi;
+
+  public ManualSpinning(Spinner spinner, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.spinner);
+    m_oi = oi;
+    m_Spinner = spinner;
+    addRequirements(m_Spinner);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.spinner.spinManual(Robot.oi.getManualSpinnerRotation());
+    m_Spinner.spinManual(m_oi.getManualSpinnerRotation());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +42,7 @@ public class ManualSpinning extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.spinner.stopSpinner();
+    m_Spinner.stopSpinner();
   }
 
   // Returns true when the command should end.

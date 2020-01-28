@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -15,10 +16,10 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-  private SpeedController winch = RobotMap.climberWinch;
+  private SpeedController winch;
 
   public Climber() {
-
+    winch = new PWMVictorSPX(5);
   }
 
   @Override

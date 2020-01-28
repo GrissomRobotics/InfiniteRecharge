@@ -7,29 +7,39 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.custom.Ramper;
 //import java.lang.Math;
+import frc.robot.subsystems.DriveSubsystem;
+
 
 public class DriveWithJoystick extends CommandBase {
   /**
    * Creates a new DriveWithJoystick.
    */
   //private final DriveSubsystem driveTrain;
+  private final DriveSubsystem m_driveTrain;
+  private final OI m_oi;
+
   private Ramper rampForward;
   private Ramper rampRight;
   
-  public DriveWithJoystick() {
+  public DriveWithJoystick(DriveSubsystem driveTrain, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.driveTrain);
+    m_driveTrain = driveTrain;
+    m_oi = oi;
+    addRequirements(m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
     public void initialize() {
-      rampForward = new Ramper(Robot.driveTrain.defaultRampStep); 
-    	rampRight = new Ramper(Robot.driveTrain.defaultRampStep); 
+      rampForward = new Ramper(m_driveTrain.defaultRampStep); 
+    	rampRight = new Ramper(m_driveTrain.defaultRampStep); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,9 +60,9 @@ public class DriveWithJoystick extends CommandBase {
 
     // reading is greater than the threshold, make the setter equal to it,
     // otherwise, make the setter equal to 0
-    turn = Robot.oi.getRotationLeft() - Robot.oi.getRotationRight();
-    right = Robot.oi.getXValue();
-    forward = Robot.oi.getYValue();
+    turn = m_oi.getRotationLeft() - m_oi.getRotationRight();
+    right = m_oi.getXValue();
+    forward = m_oi.getYValue();
 
     if (Math.abs(turn) > deadThreshold) {
       turnSet = turn;
@@ -72,13 +82,13 @@ public class DriveWithJoystick extends CommandBase {
       rightSet = 0;
     }
 
-    Robot.driveTrain.cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
+    m_driveTrain.cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.driveTrain.stop();
+    m_driveTrain.stop();
   }
 
   // Returns true when the command should end.
