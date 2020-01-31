@@ -23,6 +23,7 @@ import frc.robot.custom.UltrasonicSensor;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSystems;
 import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import com.revrobotics.ColorSensorV3;
@@ -42,7 +43,9 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-
+import frc.robot.commands.MoveCellsDown;
+import frc.robot.commands.MoveCellsUp;
+import frc.robot.commands.SpinCellIn;
 /**
  * Add your docs here.
  */
@@ -55,6 +58,7 @@ public class RobotMap {
     private final Belt belt = new Belt();
 
     //input stuff
+    private final IntakeSystems intakeSystems = new IntakeSystems();
     private final OI oi = new OI();
     private final Joystick driveStick = new Joystick(0);
     private final Joystick otherStick = new Joystick(1);
@@ -153,7 +157,7 @@ public class RobotMap {
         final JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
         final JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 3);
-        
+        final JoystickButton intakeCellButton = new JoystickButton(otherStick, 6);
 
         // buttons to commands
         climbButton.whileHeld(new Climb(climber));
@@ -162,7 +166,7 @@ public class RobotMap {
         positionControlButton.whenPressed(new PositionControl(spinner));
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
-
+        intakeCellButton.whenPressed(new SpinCellIn(intakeSystems));
     }
 
 }

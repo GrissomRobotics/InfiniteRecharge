@@ -9,35 +9,39 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-public class Belt extends SubsystemBase {
-  private PWMVictorSPX belt;
-
+import frc.robot.subsystems.IntakeSystems;
+public class IntakeSystems extends SubsystemBase {
   /**
-   * 
-   * Creates a new Belt.
+   * Creates a new IntakeSystems.
    */
-  public Belt() {
+  private final PWMVictorSPX spinningWheel;
+  private final PWMVictorSPX armMotor;
 
-    belt = new PWMVictorSPX(6);
+  public IntakeSystems() {
+    spinningWheel = new PWMVictorSPX(7);
+    armMotor = new PWMVictorSPX(8);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
-  public void turnBeltCClockwise(){
-    belt.set(0.4);
+  public void spinWheelCClockwise(){
+    spinningWheel.set(0.4);
   }
-  public void turnBeltClockwise(){
-    belt.set(-0.4);
+  public void spinWheelClockwise(){
+    spinningWheel.set(-0.4);
   }
-  public void turnBeltOff(){
-    belt.set(0.0);
+  public void spinWheelOff(){
+    spinningWheel.set(0.0);
   }
-  public void turnBelt(double speed){
-    belt.set(speed);
+  public void armMotorCClockwise(){
+    armMotor.set(0.4);
   }
-  
+  public void armMotorclockwise(){
+    armMotor.set(-0.4);
+  }
+  public void armMotorOff(){
+    armMotor.set(0.0);
+  }
 }
