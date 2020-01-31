@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Climb;
-import frc.robot.commands.DriveWithJoystick;
 import frc.robot.custom.UltrasonicSensor;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Climber;
@@ -43,9 +41,6 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import frc.robot.commands.MoveCellsDown;
-import frc.robot.commands.MoveCellsUp;
-import frc.robot.commands.SpinCellIn;
 /**
  * Add your docs here.
  */
@@ -98,6 +93,7 @@ public class RobotMap {
         configureButtonBindings();
 
         belt.setDefaultCommand(new ManualBelt(belt, oi));
+        intakeSystems.setDefaultCommand(new ManualIntakeArm(intakeSystems, oi));
 
         driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
 

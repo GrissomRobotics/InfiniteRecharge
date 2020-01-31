@@ -55,4 +55,7 @@ public class IntakeSystems extends SubsystemBase {
   public boolean getLowerLimitSwitch(){
     return lowerArmLimit.get();
   }
+  public void setarmMotorspeed(double speed){
+    armMotor.set(speed);
+ }
 }

@@ -57,4 +57,7 @@ public class OI {
     public double getManualBeltRotation(){
         return otherStick.getRawAxis(5);
     }
+    public double getManualarmRotation(){
+        return otherStick.getRawAxis(1);
+    }
 }

@@ -9,38 +9,39 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
-import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.IntakeSystems;
 
-public class ManualBelt extends CommandBase {
+public class ManualIntakeArm extends CommandBase {
   /**
-   * Creates a new ManualBelt. 
+   * Creates a new ManualIntakeArm.
    */
-  private final Belt m_belt;
+  private final IntakeSystems m_intakeSystems;
   private final OI m_oi;
+    
 
-  public ManualBelt(Belt belt, OI oi) {
+  public ManualIntakeArm(IntakeSystems intakeSystems, OI oi) {
+    m_intakeSystems = intakeSystems;
+    m_oi =  oi;
+addRequirements(m_intakeSystems);
     // Use addRequirements() here to declare subsystem dependencies.
-    m_belt = belt;
-    m_oi = oi;
-    addRequirements(m_belt);
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_belt.turnBelt(m_oi.getManualBeltRotation());
+  public void execute() { 
+    m_intakeSystems.setarmMotorspeed(m_oi.getManualarmRotation());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_belt.turnBeltOff();
   }
 
   // Returns true when the command should end.
