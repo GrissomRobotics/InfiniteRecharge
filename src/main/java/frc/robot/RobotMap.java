@@ -82,6 +82,8 @@ public class RobotMap {
 
     public RobotMap() {
 
+        //TODO: lower framerate or resolution
+
         // spinner and color sensor
         //i2cPort = I2C.Port.kOnboard;
         //m_colorSensor = new ColorSensorV3(i2cPort);
@@ -99,14 +101,13 @@ public class RobotMap {
 
         driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
 
-        
         m_visionThread = new Thread(() -> {
             // Get the UsbCamera from CameraServer
             UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
             UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
             // Set the resolution
-            camera0.setResolution(640, 480);
-            camera1.setResolution(640, 480);
+            camera0.setResolution(160, 120);
+            camera1.setResolution(160, 120);
 
             // Get a CvSink. This will capture Mats from the camera
             CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0);
@@ -147,6 +148,7 @@ public class RobotMap {
         });
         m_visionThread.setDaemon(true);
         m_visionThread.start();
+        
     }
 
     private void configureButtonBindings() {
