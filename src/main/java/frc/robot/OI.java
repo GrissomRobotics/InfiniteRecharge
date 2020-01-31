@@ -21,6 +21,7 @@ public class OI {
 
     public Joystick driveStick;
     public Joystick otherStick;
+    public int camera_selection = 0;
     
     
     public OI(){
@@ -51,6 +52,9 @@ public class OI {
     //TODO: Map xbox axes
 
     public double getManualSpinnerRotation(){
-        return driveStick.getRawAxis(3);
+        return otherStick.getRawAxis(3);
+    }
+    public double getManualBeltRotation(){
+        return otherStick.getRawAxis(5);
     }
 }

@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.custom.UltrasonicSensor;
+import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Spinner;
@@ -32,14 +34,27 @@ import edu.wpi.first.wpilibj.SerialPort.Parity;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.SerialPort.StopBits;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+
 /**
  * Add your docs here.
  */
 public class RobotMap {
 
+    //subsystems
     private final DriveSubsystem driveTrain = new DriveSubsystem();
     private final Spinner spinner = new Spinner();
     private final Climber climber = new Climber();
+    private final Belt belt = new Belt();
+
+    //input stuff
     private final OI oi = new OI();
     private final Joystick driveStick = new Joystick(0);
     private final Joystick otherStick = new Joystick(1);
@@ -57,6 +72,10 @@ public class RobotMap {
     public static final double SPINNER_WHEEL_SPEED = 0.5;
     public static final double WINCH_SPEED = 0.5;
 
+    // camera
+    public Thread m_visionThread;
+    //public int camera_selection = 0;
+
     public RobotMap() {
 
         // spinner and color sensor
@@ -70,20 +89,75 @@ public class RobotMap {
         //gyro = new PigeonIMU(0);
         //ultra = new UltrasonicSensor(ultraSerial);
 
+        configureButtonBindings();
+
+        belt.setDefaultCommand(new ManualBelt(belt, oi));
+
         driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
 
+        
+        m_visionThread = new Thread(() -> {
+            // Get the UsbCamera from CameraServer
+            UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
+            UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+            // Set the resolution
+            camera0.setResolution(640, 480);
+            camera1.setResolution(640, 480);
+
+            // Get a CvSink. This will capture Mats from the camera
+            CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0);
+            CvSink cvSink1 = CameraServer.getInstance().getVideo(camera1);
+            // Setup a CvSource. This will send images back to the Dashboard
+            CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+
+            // Mats are very memory expensive. Lets reuse this Mat.
+            Mat mat = new Mat();
+
+            // This cannot be 'true'. The program will never exit if it is. This
+            // lets the robot stop this thread when restarting robot code or
+            // deploying.
+            while (!Thread.interrupted()) {
+                // Tell the CvSink to grab a frame from the camera and put it
+                // in the source mat. If there is an error notify the output.
+                if (oi.camera_selection == 0) {
+                    if (cvSink0.grabFrame(mat) == 0) {
+                        // Send the output the error.
+                        outputStream.notifyError(cvSink0.getError());
+                        // skip the rest of the current iteration
+                        continue;
+                    }
+                } else {
+                    if (cvSink1.grabFrame(mat) == 0) {
+                        // Send the output the error.
+                        outputStream.notifyError(cvSink1.getError());
+                        // skip the rest of the current iteration
+                        continue;
+                    }
+                }
+
+                // Put a rectangle on the image
+                Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+                // Give the output stream a new image to display
+                outputStream.putFrame(mat);
+            }
+        });
+        m_visionThread.setDaemon(true);
+        m_visionThread.start();
     }
 
     private void configureButtonBindings() {
         // buttons
         final JoystickButton climbButton = new JoystickButton(driveStick, 4);
+        final JoystickButton cameraButton = new JoystickButton(driveStick, 2);
 
         final JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
         final JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 3);
+        
 
         // buttons to commands
         climbButton.whileHeld(new Climb(climber));
+        cameraButton.whenPressed(new SwapCameraFeed(oi));
 
         positionControlButton.whenPressed(new PositionControl(spinner));
         rotationControlButton.whenPressed(new RotationControl(spinner));
