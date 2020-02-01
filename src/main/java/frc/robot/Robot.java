@@ -46,14 +46,18 @@ public class Robot extends TimedRobot {
 
     // Add commands to Autonomous Sendable Chooser
 
-    chooser.setDefaultOption("Autonomous Default", new AutonomousFromSide(robotMap.driveTrain));
-    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine());
+    chooser.setDefaultOption("Autonomous Default", new AutonomousDefault(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
+    chooser.addOption("Autonomous From Side", new AutonomousFromSide(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
+    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain));
 
     SmartDashboard.putData("Auto mode", chooser);
   }
 
   public void robotPeriodic() {
+
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putNumber("Camera Selection:", robotMap.oi.camera_selection);
   }
 
   @Override

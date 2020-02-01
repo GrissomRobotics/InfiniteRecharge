@@ -10,8 +10,11 @@ package frc.robot.commandGroups;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.DriveByUltrasonic;
+import frc.robot.commands.ExpelCellByTime;
 import frc.robot.commands.RotateToAngle;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.OutputSystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,7 +24,7 @@ public class AutonomousFromSide extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
 
-  public AutonomousFromSide(DriveSubsystem driveTrain) {
+  public AutonomousFromSide(DriveSubsystem driveTrain, Belt belt, OutputSystem outputSystem){
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     //super();
@@ -35,7 +38,10 @@ public class AutonomousFromSide extends SequentialCommandGroup {
 
       new RotateToAngle(driveTrain, 90, 0.5),
 
-      new DriveByUltrasonic(driveTrain, 1, 0.5)
+      new DriveByUltrasonic(driveTrain, 1, 0.5),
+
+      new ExpelCellByTime(belt, outputSystem, 5)
+
     );
   }
 }

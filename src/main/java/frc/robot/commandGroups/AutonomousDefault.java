@@ -9,7 +9,10 @@ package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveByUltrasonic;
+import frc.robot.commands.ExpelCellByTime;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Belt;
+import frc.robot.subsystems.OutputSystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
@@ -17,13 +20,15 @@ public class AutonomousDefault extends SequentialCommandGroup {
   /**
    * Creates a new defualt.
    */
-  public AutonomousDefault(DriveSubsystem driveTrain) {
+  public AutonomousDefault(DriveSubsystem driveTrain, Belt belt, OutputSystem outputSystem) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     //super();
     addCommands(
     
-    new DriveByUltrasonic(driveTrain,1,0.5)
+      new DriveByUltrasonic(driveTrain,1,0.5),
+
+      new ExpelCellByTime(belt, outputSystem, 10)
 
     );
   }

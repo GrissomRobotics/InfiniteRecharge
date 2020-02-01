@@ -22,6 +22,7 @@ import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.OutputSystem;
 import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import com.revrobotics.ColorSensorV3;
@@ -50,11 +51,12 @@ public class RobotMap {
     public final DriveSubsystem driveTrain = new DriveSubsystem();
     private final Spinner spinner = new Spinner();
     private final Climber climber = new Climber();
-    private final Belt belt = new Belt();
+    public final Belt belt = new Belt();
+    private final IntakeSystem intakeSystem = new IntakeSystem();
+    public final OutputSystem outputSystem = new OutputSystem();
 
     //input stuff
-    private final IntakeSystem intakeSystem = new IntakeSystem();
-    private final OI oi = new OI();
+    public final OI oi = new OI();
     private final Joystick driveStick = new Joystick(0);
     private final Joystick otherStick = new Joystick(1);
 
@@ -169,6 +171,7 @@ public class RobotMap {
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
         intakeCellButton.whenPressed(new SpinCellIn(intakeSystem));
+        hatchToggleButton.whenPressed(new ToggleHatch(outputSystem));
     }
 
 }
