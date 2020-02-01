@@ -47,7 +47,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 public class RobotMap {
 
     //subsystems
-    private final DriveSubsystem driveTrain = new DriveSubsystem();
+    public final DriveSubsystem driveTrain = new DriveSubsystem();
     private final Spinner spinner = new Spinner();
     private final Climber climber = new Climber();
     private final Belt belt = new Belt();

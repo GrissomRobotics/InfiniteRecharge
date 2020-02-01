@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -14,13 +15,13 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Spinner;
-
+import frc.robot.commandGroups.*;
 
 /**
  * This is a demo program showing how to use Mecanum control with the RobotDrive
@@ -28,71 +29,38 @@ import frc.robot.subsystems.Spinner;
  */
 public class Robot extends TimedRobot {
 
-private RobotMap robotMap;
-  
-  // Drive Train
-  /*
-   * private static final int kFrontLeftChannel = 2; private static final int
-   * kRearLeftChannel = 3; private static final int kFrontRightChannel = 1;
-   * private static final int kRearRightChannel = 0;
-   * 
-   * private MecanumDrive m_robotDrive; private Joystick m_stick;
-   */
+  private RobotMap robotMap;
 
-  /*
-   * private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-   * private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-   * private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-   * private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524,
-   * 0.113);
-   */
+  // autonomous chooser
+  private Command autonomousCommand;
+  private SendableChooser<Command> chooser = new SendableChooser<Command>();
 
   public Robot() {
 
     robotMap = new RobotMap();
 
-    // CommandScheduler.getInstance().registerSubsystem(Robot.driveTrain);
   }
 
   @Override
   public void robotInit() {
 
+    // Add commands to Autonomous Sendable Chooser
 
-    // CommandScheduler.getInstance().setDefaultCommand(driveTrain, new
-    // DriveWithJoystick());
+    chooser.setDefaultOption("Autonomous Default", new AutonomousFromSide(robotMap.driveTrain));
+    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine());
 
-    /*
-     * driveTrain = new DriveSubsystem(); spinner = new Spinner(); climber = new
-     * Climber();
-     * 
-     * oi = new OI();
-     */
-
-    /*
-     * 
-     * Jaguar frontLeft = new Jaguar(kFrontLeftChannel); Jaguar rearLeft = new
-     * Jaguar(kRearLeftChannel); Jaguar frontRight = new Jaguar(kFrontRightChannel);
-     * Jaguar rearRight = new Jaguar(kRearRightChannel);
-     * 
-     * // Invert the left side motors. // You may need to change or remove this to
-     * match your robot. frontLeft.setInverted(true); rearLeft.setInverted(true);
-     * 
-     * m_robotDrive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
-     * 
-     * m_stick = new Joystick(kJoystickChannel);
-     */
-    //CameraServer.getInstance().startAutomaticCapture();
+    SmartDashboard.putData("Auto mode", chooser);
   }
 
   public void robotPeriodic() {
-    // SmartDashboard.putNumber("Confidence", match.confidence);
-    // SmartDashboard.putString("Detected Color", colorString);
-    // SmartDashboard.putBoolean("Color Match", colorMatched);
     CommandScheduler.getInstance().run();
   }
 
   @Override
   public void teleopInit() {
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
 
   }
 
@@ -103,7 +71,25 @@ private RobotMap robotMap;
 
   public void autonomousInit() {
 
+    autonomousCommand = chooser.getSelected();
+
+    /*
+    switch(chooser.getSelected()){
+      case 1:
+        System.out.println("PlaceHolder");//autonomousCommand = new AutonomousDefault(robotMap.driveTrain);
+      case 2:
+        System.out.println("PlaceHolder");//autonomousCommand = new AutonomousFromSide(robotMap.driveTrain);
+      case 3:
+        System.out.println("PlaceHolder");//autonomousCommand = new AutonomousOffLine(robotMap.driveTrain);
+    }
+    */
+
+
+    // schedule the autonomous command (example)
+    if (autonomousCommand != null){
+      autonomousCommand.schedule();
   }
+    }
 
   public void autonomousPeriodic() {
 
