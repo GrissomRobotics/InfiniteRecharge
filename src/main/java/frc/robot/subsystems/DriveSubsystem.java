@@ -51,19 +51,21 @@ public class DriveSubsystem extends SubsystemBase {
         // ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
-        // sides weree going in different directions, so not inverting left side. 
+        // sides weree going in different directions, so not inverting left side.
         // this might need to be undone later
+        // now they have all been inverted so that it should go forwards instead of
+        // backwards
         leftFront = new PWMVictorSPX(0);
-        leftFront.setInverted(false);
+        leftFront.setInverted(true);
 
         rightFront = new PWMVictorSPX(1);
-        rightFront.setInverted(false);
+        rightFront.setInverted(true);
 
         leftRear = new PWMVictorSPX(2);
-        leftRear.setInverted(false);
+        leftRear.setInverted(true);
 
         rightRear = new PWMVictorSPX(3);
-        rightRear.setInverted(false);
+        rightRear.setInverted(true);
 
         mecanumDrive = new MecanumDrive(leftFront, leftRear, rightFront, rightRear);
 

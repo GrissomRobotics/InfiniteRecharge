@@ -8,37 +8,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
-import frc.robot.subsystems.IntakeSystem;
 
-public class ManualIntakeArm extends CommandBase {
+public class ExpelCellByTime extends CommandBase {
   /**
-   * Creates a new ManualIntakeArm.
+   * Creates a new ExpelCellByTime.
    */
-  private final IntakeSystem m_intakeSystem;
-  private final OI m_oi;
-
-  public ManualIntakeArm(IntakeSystem intakeSystem, OI oi) {
-    m_intakeSystem = intakeSystem;
-    m_oi = oi;
-    addRequirements(m_intakeSystem);
+  public ExpelCellByTime() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSystem.moveArmMotorManual(m_oi.getManualArmRotation());
-
-    if (m_intakeSystem.getLowerLimitSwitch() || m_intakeSystem.getUpperLimitSwitch()) {
-      m_intakeSystem.stopArmMotor();
-    }
   }
 
   // Called once the command ends or is interrupted.

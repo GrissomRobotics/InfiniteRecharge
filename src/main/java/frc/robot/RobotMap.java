@@ -21,7 +21,7 @@ import frc.robot.custom.UltrasonicSensor;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSystems;
+import frc.robot.subsystems.IntakeSystem;
 import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import com.revrobotics.ColorSensorV3;
@@ -53,7 +53,7 @@ public class RobotMap {
     private final Belt belt = new Belt();
 
     //input stuff
-    private final IntakeSystems intakeSystems = new IntakeSystems();
+    private final IntakeSystem intakeSystem = new IntakeSystem();
     private final OI oi = new OI();
     private final Joystick driveStick = new Joystick(0);
     private final Joystick otherStick = new Joystick(1);
@@ -93,7 +93,10 @@ public class RobotMap {
         configureButtonBindings();
 
         belt.setDefaultCommand(new ManualBelt(belt, oi));
-        intakeSystems.setDefaultCommand(new ManualIntakeArm(intakeSystems, oi));
+
+        intakeSystem.setDefaultCommand(new ManualIntakeArm(intakeSystem, oi));
+
+        spinner.setDefaultCommand(new ManualSpinning(spinner, oi));
 
         driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
 
@@ -155,7 +158,8 @@ public class RobotMap {
         final JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
         final JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 3);
-        final JoystickButton intakeCellButton = new JoystickButton(otherStick, 6);
+        final JoystickButton intakeCellButton = new JoystickButton(otherStick,5);
+        final JoystickButton hatchToggleButton = new JoystickButton(otherStick, 6); 
 
         // buttons to commands
         climbButton.whileHeld(new Climb(climber));
@@ -164,7 +168,7 @@ public class RobotMap {
         positionControlButton.whenPressed(new PositionControl(spinner));
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
-        intakeCellButton.whenPressed(new SpinCellIn(intakeSystems));
+        intakeCellButton.whenPressed(new SpinCellIn(intakeSystem));
     }
 
 }

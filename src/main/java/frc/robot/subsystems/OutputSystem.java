@@ -7,38 +7,35 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Belt extends SubsystemBase {
-  
-  private PWMVictorSPX belt;
-
+public class OutputSystem extends SubsystemBase {
   /**
-   * 
-   * Creates a new Belt.
+   * Creates a new OutputSystem.
    */
-  public Belt() {
+  boolean hatchIsClosed;
 
-    belt = new PWMVictorSPX(6);
+  public OutputSystem() {
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Hatch is Closed:", hatchIsClosed);
   }
 
-  public void turnBeltCClockwise(){
-    belt.set(0.4);
+  public void openHatch() {
+    hatchIsClosed = false;
   }
-  public void turnBeltClockwise(){
-    belt.set(-0.4);
+
+  public void closeHatch() {
+    hatchIsClosed = true;
   }
-  public void turnBeltOff(){
-    belt.set(0.0);
+
+  public boolean hatchIsClosed() {
+    return hatchIsClosed;
   }
-  public void turnBelt(double speed){
-    belt.set(speed);
-  }
-  
+
 }

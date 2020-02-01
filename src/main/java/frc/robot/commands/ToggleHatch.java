@@ -8,37 +8,35 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
-import frc.robot.subsystems.IntakeSystem;
+import frc.robot.subsystems.OutputSystem;
 
-public class ManualIntakeArm extends CommandBase {
+public class ToggleHatch extends CommandBase {
   /**
-   * Creates a new ManualIntakeArm.
+   * Creates a new ToggleHatch.
    */
-  private final IntakeSystem m_intakeSystem;
-  private final OI m_oi;
+  private final OutputSystem m_outputSystem;
+  private boolean commandIsFinished = false;
 
-  public ManualIntakeArm(IntakeSystem intakeSystem, OI oi) {
-    m_intakeSystem = intakeSystem;
-    m_oi = oi;
-    addRequirements(m_intakeSystem);
+  public ToggleHatch(OutputSystem outputSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_outputSystem = outputSystem;
+    addRequirements(m_outputSystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSystem.moveArmMotorManual(m_oi.getManualArmRotation());
-
-    if (m_intakeSystem.getLowerLimitSwitch() || m_intakeSystem.getUpperLimitSwitch()) {
-      m_intakeSystem.stopArmMotor();
+    if(m_outputSystem.hatchIsClosed()){
+      m_outputSystem.openHatch();
+    }else{
+      m_outputSystem.closeHatch();
     }
+    commandIsFinished = true;
   }
 
   // Called once the command ends or is interrupted.
@@ -49,6 +47,6 @@ public class ManualIntakeArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return commandIsFinished;
   }
 }

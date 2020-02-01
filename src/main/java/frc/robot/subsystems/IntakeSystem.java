@@ -9,9 +9,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.IntakeSystems;
-public class IntakeSystems extends SubsystemBase {
+
+public class IntakeSystem extends SubsystemBase {
   /**
    * Creates a new IntakeSystems.
    */
@@ -20,9 +21,11 @@ public class IntakeSystems extends SubsystemBase {
   private final DigitalInput upperArmLimit;
   private final DigitalInput lowerArmLimit;
 
-  public IntakeSystems() {
+  public IntakeSystem() {
+
     spinningWheel = new PWMVictorSPX(7);
     armMotor = new PWMVictorSPX(8);
+
     upperArmLimit = new DigitalInput(0);
     lowerArmLimit = new DigitalInput(1);
   }
@@ -30,32 +33,43 @@ public class IntakeSystems extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch();
+    //SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
   }
-  public void spinWheelCClockwise(){
+
+  public void spinWheelCClockwise() {
     spinningWheel.set(0.4);
   }
-  public void spinWheelClockwise(){
+
+  public void spinWheelClockwise() {
     spinningWheel.set(-0.4);
   }
-  public void spinWheelOff(){
+
+  public void spinWheelOff() {
     spinningWheel.set(0.0);
   }
-  public void armMotorCClockwise(){
+
+  public void moveArmMotorDown() {
     armMotor.set(0.4);
   }
-  public void armMotorclockwise(){
+
+  public void moveArmUp() {
     armMotor.set(-0.4);
   }
-  public void armMotorOff(){
+
+  public void stopArmMotor() {
     armMotor.set(0.0);
   }
-  public boolean getUpperLimitSwitch(){
+
+  public void moveArmMotorManual(double speed) {
+    armMotor.set(speed);
+  }
+
+  public boolean getUpperLimitSwitch() {
     return upperArmLimit.get();
   }
-  public boolean getLowerLimitSwitch(){
+
+  public boolean getLowerLimitSwitch() {
     return lowerArmLimit.get();
   }
-  public void setarmMotorspeed(double speed){
-    armMotor.set(speed);
- }
 }

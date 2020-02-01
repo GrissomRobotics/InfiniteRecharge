@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
@@ -80,6 +80,10 @@ public class Spinner extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // SmartDashboard.putNumber("Confidence", match.confidence);
+    // SmartDashboard.putString("Detected Color", colorString);
+    // SmartDashboard.putBoolean("Color Match", colorMatched);
+    SmartDashboard.putString("Color: ", getColorString());
   }
 
   public void spinManual(double speed){

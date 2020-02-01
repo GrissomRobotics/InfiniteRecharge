@@ -60,7 +60,7 @@ public class DriveWithJoystick extends CommandBase {
 
     // reading is greater than the threshold, make the setter equal to it,
     // otherwise, make the setter equal to 0
-    turn = m_oi.getRotationLeft() - m_oi.getRotationRight();
+    turn = m_oi.getRotation();
     right = m_oi.getXValue();
     forward = m_oi.getYValue();
 

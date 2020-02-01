@@ -22,42 +22,38 @@ public class OI {
     public Joystick driveStick;
     public Joystick otherStick;
     public int camera_selection = 0;
-    
-    
-    public OI(){
+
+    public OI() {
 
         driveStick = new Joystick(0);
 
         otherStick = new Joystick(1);
-        
+
     }
 
     public double getXValue() {
-    	return driveStick.getRawAxis(0);// + (otherStick.getRawAxis(4)/otherSensitivity);
+        return driveStick.getRawAxis(0);// + (otherStick.getRawAxis(4)/otherSensitivity);
     }
-    
+
     public double getYValue() {
-    	return driveStick.getRawAxis(1);// + (otherStick.getRawAxis(5)/otherSensitivity);
-    }
-    
-    
-    public double getRotationLeft() {
-    	return driveStick.getRawAxis(2);// + (otherStick.getRawAxis(2)/otherSensitivity);
-    }
-    
-    public double getRotationRight() {
-    	return driveStick.getRawAxis(3);// + (otherStick.getRawAxis(3)/otherSensitivity);
+        return driveStick.getRawAxis(1);// + (otherStick.getRawAxis(5)/otherSensitivity);
     }
 
-    //TODO: Map xbox axes
-
-    public double getManualSpinnerRotation(){
-        return otherStick.getRawAxis(3);
+    public double getRotation() {
+        return driveStick.getRawAxis(4);// + (otherStick.getRawAxis(2)/otherSensitivity);
     }
-    public double getManualBeltRotation(){
+
+    // TODO: Map xbox axes
+
+    public double getSpinnerRotation() {
+        return otherStick.getRawAxis(3) - otherStick.getRawAxis(2);
+    }
+
+    public double getManualBeltRotation() {
         return otherStick.getRawAxis(5);
     }
-    public double getManualarmRotation(){
+
+    public double getManualArmRotation() {
         return otherStick.getRawAxis(1);
     }
 }

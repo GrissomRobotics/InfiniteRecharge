@@ -16,7 +16,7 @@ public class ManualSpinning extends CommandBase {
   /**
    * Creates a new ManualSpinning.
    */
-  private final Spinner m_Spinner; 
+  private final Spinner m_Spinner;
   private final OI m_oi;
 
   public ManualSpinning(Spinner spinner, OI oi) {
@@ -29,14 +29,12 @@ public class ManualSpinning extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Spinner.spinManual(m_oi.getManualSpinnerRotation());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-
+    m_Spinner.spinManual(m_oi.getSpinnerRotation());
   }
 
   // Called once the command ends or is interrupted.
