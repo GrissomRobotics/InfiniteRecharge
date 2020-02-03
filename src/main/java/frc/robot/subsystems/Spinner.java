@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class Spinner extends SubsystemBase {
 
   private PWMVictorSPX spinnerWheel;
+  private final double SPINNER_WHEEL_SPEED = 0.75;
   //was originally public static just incase things go badly now
   public static I2C.Port i2cPort;
   private final ColorSensorV3 colorSensor;
@@ -39,6 +40,8 @@ public class Spinner extends SubsystemBase {
   public Spinner() {
 
     spinnerWheel = new PWMVictorSPX(4);
+    spinnerWheel.setInverted(false);
+    
     i2cPort = I2C.Port.kOnboard;
     colorSensor = new ColorSensorV3(i2cPort);
     
@@ -91,11 +94,11 @@ public class Spinner extends SubsystemBase {
   }
 
   public void spinPanelClockwise() {
-    spinnerWheel.set(RobotMap.SPINNER_WHEEL_SPEED);
+    spinnerWheel.set(SPINNER_WHEEL_SPEED);
   }
 
   public void spinPanelCClockwise() {
-    spinnerWheel.set(-RobotMap.SPINNER_WHEEL_SPEED);
+    spinnerWheel.set(-SPINNER_WHEEL_SPEED);
   }
 
   public void stopSpinner() {

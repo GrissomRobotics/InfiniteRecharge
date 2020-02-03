@@ -23,6 +23,9 @@ public class Climber extends SubsystemBase {
   public Climber() {
     winch = new PWMVictorSPX(5);
     hook  = new PWMVictorSPX(8);
+
+    winch.setInverted(false);
+    hook.setInverted(false);
   }
 
   @Override
@@ -49,8 +52,11 @@ public class Climber extends SubsystemBase {
     
   }
 
-  public void stop(){
+  public void stopWinch(){
     winch.set(0.0);
+  }
+
+  public void stopHook(){
     hook.set(0.0);
   }
 

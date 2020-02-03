@@ -34,16 +34,15 @@ public class ManualIntakeArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSystem.moveArmMotorManual(m_oi.getManualArmRotation());
 
-    if (m_intakeSystem.getLowerLimitSwitch() || m_intakeSystem.getUpperLimitSwitch()) {
-      m_intakeSystem.stopArmMotor();
-    }
+    m_intakeSystem.moveArmMotorManual(m_oi.getManualArmRotation());
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_intakeSystem.stopArmMotor();
   }
 
   // Returns true when the command should end.

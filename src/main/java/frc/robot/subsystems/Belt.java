@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Belt extends SubsystemBase {
   
   private PWMVictorSPX belt;
+  private final double BELT_SPEED = 0.75;
 
   /**
    * 
@@ -21,6 +22,7 @@ public class Belt extends SubsystemBase {
   public Belt() {
 
     belt = new PWMVictorSPX(6);
+    belt.setInverted(false);
   }
 
   @Override
@@ -29,10 +31,10 @@ public class Belt extends SubsystemBase {
   }
 
   public void turnBeltCClockwise(){
-    belt.set(0.4);
+    belt.set(BELT_SPEED);
   }
   public void turnBeltClockwise(){
-    belt.set(-0.4);
+    belt.set(-BELT_SPEED);
   }
   public void turnBeltOff(){
     belt.set(0.0);

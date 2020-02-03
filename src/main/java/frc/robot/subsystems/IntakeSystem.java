@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class IntakeSystem extends SubsystemBase {
   /**
@@ -21,10 +22,17 @@ public class IntakeSystem extends SubsystemBase {
   private final DigitalInput upperArmLimit;
   private final DigitalInput lowerArmLimit;
 
+  private final double WHEEL_SPEED = 0.75;
+  private final double ARM_SPEED = 0.75;
+  
+
   public IntakeSystem() {
 
     spinningWheel = new PWMVictorSPX(7);
     armMotor = new PWMVictorSPX(8);
+
+    spinningWheel.setInverted(false);
+    armMotor.setInverted(false);
 
     upperArmLimit = new DigitalInput(0);
     lowerArmLimit = new DigitalInput(1);
@@ -33,16 +41,16 @@ public class IntakeSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch();
-    //SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
+    // SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch();
+    // SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
   }
 
   public void spinWheelCClockwise() {
-    spinningWheel.set(0.4);
+    spinningWheel.set(WHEEL_SPEED);
   }
 
   public void spinWheelClockwise() {
-    spinningWheel.set(-0.4);
+    spinningWheel.set(-WHEEL_SPEED);
   }
 
   public void spinWheelOff() {
@@ -50,11 +58,11 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   public void moveArmMotorDown() {
-    armMotor.set(0.4);
+    armMotor.set(ARM_SPEED);
   }
 
   public void moveArmUp() {
-    armMotor.set(-0.4);
+    armMotor.set(-ARM_SPEED);
   }
 
   public void stopArmMotor() {
@@ -62,7 +70,18 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   public void moveArmMotorManual(double speed) {
-    armMotor.set(speed);
+
+    double armSpeed = speed;
+
+    if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
+      stopArmMotor();
+    } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
+      stopArmMotor();
+    } else {
+      armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
+      armMotor.set(speed);
+    }
+    
   }
 
   public boolean getUpperLimitSwitch() {

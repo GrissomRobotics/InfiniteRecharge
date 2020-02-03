@@ -36,7 +36,7 @@ public class AutonomousFromSide extends SequentialCommandGroup {
 
       new DriveByUltrasonic(driveTrain, 94, 0.5),
 
-      new RotateToAngle(driveTrain, 90, 0.5),
+      new RotateToAngle(driveTrain, -90, 0.5),
 
       new DriveByUltrasonic(driveTrain, 1, 0.5),
 

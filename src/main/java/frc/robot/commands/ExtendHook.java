@@ -37,7 +37,7 @@ public class ExtendHook extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.stop();
+    m_climber.stopHook();
   }
 
   // Returns true when the command should end.

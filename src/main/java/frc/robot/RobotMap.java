@@ -70,8 +70,8 @@ public class RobotMap {
     public static SerialPort ultraSerial;
 
     // constants
-    public static final double SPINNER_WHEEL_SPEED = 0.5;
-    public static final double WINCH_SPEED = 0.5;
+    //public static final double SPINNER_WHEEL_SPEED = 0.5;
+    //public static final double WINCH_SPEED = 0.5;
 
     // camera
     public Thread m_visionThread;
@@ -153,9 +153,14 @@ public class RobotMap {
     }
 
     private void configureButtonBindings() {
+
+        //TODO: Map climbing buttons
+
         // buttons
         final JoystickButton climbButton = new JoystickButton(driveStick, 4);
         final JoystickButton cameraButton = new JoystickButton(driveStick, 2);
+        final JoystickButton extendHookButton = new JoystickButton(driveStick, 1);
+        final JoystickButton retractHookButton = new JoystickButton(driveStick, 3);
 
         final JoystickButton positionControlButton = new JoystickButton(otherStick, 4);
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
@@ -166,11 +171,13 @@ public class RobotMap {
         // buttons to commands
         climbButton.whileHeld(new Climb(climber));
         cameraButton.whenPressed(new SwapCameraFeed(oi));
+        retractHookButton.whileHeld(new RetractHook(climber));
+        extendHookButton.whileHeld(new ExtendHook(climber));
 
         positionControlButton.whenPressed(new PositionControl(spinner));
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
-        intakeCellButton.whenPressed(new SpinCellIn(intakeSystem));
+        intakeCellButton.whileHeld(new SpinCellIn(intakeSystem));
         hatchToggleButton.whenPressed(new ToggleHatch(outputSystem));
     }
 
