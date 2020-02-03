@@ -10,16 +10,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
   private SpeedController winch;
+  private SpeedController hook;
+  private final double WINCH_SPEED = 0.75;
+  private final double HOOK_SPEED = 0.75;
 
   public Climber() {
     winch = new PWMVictorSPX(5);
+    hook  = new PWMVictorSPX(8);
   }
 
   @Override
@@ -28,14 +31,29 @@ public class Climber extends SubsystemBase {
   }
 
   public void ascend() {
-    winch.set(RobotMap.WINCH_SPEED);
+    winch.set(WINCH_SPEED);
+    
   }
 
   public void descend() {
-    winch.set(-RobotMap.WINCH_SPEED);
+    winch.set(-WINCH_SPEED);
+    
+  }
+
+  public void extend()  {
+    hook.set(HOOK_SPEED);
+  }
+
+  public void retract() {
+    hook.set(-HOOK_SPEED);
+    
   }
 
   public void stop(){
     winch.set(0.0);
+    hook.set(0.0);
   }
+
+  
 }
+
