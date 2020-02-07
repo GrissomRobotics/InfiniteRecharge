@@ -23,13 +23,13 @@ public class IntakeSystem extends SubsystemBase {
   private final DigitalInput lowerArmLimit;
 
   private final double WHEEL_SPEED = 0.75;
-  private final double ARM_SPEED = 0.75;
+  private final double ARM_SPEED = 0.25;
   
 
   public IntakeSystem() {
 
-    spinningWheel = new PWMVictorSPX(7);
-    armMotor = new PWMVictorSPX(8);
+    spinningWheel = new PWMVictorSPX(5);
+    armMotor = new PWMVictorSPX(6);
 
     spinningWheel.setInverted(false);
     armMotor.setInverted(false);
@@ -41,8 +41,8 @@ public class IntakeSystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch();
-    // SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
+    SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch());
+    SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
   }
 
   public void spinWheelCClockwise() {
@@ -71,14 +71,19 @@ public class IntakeSystem extends SubsystemBase {
 
   public void moveArmMotorManual(double speed) {
 
+    System.out.println("Intake Arm command running");
+
     double armSpeed = speed;
 
     if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
       stopArmMotor();
+      System.out.println("Lower limit hit");
     } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
       stopArmMotor();
+      System.out.println("Upper limit hit");
     } else {
       armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
+      System.out.println("arm should be running");
       armMotor.set(speed);
     }
     

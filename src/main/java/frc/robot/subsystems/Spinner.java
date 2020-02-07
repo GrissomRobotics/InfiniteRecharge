@@ -39,7 +39,7 @@ public class Spinner extends SubsystemBase {
    */
   public Spinner() {
 
-    spinnerWheel = new PWMVictorSPX(4);
+    spinnerWheel = new PWMVictorSPX(7);
     spinnerWheel.setInverted(false);
     
     i2cPort = I2C.Port.kOnboard;

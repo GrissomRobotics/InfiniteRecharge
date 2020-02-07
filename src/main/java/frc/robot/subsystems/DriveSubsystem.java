@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +18,9 @@ import frc.robot.commands.DriveWithJoystick;
 import frc.robot.custom.Ramper;
 import frc.robot.custom.UltrasonicSensor;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Parity;
+import edu.wpi.first.wpilibj.SerialPort.StopBits;
 import edu.wpi.first.wpilibj.SpeedController;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -33,8 +37,9 @@ public class DriveSubsystem extends SubsystemBase {
     public final double defaultRampStep = 0.01;
 
     // gyro
-    private PigeonIMU gyro = RobotMap.gyro;
-    private UltrasonicSensor ultra = RobotMap.ultra;
+    private PigeonIMU gyro;
+    private SerialPort ultraSerial;
+    private UltrasonicSensor ultra;
 
     // rampers
     private Ramper rampForward;
@@ -43,18 +48,15 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
 
         // sensor
-        // ultraSerial = new SerialPort(9600, Port.kOnboard, 8, Parity.kNone,
-        // StopBits.kOne);
-        // ultraSerial.reset();
+        ultraSerial = new SerialPort(9600, Port.kOnboard, 8, Parity.kNone, StopBits.kOne);
+        ultraSerial.reset();
 
-        // gyro = new PigeonIMU(0);
-        // ultra = new UltrasonicSensor(ultraSerial);
+        gyro = new PigeonIMU(0);
+        ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
-        // sides weree going in different directions, so not inverting left side.
-        // this might need to be undone later
-        // now they have all been inverted so that it should go forwards instead of
-        // backwards
+        // sides were going in different directions, so not inverting left side.
+
         leftFront = new PWMVictorSPX(0);
         leftFront.setInverted(true);
 
@@ -80,8 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // TODO: Uncomment when ultra and gyro added for debugging purposes
-        // SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
-        // SmartDashboard.putNumber("Ultra", ultra.readLastRange());
+        //SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
+        SmartDashboard.putNumber("Ultra", ultra.readLastRange());
 
     }
 
@@ -138,6 +140,14 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void resetGyro() {
         gyro.setFusedHeading(0);
+    }
+
+    public double getGyroData(){
+        return gyro.getFusedHeading();
+    }
+
+    public double getUltraReading(){
+        return ultra.readLastRange();
     }
 
 }

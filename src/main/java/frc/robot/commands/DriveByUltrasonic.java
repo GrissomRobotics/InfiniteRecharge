@@ -43,12 +43,10 @@ public class DriveByUltrasonic extends CommandBase {
   public DriveByUltrasonic(DriveSubsystem driveTrain, double distance, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
-    gyro = RobotMap.gyro;
-    pid_Gyro.setSetpoint(gyro.getFusedHeading());
+    pid_Gyro.setSetpoint(m_driveTrain.getGyroData());
     //converts input in inches to millimeters
     distanceSetpoint = distance * 25.400013716;
     distanceTolerance = tolerance;
-    ultra = RobotMap.ultra;
     pid_Ultra.setSetpoint(distanceSetpoint);
   }
 
@@ -60,8 +58,8 @@ public class DriveByUltrasonic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double ultraDistance = ultra.readLastRange();
-    double gyroAngle = gyro.getFusedHeading();
+    double ultraDistance = m_driveTrain.getUltraReading();
+    double gyroAngle = m_driveTrain.getGyroData();
 
     double driveRate = pid_Ultra.calculate(ultraDistance);
     double rotationRate = pid_Gyro.calculate(gyroAngle);

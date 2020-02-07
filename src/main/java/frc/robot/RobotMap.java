@@ -64,10 +64,6 @@ public class RobotMap {
     public static I2C.Port i2cPort;
     public static ColorSensorV3 m_colorSensor;
 
-    // sensors
-    public static PigeonIMU gyro;
-    public static UltrasonicSensor ultra;
-    public static SerialPort ultraSerial;
 
     // constants
     //public static final double SPINNER_WHEEL_SPEED = 0.5;
@@ -93,6 +89,7 @@ public class RobotMap {
         //ultra = new UltrasonicSensor(ultraSerial);
 
         configureButtonBindings();
+
 
         belt.setDefaultCommand(new ManualBelt(belt, oi));
 

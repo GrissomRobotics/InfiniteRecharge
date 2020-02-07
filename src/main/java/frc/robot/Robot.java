@@ -46,8 +46,10 @@ public class Robot extends TimedRobot {
 
     // Add commands to Autonomous Sendable Chooser
 
-    chooser.setDefaultOption("Autonomous Default", new AutonomousDefault(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
-    chooser.addOption("Autonomous From Side", new AutonomousFromSide(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
+    chooser.setDefaultOption("Autonomous Default",
+        new AutonomousDefault(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
+    chooser.addOption("Autonomous From Side",
+        new AutonomousFromSide(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
     chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain));
 
     SmartDashboard.putData("Auto mode", chooser);
@@ -75,25 +77,25 @@ public class Robot extends TimedRobot {
 
   public void autonomousInit() {
 
-    autonomousCommand = chooser.getSelected();
+    // autonomousCommand = chooser.getSelected();
 
     /*
-    switch(chooser.getSelected()){
-      case 1:
-        System.out.println("PlaceHolder");//autonomousCommand = new AutonomousDefault(robotMap.driveTrain);
-      case 2:
-        System.out.println("PlaceHolder");//autonomousCommand = new AutonomousFromSide(robotMap.driveTrain);
-      case 3:
-        System.out.println("PlaceHolder");//autonomousCommand = new AutonomousOffLine(robotMap.driveTrain);
-    }
-    */
-
+     * switch(chooser.getSelected()){ case 1:
+     * System.out.println("PlaceHolder");//autonomousCommand = new
+     * AutonomousDefault(robotMap.driveTrain); case 2:
+     * System.out.println("PlaceHolder");//autonomousCommand = new
+     * AutonomousFromSide(robotMap.driveTrain); case 3:
+     * System.out.println("PlaceHolder");//autonomousCommand = new
+     * AutonomousOffLine(robotMap.driveTrain); }
+     */
 
     // schedule the autonomous command (example)
-    if (autonomousCommand != null){
+    /*
+    if (autonomousCommand != null) {
       autonomousCommand.schedule();
-  }
     }
+    */
+  }
 
   public void autonomousPeriodic() {
 

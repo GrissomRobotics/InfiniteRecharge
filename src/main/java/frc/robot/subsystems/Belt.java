@@ -21,7 +21,7 @@ public class Belt extends SubsystemBase {
    */
   public Belt() {
 
-    belt = new PWMVictorSPX(6);
+    belt = new PWMVictorSPX(4);
     belt.setInverted(false);
   }
 

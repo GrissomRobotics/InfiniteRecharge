@@ -21,7 +21,7 @@ public class Climber extends SubsystemBase {
   private final double HOOK_SPEED = 0.75;
 
   public Climber() {
-    winch = new PWMVictorSPX(5);
+    winch = new PWMVictorSPX(9);
     hook  = new PWMVictorSPX(8);
 
     winch.setInverted(false);

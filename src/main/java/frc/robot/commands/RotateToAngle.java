@@ -37,7 +37,6 @@ public class RotateToAngle extends CommandBase {
   public RotateToAngle(DriveSubsystem driveTrain, double angle, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.  
     m_driveTrain = driveTrain;
-    gyro = RobotMap.gyro;
     angleTolerance = tolerance;
     pid.setSetpoint(angle);
   }
@@ -50,7 +49,7 @@ public class RotateToAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double gyroAngle = gyro.getFusedHeading();
+    double gyroAngle = m_driveTrain.getGyroData();
     double rotationRate = pid.calculate(gyroAngle);
     rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
 
