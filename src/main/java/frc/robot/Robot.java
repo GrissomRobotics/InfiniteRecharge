@@ -77,24 +77,14 @@ public class Robot extends TimedRobot {
 
   public void autonomousInit() {
 
-    // autonomousCommand = chooser.getSelected();
-
-    /*
-     * switch(chooser.getSelected()){ case 1:
-     * System.out.println("PlaceHolder");//autonomousCommand = new
-     * AutonomousDefault(robotMap.driveTrain); case 2:
-     * System.out.println("PlaceHolder");//autonomousCommand = new
-     * AutonomousFromSide(robotMap.driveTrain); case 3:
-     * System.out.println("PlaceHolder");//autonomousCommand = new
-     * AutonomousOffLine(robotMap.driveTrain); }
-     */
+    autonomousCommand = chooser.getSelected();
 
     // schedule the autonomous command (example)
-    /*
+    
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
-    */
+    
   }
 
   public void autonomousPeriodic() {

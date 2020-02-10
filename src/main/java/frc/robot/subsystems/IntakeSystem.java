@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
@@ -17,19 +17,19 @@ public class IntakeSystem extends SubsystemBase {
   /**
    * Creates a new IntakeSystems.
    */
-  private final PWMVictorSPX spinningWheel;
-  private final PWMVictorSPX armMotor;
+  private final Talon spinningWheel;
+  private final Talon armMotor;
   private final DigitalInput upperArmLimit;
   private final DigitalInput lowerArmLimit;
 
   private final double WHEEL_SPEED = 0.75;
-  private final double ARM_SPEED = 0.25;
+  private final double ARM_SPEED = 0.75;
   
 
   public IntakeSystem() {
 
-    spinningWheel = new PWMVictorSPX(5);
-    armMotor = new PWMVictorSPX(6);
+    spinningWheel = new Talon(5);
+    armMotor = new Talon(6);
 
     spinningWheel.setInverted(false);
     armMotor.setInverted(false);
@@ -71,20 +71,15 @@ public class IntakeSystem extends SubsystemBase {
 
   public void moveArmMotorManual(double speed) {
 
-    System.out.println("Intake Arm command running");
-
     double armSpeed = speed;
 
     if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
       stopArmMotor();
-      System.out.println("Lower limit hit");
     } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
       stopArmMotor();
-      System.out.println("Upper limit hit");
     } else {
       armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
-      System.out.println("arm should be running");
-      armMotor.set(speed);
+      armMotor.set(armSpeed);
     }
     
   }

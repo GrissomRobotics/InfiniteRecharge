@@ -7,13 +7,13 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Belt extends SubsystemBase {
   
-  private PWMVictorSPX belt;
-  private final double BELT_SPEED = 0.75;
+  public Talon belt;
+  private final double BELT_SPEED = 1.0;
 
   /**
    * 
@@ -21,7 +21,7 @@ public class Belt extends SubsystemBase {
    */
   public Belt() {
 
-    belt = new PWMVictorSPX(4);
+    belt = new Talon(4);
     belt.setInverted(false);
   }
 
@@ -40,6 +40,7 @@ public class Belt extends SubsystemBase {
     belt.set(0.0);
   }
   public void turnBelt(double speed){
+    System.out.println(speed);
     belt.set(speed);
   }
   

@@ -10,9 +10,12 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import frc.robot.RobotMap;
@@ -21,7 +24,7 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class Spinner extends SubsystemBase {
 
-  private PWMVictorSPX spinnerWheel;
+  private VictorSPX spinnerWheel;
   private final double SPINNER_WHEEL_SPEED = 0.75;
   //was originally public static just incase things go badly now
   public static I2C.Port i2cPort;
@@ -39,7 +42,7 @@ public class Spinner extends SubsystemBase {
    */
   public Spinner() {
 
-    spinnerWheel = new PWMVictorSPX(7);
+    spinnerWheel = new VictorSPX(0);
     spinnerWheel.setInverted(false);
     
     i2cPort = I2C.Port.kOnboard;
@@ -90,19 +93,19 @@ public class Spinner extends SubsystemBase {
   }
 
   public void spinManual(double speed){
-    spinnerWheel.set(speed);
+    spinnerWheel.set(ControlMode.PercentOutput, speed);
   }
 
   public void spinPanelClockwise() {
-    spinnerWheel.set(SPINNER_WHEEL_SPEED);
+    spinnerWheel.set(ControlMode.PercentOutput, SPINNER_WHEEL_SPEED);
   }
 
   public void spinPanelCClockwise() {
-    spinnerWheel.set(-SPINNER_WHEEL_SPEED);
+    spinnerWheel.set(ControlMode.PercentOutput, -SPINNER_WHEEL_SPEED);
   }
 
   public void stopSpinner() {
-    spinnerWheel.set(0.0);
+    spinnerWheel.set(ControlMode.PercentOutput, 0.0);
   }
 
   public boolean colorIsMatched() {

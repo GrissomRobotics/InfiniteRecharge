@@ -48,10 +48,10 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
 
         // sensor
-        ultraSerial = new SerialPort(9600, Port.kOnboard, 8, Parity.kNone, StopBits.kOne);
+        ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
         ultraSerial.reset();
 
-        gyro = new PigeonIMU(0);
+        gyro = new PigeonIMU(1);
         ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
@@ -83,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         // TODO: Uncomment when ultra and gyro added for debugging purposes
         //SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
-        SmartDashboard.putNumber("Ultra", ultra.readLastRange());
+        SmartDashboard.putNumber("Ultra", getUltraReadingInch());
 
     }
 
@@ -146,8 +146,14 @@ public class DriveSubsystem extends SubsystemBase {
         return gyro.getFusedHeading();
     }
 
+    //reads in mm
     public double getUltraReading(){
         return ultra.readLastRange();
+    }
+
+    //reads in inches
+    public double getUltraReadingInch(){
+        return ultra.readLastRange()/25.4;
     }
 
 }
