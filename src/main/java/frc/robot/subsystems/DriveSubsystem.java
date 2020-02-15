@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,14 +45,21 @@ public class DriveSubsystem extends SubsystemBase {
     // rampers
     private Ramper rampForward;
     private Ramper rampRight;
+    
+    //timer
+    private Timer timer;
 
     public DriveSubsystem() {
+
+        timer = new Timer();
+        timer.start();
+        double start = timer.get();
 
         // sensor
         ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
         ultraSerial.reset();
 
-        gyro = new PigeonIMU(1);
+        // gyro = new PigeonIMU(1);
         ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
@@ -77,13 +85,18 @@ public class DriveSubsystem extends SubsystemBase {
         rampForward = new Ramper(defaultRampStep);
         rampRight = new Ramper(defaultRampStep);
 
+        System.out.println("DriverSubsystem.java init:" + Double.toString(timer.get() - start));
+
     }
 
     @Override
     public void periodic() {
         // TODO: Uncomment when ultra and gyro added for debugging purposes
-        //SmartDashboard.putNumber("Gyro", gyro.getFusedHeading());
-        SmartDashboard.putNumber("Ultra", getUltraReadingInch());
+        // SmartDashboard.putNumber("Gyro", getGyroData());
+        double start = timer.get();
+        //SmartDashboard.putNumber("Ultra", getUltraReadingInch());
+
+        System.out.println("Drive Subsystem:" + Double.toString(timer.get() - start));
 
     }
 
@@ -137,23 +150,20 @@ public class DriveSubsystem extends SubsystemBase {
         rightRear.stopMotor();
 
     }
+    /*
+     * public void resetGyro() { gyro.setFusedHeading(0); }
+     * 
+     * public double getGyroData(){ return gyro.getFusedHeading(); }
+     */
 
-    public void resetGyro() {
-        gyro.setFusedHeading(0);
-    }
-
-    public double getGyroData(){
-        return gyro.getFusedHeading();
-    }
-
-    //reads in mm
-    public double getUltraReading(){
+    // reads in mm
+    public double getUltraReading() {
         return ultra.readLastRange();
     }
 
-    //reads in inches
-    public double getUltraReadingInch(){
-        return ultra.readLastRange()/25.4;
+    // reads in inches
+    public double getUltraReadingInch() {
+        return ultra.readLastRange() / 25.4;
     }
 
 }

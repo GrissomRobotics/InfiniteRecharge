@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
@@ -24,25 +25,36 @@ public class IntakeSystem extends SubsystemBase {
 
   private final double WHEEL_SPEED = 0.75;
   private final double ARM_SPEED = 0.75;
+
+  private Timer timer;
   
 
   public IntakeSystem() {
+    timer = new Timer();
+    timer.start();
+    double start = timer.get();
 
     spinningWheel = new Talon(5);
     armMotor = new Talon(6);
 
-    spinningWheel.setInverted(false);
+    spinningWheel.setInverted(true);
     armMotor.setInverted(false);
 
     upperArmLimit = new DigitalInput(0);
     lowerArmLimit = new DigitalInput(1);
+
+    System.out.println("IntakeSystem.java init:" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double start = timer.get();
     SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch());
     SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
+    
+
+    System.out.println("Arm Subsystem:" + Double.toString(timer.get() - start));
   }
 
   public void spinWheelCClockwise() {

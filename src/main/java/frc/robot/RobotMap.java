@@ -42,6 +42,8 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+
+import edu.wpi.first.wpilibj.Timer;
 /**
  * Add your docs here.
  */
@@ -49,7 +51,7 @@ public class RobotMap {
 
     //subsystems
     public final DriveSubsystem driveTrain = new DriveSubsystem();
-    private final Spinner spinner = new Spinner();
+    public final Spinner spinner = new Spinner();
     private final Climber climber = new Climber();
     public final Belt belt = new Belt();
     private final IntakeSystem intakeSystem = new IntakeSystem();
@@ -64,6 +66,8 @@ public class RobotMap {
     public static I2C.Port i2cPort;
     public static ColorSensorV3 m_colorSensor;
 
+    private Timer timer;
+
 
     // constants
     //public static final double SPINNER_WHEEL_SPEED = 0.5;
@@ -74,6 +78,10 @@ public class RobotMap {
     //public int camera_selection = 0;
 
     public RobotMap() {
+
+        timer = new Timer();
+        timer.start();
+        double start = timer.get();
 
         //TODO: lower framerate or resolution
 
@@ -98,6 +106,8 @@ public class RobotMap {
         spinner.setDefaultCommand(new ManualSpinning(spinner, oi));
 
         driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
+        
+        /*All the vision stuff
 
         m_visionThread = new Thread(() -> {
             // Get the UsbCamera from CameraServer
@@ -146,6 +156,9 @@ public class RobotMap {
         });
         m_visionThread.setDaemon(true);
         m_visionThread.start();
+        */
+
+        System.out.println("RobotMap.java initialization:" + Double.toString(timer.get() - start));
         
     }
 

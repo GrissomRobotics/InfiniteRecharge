@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.subsystems.Belt;
@@ -15,13 +16,16 @@ public class ManualBelt extends CommandBase {
   /**
    * Creates a new ManualBelt. 
    */
+  
   private final Belt m_belt;
   private final OI m_oi;
+  private Timer timer;
 
   public ManualBelt(Belt belt, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_belt = belt;
     m_oi = oi;
+    timer = new Timer();
     addRequirements(m_belt);
 
   }
@@ -29,17 +33,23 @@ public class ManualBelt extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double start = timer.get();
     m_belt.turnBelt(m_oi.getManualBeltRotation());
+    double end = timer.get();
+    double dtTime = end-start;
+    System.out.println("Belt Timer:" + dtTime);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.stop();
     m_belt.turnBeltOff();
   }
 

@@ -13,6 +13,7 @@ import frc.robot.commands.PositionControl;
 import frc.robot.commands.RotationControl;
 import frc.robot.commands.Climb;
 import frc.robot.commands.DisableSpinner;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * Add your docs here.
@@ -23,12 +24,17 @@ public class OI {
     public Joystick otherStick;
     public int camera_selection = 0;
 
+    private Timer timer;
+
     public OI() {
+        timer = new Timer();
+        timer.start();
+        double start = timer.get();
 
         driveStick = new Joystick(0);
-
         otherStick = new Joystick(1);
 
+        System.out.println("OI.java initialization:" + Double.toString(timer.get() - start));
     }
 
     public double getXValue() {
@@ -46,6 +52,7 @@ public class OI {
     // TODO: Map xbox axes
 
     public double getSpinnerRotation() {
+        System.out.println(otherStick.getRawAxis(3) - otherStick.getRawAxis(2));
         return otherStick.getRawAxis(3) - otherStick.getRawAxis(2);
     }
 

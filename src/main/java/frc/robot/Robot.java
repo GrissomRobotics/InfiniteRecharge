@@ -22,6 +22,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Spinner;
 import frc.robot.commandGroups.*;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * This is a demo program showing how to use Mecanum control with the RobotDrive
@@ -34,32 +35,43 @@ public class Robot extends TimedRobot {
   // autonomous chooser
   private Command autonomousCommand;
   private SendableChooser<Command> chooser = new SendableChooser<Command>();
+  private Timer timer;
 
   public Robot() {
-
+    timer = new Timer();
+    timer.start();
+    double start = timer.get();
+  
     robotMap = new RobotMap();
-
+  
+    System.out.println("Robot.java initialization:" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void robotInit() {
+    double start = timer.get();
 
     // Add commands to Autonomous Sendable Chooser
 
     chooser.setDefaultOption("Autonomous Default",
-        new AutonomousDefault(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
+        new AutonomousDefault(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
     chooser.addOption("Autonomous From Side",
-        new AutonomousFromSide(robotMap.driveTrain, robotMap.belt, robotMap.outputSystem));
-    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain));
+        new AutonomousFromSide(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
+    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain, robotMap.spinner));
 
     SmartDashboard.putData("Auto mode", chooser);
+
+    System.out.println("Robot.java:robotInit():" + Double.toString(timer.get() - start));
   }
 
   public void robotPeriodic() {
+    double start = timer.get();
 
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putNumber("Camera Selection:", robotMap.oi.camera_selection);
+
+    System.out.println("Robot.java:robotPeriodic():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -76,6 +88,8 @@ public class Robot extends TimedRobot {
   }
 
   public void autonomousInit() {
+
+    robotMap.spinner.resetGyro();
 
     autonomousCommand = chooser.getSelected();
 

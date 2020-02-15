@@ -18,7 +18,6 @@ public class UltrasonicSensor {
     // reads the range in millimeters
     public double readLastRange() {
         String input = ultrasonicSerialPort.readString(10); // read the most recent 10 characters
-        System.out.println(input);
         Matcher matcher = regex.matcher(input);
         String s = null; // this will ultimately contain the final range
         while (matcher.find()) {

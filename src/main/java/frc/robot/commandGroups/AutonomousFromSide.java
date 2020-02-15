@@ -15,6 +15,7 @@ import frc.robot.commands.RotateToAngle;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.OutputSystem;
+import frc.robot.subsystems.Spinner;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,21 +25,21 @@ public class AutonomousFromSide extends SequentialCommandGroup {
    * Creates a new Autonomous.
    */
 
-  public AutonomousFromSide(DriveSubsystem driveTrain, Belt belt, OutputSystem outputSystem){
+  public AutonomousFromSide(DriveSubsystem driveTrain, Spinner spinner, Belt belt, OutputSystem outputSystem){
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     //super();
     addCommands(
 
-      new DriveByUltrasonic(driveTrain, 12, 0.5),
+      new DriveByUltrasonic(driveTrain, spinner, 12, 0.5),
 
-      new RotateToAngle(driveTrain, 90, 0.5),
+      new RotateToAngle(driveTrain, spinner, 90, 0.5),
 
-      new DriveByUltrasonic(driveTrain, 94, 0.5),
+      new DriveByUltrasonic(driveTrain, spinner, 94, 0.5),
 
-      new RotateToAngle(driveTrain, -90, 0.5),
+      new RotateToAngle(driveTrain, spinner, -90, 0.5),
 
-      new DriveByUltrasonic(driveTrain, 1, 0.5),
+      new DriveByUltrasonic(driveTrain, spinner, 1, 0.5),
 
       new ExpelCellByTime(belt, outputSystem, 5)
 

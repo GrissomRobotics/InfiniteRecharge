@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
@@ -20,17 +21,29 @@ public class Climber extends SubsystemBase {
   private final double WINCH_SPEED = 0.75;
   private final double HOOK_SPEED = 0.75;
 
+  private Timer timer;
+
   public Climber() {
+    double start = timer.get();
+
     winch = new PWMVictorSPX(9);
     hook  = new PWMVictorSPX(8);
 
     winch.setInverted(false);
     hook.setInverted(false);
+
+    timer = new Timer();
+    timer.start();
+
+    System.out.println("Climber.java init:" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double start = timer.get();
+
+    System.out.println("Climber Subsystem:" + Double.toString(timer.get() - start));
   }
 
   public void ascend() {

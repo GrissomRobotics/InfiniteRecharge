@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -27,17 +28,20 @@ public class DriveWithJoystick extends CommandBase {
 
   private Ramper rampForward;
   private Ramper rampRight;
+  private Timer timer;
   
   public DriveWithJoystick(DriveSubsystem driveTrain, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
     m_oi = oi;
+    timer = new Timer();
     addRequirements(m_driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
     public void initialize() {
+      timer.start();
       rampForward = new Ramper(m_driveTrain.defaultRampStep); 
     	rampRight = new Ramper(m_driveTrain.defaultRampStep); 
   }
@@ -46,6 +50,7 @@ public class DriveWithJoystick extends CommandBase {
   @Override
   public void execute() {
     // Declare variables for deadzone corrections
+    double start = timer.get();
     double turn;
     double forward;
     double right;
@@ -54,6 +59,7 @@ public class DriveWithJoystick extends CommandBase {
     double rightSet;
     double rightThreshold = 0.1;
     double deadThreshold = 0.1;
+    
 
     // Correct deadzones
     // Logic is: if the r
@@ -83,12 +89,18 @@ public class DriveWithJoystick extends CommandBase {
     }
 
     m_driveTrain.cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
+
+    double end = timer.get();
+    double dtTime = end-start;
+    System.out.println("Drive Timer:" + dtTime);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_driveTrain.stop();
+    timer.stop();
   }
 
   // Returns true when the command should end.

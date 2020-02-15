@@ -15,6 +15,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.custom.UltrasonicSensor;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class DriveByUltrasonic extends CommandBase {
@@ -22,6 +23,7 @@ public class DriveByUltrasonic extends CommandBase {
    * Creates a new DriveWithUltrasonic.
    */
   private final DriveSubsystem m_driveTrain;
+  private final Spinner m_spinner;
 
   private static final double kP_Ultra = 1.0;
   private static final double kI_Ultra = 0.0;
@@ -33,17 +35,18 @@ public class DriveByUltrasonic extends CommandBase {
   private static final double kD_Gyro = 0.0;
   private final PIDController pid_Gyro = new PIDController(kP_Gyro, kI_Gyro, kD_Gyro);
   
-  private static PigeonIMU gyro;
+  //private static PigeonIMU gyro;
   private static UltrasonicSensor ultra;
   private static double distanceSetpoint;
   private static double distanceTolerance;
   private static boolean commandIsFinished = false;
 
   //give input in inches
-  public DriveByUltrasonic(DriveSubsystem driveTrain, double distance, double tolerance) {
+  public DriveByUltrasonic(DriveSubsystem driveTrain, Spinner spinner, double distance, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
-    pid_Gyro.setSetpoint(m_driveTrain.getGyroData());
+    m_spinner = spinner;
+    pid_Gyro.setSetpoint(m_spinner.getGyroData());
     //converts input in inches to millimeters
     distanceSetpoint = distance * 25.400013716;
     distanceTolerance = tolerance;
@@ -59,7 +62,7 @@ public class DriveByUltrasonic extends CommandBase {
   @Override
   public void execute() {
     double ultraDistance = m_driveTrain.getUltraReading();
-    double gyroAngle = m_driveTrain.getGyroData();
+    double gyroAngle = m_spinner.getGyroData();
 
     double driveRate = pid_Ultra.calculate(ultraDistance);
     double rotationRate = pid_Gyro.calculate(gyroAngle);
