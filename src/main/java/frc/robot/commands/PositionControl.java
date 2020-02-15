@@ -10,15 +10,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Spinner;
+import edu.wpi.first.wpilibj.Timer;
 
 public class PositionControl extends CommandBase {
   /**
    * Creates a new PositionControl.
    */
   private final Spinner m_Spinner;
+  private Timer timer;
 
   public PositionControl(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
+    timer = new Timer();
     m_Spinner = spinner;
     addRequirements(m_Spinner);
   }
@@ -26,16 +29,19 @@ public class PositionControl extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    final double start = timer.get();
     if (!m_Spinner.colorIsMatched()) {
       m_Spinner.spinPanelClockwise();
     } else {
       m_Spinner.stopSpinner();
     }
+    System.out.println("PositionControl.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.

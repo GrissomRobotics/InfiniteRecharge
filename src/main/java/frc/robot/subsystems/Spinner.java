@@ -19,6 +19,7 @@ import com.revrobotics.ColorMatchResult;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class Spinner extends SubsystemBase {
 
   private TalonSRX spinnerWheel;
+  private Servo sensorServo;
   private final double SPINNER_WHEEL_SPEED = 0.75;
   private PigeonIMU gyro;
   // was originally public static just incase things go badly now
@@ -51,6 +53,7 @@ public class Spinner extends SubsystemBase {
     double start = timer.get();
 
     spinnerWheel = new TalonSRX(3);
+    sensorServo = new Servo(3);
     gyro = new PigeonIMU(spinnerWheel);
     spinnerWheel.setInverted(false);
     /*
@@ -97,7 +100,7 @@ public class Spinner extends SubsystemBase {
       System.out.println("No color data");
     }
 
-    System.out.println("Spinner.java init:" + Double.toString(timer.get() - start));
+    System.out.println("Spinner.java:Spinner()" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -111,7 +114,17 @@ public class Spinner extends SubsystemBase {
     //SmartDashboard.putString("Color: ", getColorString());
     //SmartDashboard.putNumber("Gyro", getGyroData());
 
-    System.out.println("Spinner Subsystem:" + Double.toString(timer.get() - start));
+    System.out.println("Spinner Subsystem periodic():" + Double.toString(timer.get() - start));
+  }
+
+  public void toggleSensor(){
+
+    if(sensorServo.get() > 0.5){
+      sensorServo.set(0.0);
+    }else{
+      sensorServo.set(1.0);
+    }
+
   }
 
   public void spinManual(double speed) {

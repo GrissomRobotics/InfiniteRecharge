@@ -17,6 +17,7 @@ import frc.robot.custom.UltrasonicSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.wpilibj.Timer;
 
 public class DriveByUltrasonic extends CommandBase {
   /**
@@ -41,8 +42,11 @@ public class DriveByUltrasonic extends CommandBase {
   private static double distanceTolerance;
   private static boolean commandIsFinished = false;
 
+  private final Timer timer;
+
   //give input in inches
   public DriveByUltrasonic(DriveSubsystem driveTrain, Spinner spinner, double distance, double tolerance) {
+    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
     m_spinner = spinner;
@@ -56,11 +60,13 @@ public class DriveByUltrasonic extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    final double start = timer.get();
     double ultraDistance = m_driveTrain.getUltraReading();
     double gyroAngle = m_spinner.getGyroData();
 
@@ -76,7 +82,7 @@ public class DriveByUltrasonic extends CommandBase {
       m_driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
     }
     
-    
+    System.out.println("DriveByUltrasonic.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.

@@ -7,8 +7,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,8 +18,8 @@ public class OutputSystem extends SubsystemBase {
   /**
    * Creates a new OutputSystem.
    */
-  private Servo servoDoor;
-  boolean hatchIsClosed;
+  private DoubleSolenoid doorSolenoid;
+  //boolean hatchIsClosed;
 
   private Timer timer;
 
@@ -26,9 +28,9 @@ public class OutputSystem extends SubsystemBase {
     timer.start();
     double start = timer.get();
 
-    servoDoor = new Servo(7);
+    doorSolenoid = new DoubleSolenoid(4, 0, 1);
 
-    System.out.println("OutputSystem.java init:" + Double.toString(timer.get() - start));
+    System.out.println("OutputSystem.java:OutputSystem():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -36,25 +38,29 @@ public class OutputSystem extends SubsystemBase {
     // This method will be called once per scheduler run
     double start = timer.get();
     
-    SmartDashboard.putBoolean("Hatch is Closed:", hatchIsClosed);
+    //SmartDashboard.putBoolean("Hatch is Closed:", hatchIsClosed);
     
-    System.out.println("Door Subsystem:" + Double.toString(timer.get() - start));
+    System.out.println("OutputSubsystem.java:periodic():" + Double.toString(timer.get() - start));
   }
 
-  // might need to swap values
-
-  public void openHatch() {
-    servoDoor.set(0);
-    hatchIsClosed = false;
+  public void openDoor() {
+    doorSolenoid.set(Value.kForward);
   }
 
-  public void closeHatch() {
-    servoDoor.set(1);
-    hatchIsClosed = true;
+  public void closeDoor() {
+    doorSolenoid.set(Value.kReverse);
   }
 
-  public boolean hatchIsClosed() {
-    return hatchIsClosed;
+
+  public void toggle() {
+    switch(doorSolenoid.get()) {
+      case kForward:
+        doorSolenoid.set(Value.kReverse);
+      case kReverse:
+        doorSolenoid.set(Value.kForward);
+      case kOff:
+        //
+    }
   }
 
 }

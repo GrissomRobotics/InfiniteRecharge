@@ -34,8 +34,8 @@ public class IntakeSystem extends SubsystemBase {
     timer.start();
     double start = timer.get();
 
-    spinningWheel = new Talon(5);
-    armMotor = new Talon(6);
+    spinningWheel = new Talon(7);
+    armMotor = new Talon(2);
 
     spinningWheel.setInverted(true);
     armMotor.setInverted(false);
@@ -43,7 +43,7 @@ public class IntakeSystem extends SubsystemBase {
     upperArmLimit = new DigitalInput(0);
     lowerArmLimit = new DigitalInput(1);
 
-    System.out.println("IntakeSystem.java init:" + Double.toString(timer.get() - start));
+    System.out.println("IntakeSystem.java:IntakeSystem():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -54,7 +54,7 @@ public class IntakeSystem extends SubsystemBase {
     SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
     
 
-    System.out.println("Arm Subsystem:" + Double.toString(timer.get() - start));
+    System.out.println("IntakeSubsystem.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void spinWheelCClockwise() {

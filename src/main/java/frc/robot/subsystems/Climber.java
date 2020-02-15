@@ -24,18 +24,17 @@ public class Climber extends SubsystemBase {
   private Timer timer;
 
   public Climber() {
+    timer = new Timer();
+    timer.start();
     double start = timer.get();
 
-    winch = new PWMVictorSPX(9);
-    hook  = new PWMVictorSPX(8);
+    winch = new PWMVictorSPX(11);
+    hook  = new PWMVictorSPX(10);
 
     winch.setInverted(false);
     hook.setInverted(false);
 
-    timer = new Timer();
-    timer.start();
-
-    System.out.println("Climber.java init:" + Double.toString(timer.get() - start));
+    System.out.println("Climber.java:Climber():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -43,7 +42,7 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
     double start = timer.get();
 
-    System.out.println("Climber Subsystem:" + Double.toString(timer.get() - start));
+    System.out.println("Climber.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void ascend() {

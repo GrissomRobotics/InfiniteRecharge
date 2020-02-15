@@ -28,10 +28,10 @@ public class Belt extends SubsystemBase {
     timer.start();
     double start = timer.get();
 
-    belt = new Talon(4);
+    belt = new Talon(9);
     belt.setInverted(false);
 
-    System.out.println("Belt.java init:" + Double.toString(timer.get() - start));
+    System.out.println("Belt.java:Belt():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -39,7 +39,7 @@ public class Belt extends SubsystemBase {
     // This method will be called once per scheduler run
     double start = timer.get();
 
-    System.out.println("Belt Subsystem:" + Double.toString(timer.get() - start));
+    System.out.println("Belt.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void turnBeltCClockwise() {

@@ -176,7 +176,8 @@ public class RobotMap {
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 1);
         final JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 3);
         final JoystickButton intakeCellButton = new JoystickButton(otherStick,5);
-        final JoystickButton hatchToggleButton = new JoystickButton(otherStick, 6); 
+        final JoystickButton doorToggleButton = new JoystickButton(otherStick, 6); 
+        final JoystickButton sensorToggleButton = new JoystickButton(otherStick, 2);
 
         // buttons to commands
         climbButton.whileHeld(new Climb(climber));
@@ -188,7 +189,8 @@ public class RobotMap {
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
         intakeCellButton.whileHeld(new SpinCellIn(intakeSystem));
-        hatchToggleButton.whenPressed(new ToggleHatch(outputSystem));
+        doorToggleButton.whenPressed(new ToggleDoor(outputSystem));
+        sensorToggleButton.whenPressed(new ToggleSensor(spinner));
     }
 
 }

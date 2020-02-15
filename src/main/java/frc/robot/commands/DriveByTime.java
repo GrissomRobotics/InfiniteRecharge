@@ -19,7 +19,6 @@ public class DriveByTime extends CommandBase {
    * Creates a new AutonomousCommand.
    */
   private final DriveSubsystem m_driveTrain;
-  private static Timer timer;
   private static double driveTime;
 
   // give time in seconds
@@ -35,6 +34,7 @@ public class DriveByTime extends CommandBase {
   @Override
   public void initialize() {
     m_driveTrain.cartesianDrive(0.0, 0.5, 0.0);
+    System.out.println("*** DriveByTime.java:initialize(): Purposefully delaying.");
     Timer.delay(driveTime);
     m_driveTrain.stop();
 

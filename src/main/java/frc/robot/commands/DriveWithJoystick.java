@@ -90,9 +90,7 @@ public class DriveWithJoystick extends CommandBase {
 
     m_driveTrain.cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
 
-    double end = timer.get();
-    double dtTime = end-start;
-    System.out.println("Drive Timer:" + dtTime);
+    System.out.println("DriveWithJoystic.java:execute():" + Double.toString(timer.get() - start));
     
   }
 

@@ -41,9 +41,7 @@ public class ManualBelt extends CommandBase {
   public void execute() {
     double start = timer.get();
     m_belt.turnBelt(m_oi.getManualBeltRotation());
-    double end = timer.get();
-    double dtTime = end-start;
-    System.out.println("Belt Timer:" + dtTime);
+    System.out.println("ManualBelt.java:execut():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.

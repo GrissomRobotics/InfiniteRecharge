@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
   
     robotMap = new RobotMap();
   
-    System.out.println("Robot.java initialization:" + Double.toString(timer.get() - start));
+    System.out.println("Robot.java:Robot():" + Double.toString(timer.get() - start));
   }
 
   @Override

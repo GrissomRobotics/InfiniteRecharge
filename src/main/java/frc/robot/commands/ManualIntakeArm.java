@@ -39,9 +39,7 @@ public class ManualIntakeArm extends CommandBase {
   public void execute() {
     double start = timer.get();
     m_intakeSystem.moveArmMotorManual(m_oi.getManualArmRotation());
-    double end = timer.get();
-    double dtTime = end-start;
-    System.out.println("Arm Timer:" + dtTime);
+    System.out.println("ManualIntakeArm.java.execute():" + Double.toString(timer.get() - start));
     
   }
 

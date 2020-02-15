@@ -34,7 +34,7 @@ public class OI {
         driveStick = new Joystick(0);
         otherStick = new Joystick(1);
 
-        System.out.println("OI.java initialization:" + Double.toString(timer.get() - start));
+        System.out.println("OI.java:IO():" + Double.toString(timer.get() - start));
     }
 
     public double getXValue() {
@@ -46,7 +46,7 @@ public class OI {
     }
 
     public double getRotation() {
-        return driveStick.getRawAxis(4);// + (otherStick.getRawAxis(2)/otherSensitivity);
+        return driveStick.getRawAxis(2);// + (otherStick.getRawAxis(2)/otherSensitivity);
     }
 
     // TODO: Map xbox axes

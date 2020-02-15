@@ -65,16 +65,16 @@ public class DriveSubsystem extends SubsystemBase {
         // drive train
         // sides were going in different directions, so not inverting left side.
 
-        leftFront = new PWMVictorSPX(0);
+        leftFront = new PWMVictorSPX(5);
         leftFront.setInverted(true);
 
-        rightFront = new PWMVictorSPX(1);
+        rightFront = new PWMVictorSPX(0);
         rightFront.setInverted(true);
 
-        leftRear = new PWMVictorSPX(2);
+        leftRear = new PWMVictorSPX(4);
         leftRear.setInverted(true);
 
-        rightRear = new PWMVictorSPX(3);
+        rightRear = new PWMVictorSPX(1);
         rightRear.setInverted(true);
 
         mecanumDrive = new MecanumDrive(leftFront, leftRear, rightFront, rightRear);
@@ -85,7 +85,7 @@ public class DriveSubsystem extends SubsystemBase {
         rampForward = new Ramper(defaultRampStep);
         rampRight = new Ramper(defaultRampStep);
 
-        System.out.println("DriverSubsystem.java init:" + Double.toString(timer.get() - start));
+        System.out.println("DriverSubsystem.java:DriveSubsystem():" + Double.toString(timer.get() - start));
 
     }
 
@@ -96,7 +96,7 @@ public class DriveSubsystem extends SubsystemBase {
         double start = timer.get();
         //SmartDashboard.putNumber("Ultra", getUltraReadingInch());
 
-        System.out.println("Drive Subsystem:" + Double.toString(timer.get() - start));
+        System.out.println("DriverSubsystem.java:periodic():" + Double.toString(timer.get() - start));
 
     }
 

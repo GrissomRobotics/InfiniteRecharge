@@ -10,14 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.OutputSystem;
 
-public class ToggleHatch extends CommandBase {
+public class ToggleDoor extends CommandBase {
   /**
    * Creates a new ToggleHatch.
    */
   private final OutputSystem m_outputSystem;
-  private boolean commandIsFinished = false;
 
-  public ToggleHatch(OutputSystem outputSystem) {
+  public ToggleDoor(OutputSystem outputSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_outputSystem = outputSystem;
     addRequirements(m_outputSystem);
@@ -26,18 +25,12 @@ public class ToggleHatch extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_outputSystem.toggle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if(m_outputSystem.hatchIsClosed()){
-      m_outputSystem.openHatch();
-    }else{
-      m_outputSystem.closeHatch();
-    }
-    commandIsFinished = true;
-    
+  public void execute() {    
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +41,6 @@ public class ToggleHatch extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return commandIsFinished;
+    return true;
   }
 }

@@ -7,54 +7,40 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
-import frc.robot.Robot;
 import frc.robot.subsystems.Spinner;
 
-public class ManualSpinning extends CommandBase {
+public class ToggleSensor extends CommandBase {
   /**
-   * Creates a new ManualSpinning.
+   * Creates a new ToggleSensor.
    */
-  private final Spinner m_Spinner;
-  private final OI m_oi;
-  private Timer timer;
 
-  public ManualSpinning(Spinner spinner, OI oi) {
+  private final Spinner m_spinner;
+
+  public ToggleSensor(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_oi = oi;
-    m_Spinner = spinner;
-    timer = new Timer(); 
-    addRequirements(m_Spinner);
+    m_spinner = spinner;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
+    m_spinner.toggleSensor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double start = timer.get();
-    m_Spinner.spinManual(m_oi.getSpinnerRotation());
-    System.out.println("ManualSpinning.java:execute():" + Double.toString(timer.get() - start));
-    
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Spinner.stopSpinner();
-    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -32,7 +32,7 @@ public class ExpelCellByTime extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_outputSystem.openHatch();;
+    m_outputSystem.openDoor();;
     m_belt.turnBeltClockwise();
     Timer.delay(delayTime);
     m_belt.turnBeltOff();

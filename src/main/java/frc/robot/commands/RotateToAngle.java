@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 
 import edu.wpi.first.wpiutil.math.MathUtil;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class RotateToAngle extends CommandBase {
   /**
    * Creates a new RotateToAngle.
@@ -34,10 +36,12 @@ public class RotateToAngle extends CommandBase {
   private static double angleTolerance;
   
   
-  private static PigeonIMU gyro; 
+  private static PigeonIMU gyro;
+  private Timer timer;
 
   public RotateToAngle(DriveSubsystem driveTrain, Spinner spinner, double angle, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.  
+    timer = new Timer();
     m_driveTrain = driveTrain;
     m_spinner = spinner;
     angleTolerance = tolerance;
@@ -47,11 +51,13 @@ public class RotateToAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    final double start = timer.get();
     double gyroAngle = m_spinner.getGyroData();
     double rotationRate = pid.calculate(gyroAngle);
     rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
@@ -61,7 +67,8 @@ public class RotateToAngle extends CommandBase {
       commandIsFinished = true;
     }else{
       m_driveTrain.cartesianDrive(0.0, 0.0, rotationRate);
-    }    
+    }
+    System.out.println("RotateToAngle.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.
