@@ -14,7 +14,7 @@ public class ToggleDoor extends CommandBase {
   /**
    * Creates a new ToggleHatch.
    */
-  private final OutputSystem m_outputSystem;
+  private OutputSystem m_outputSystem;
 
   public ToggleDoor(OutputSystem outputSystem) {
     // Use addRequirements() here to declare subsystem dependencies.

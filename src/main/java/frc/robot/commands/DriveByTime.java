@@ -19,7 +19,7 @@ public class DriveByTime extends CommandBase {
    * Creates a new AutonomousCommand.
    */
   private final DriveSubsystem m_driveTrain;
-  private static double driveTime;
+  private double driveTime;
 
   // give time in seconds
   public DriveByTime(DriveSubsystem driveTrain, double time) {
@@ -27,17 +27,14 @@ public class DriveByTime extends CommandBase {
     m_driveTrain = driveTrain;
     addRequirements(m_driveTrain);
     driveTime = time;
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_driveTrain.cartesianDrive(0.0, 0.5, 0.0);
-    System.out.println("*** DriveByTime.java:initialize(): Purposefully delaying.");
     Timer.delay(driveTime);
     m_driveTrain.stop();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

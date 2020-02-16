@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.SerialPort.Parity;
 import edu.wpi.first.wpilibj.SerialPort.StopBits;
 import edu.wpi.first.wpilibj.SpeedController;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+//import com.ctre.phoenix.sensors.PigeonIMU;
 import frc.robot.custom.UltrasonicSensor;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -35,32 +35,29 @@ public class DriveSubsystem extends SubsystemBase {
     private final SpeedController leftRear;
     private final SpeedController rightRear;
     private final MecanumDrive mecanumDrive;
-    public final double defaultRampStep = 0.01;
 
     // gyro
-    private PigeonIMU gyro;
-    private SerialPort ultraSerial;
-    private UltrasonicSensor ultra;
+    //private final SerialPort ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
+    //private UltrasonicSensor ultra;
 
     // rampers
-    private Ramper rampForward;
-    private Ramper rampRight;
+    private final double defaultRampStep = 0.01;
+    private final Ramper rampForward = new Ramper(defaultRampStep);
+    private final Ramper rampRight = new Ramper(defaultRampStep);
     
-    //timer
-    private Timer timer;
+    // timer
+    private final Timer timer = new Timer();
 
     public DriveSubsystem() {
-
-        timer = new Timer();
+        super();
         timer.start();
         double start = timer.get();
 
         // sensor
-        ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
-        ultraSerial.reset();
+        //ultraSerial.reset();
 
         // gyro = new PigeonIMU(1);
-        ultra = new UltrasonicSensor(ultraSerial);
+        //ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
         // sides were going in different directions, so not inverting left side.
@@ -82,11 +79,8 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.setSafetyEnabled(true);
         mecanumDrive.setExpiration(0.1);
         mecanumDrive.setMaxOutput(1.0);
-        rampForward = new Ramper(defaultRampStep);
-        rampRight = new Ramper(defaultRampStep);
 
         System.out.println("DriverSubsystem.java:DriveSubsystem():" + Double.toString(timer.get() - start));
-
     }
 
     @Override
@@ -96,8 +90,7 @@ public class DriveSubsystem extends SubsystemBase {
         double start = timer.get();
         //SmartDashboard.putNumber("Ultra", getUltraReadingInch());
 
-        System.out.println("DriverSubsystem.java:periodic():" + Double.toString(timer.get() - start));
-
+        //System.out.println("DriverSubsystem.java:periodic():" + Double.toString(timer.get() - start));
     }
 
     public void cartesianDrive(double xValue, double yValue, double rotationValue) {
@@ -112,15 +105,6 @@ public class DriveSubsystem extends SubsystemBase {
         double rightSet;
         double rightThreshold = 0.1;
         double deadThreshold = 0.1;
-
-        // Correct deadzones
-        // Logic is: if the r
-
-        // reading is greater than the threshold, make the setter equal to it,
-        // otherwise, make the setter equal to 0
-        // turn = Robot.oi.getRotationLeft() - Robot.oi.getRotationRight();
-        // right = Robot.oi.getXValue();
-        // forward = Robot.oi.getYValue();
 
         if (Math.abs(turn) > deadThreshold) {
             turnSet = turn;
@@ -140,7 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
             rightSet = 0;
         }
 
-        cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
+        cartesianDrive(rightSet, forwardSet, turnSet * 0.6);
     }
 
     public void stop() {
@@ -148,22 +132,15 @@ public class DriveSubsystem extends SubsystemBase {
         rightFront.stopMotor();
         leftRear.stopMotor();
         rightRear.stopMotor();
-
     }
-    /*
-     * public void resetGyro() { gyro.setFusedHeading(0); }
-     * 
-     * public double getGyroData(){ return gyro.getFusedHeading(); }
-     */
 
     // reads in mm
     public double getUltraReading() {
-        return ultra.readLastRange();
+        return 0.0;//ultra.readLastRange();
     }
 
     // reads in inches
     public double getUltraReadingInch() {
-        return ultra.readLastRange() / 25.4;
+        return 0.0;//ultra.readLastRange() / 25.4;
     }
-
 }

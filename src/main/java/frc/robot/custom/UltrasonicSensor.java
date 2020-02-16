@@ -10,10 +10,9 @@ import edu.wpi.first.wpilibj.SerialPort;
 public class UltrasonicSensor {
     private SerialPort ultrasonicSerialPort;
     private Pattern regex = Pattern.compile("R[0-9]{4}"); // match capital R, followed by 4 digits
-    private Timer timer;
+    private Timer timer = new Timer();
 
     public UltrasonicSensor(SerialPort ultraserial) {
-        timer = new Timer();
         timer.start();
         final double start = timer.get();
         ultrasonicSerialPort = ultraserial;
@@ -32,11 +31,11 @@ public class UltrasonicSensor {
         }
         double distance_mm = -1;
         
-        //TODO: implement try catch
+        // TODO: implement try catch
         if (s != null) {
             distance_mm = Double.parseDouble(s.substring(1));
         }
-        System.out.println("UltrasonicSensor.java:readLastRange():" + Double.toString(timer.get() - start));
+        //System.out.println("UltrasonicSensor.java:readLastRange():" + Double.toString(timer.get() - start));
         return distance_mm;
     }
 }

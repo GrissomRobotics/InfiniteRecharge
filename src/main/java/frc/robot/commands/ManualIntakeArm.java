@@ -18,20 +18,18 @@ public class ManualIntakeArm extends CommandBase {
    */
   private final IntakeSystem m_intakeSystem;
   private final OI m_oi;
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public ManualIntakeArm(IntakeSystem intakeSystem, OI oi) {
     m_intakeSystem = intakeSystem;
     m_oi = oi;
-    timer = new Timer();
     addRequirements(m_intakeSystem);
-    // Use addRequirements() here to declare subsystem dependencies.
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,15 +37,13 @@ public class ManualIntakeArm extends CommandBase {
   public void execute() {
     double start = timer.get();
     m_intakeSystem.moveArmMotorManual(m_oi.getManualArmRotation());
-    System.out.println("ManualIntakeArm.java.execute():" + Double.toString(timer.get() - start));
-    
+    //System.out.println("ManualIntakeArm.java.execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_intakeSystem.stopArmMotor();
-    timer.stop();
   }
 
   // Returns true when the command should end.

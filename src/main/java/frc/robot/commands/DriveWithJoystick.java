@@ -25,25 +25,19 @@ public class DriveWithJoystick extends CommandBase {
   //private final DriveSubsystem driveTrain;
   private final DriveSubsystem m_driveTrain;
   private final OI m_oi;
-
-  private Ramper rampForward;
-  private Ramper rampRight;
-  private Timer timer;
+  private final Timer timer = new Timer();
   
   public DriveWithJoystick(DriveSubsystem driveTrain, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
     m_oi = oi;
-    timer = new Timer();
     addRequirements(m_driveTrain);
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
     public void initialize() {
-      timer.start();
-      rampForward = new Ramper(m_driveTrain.defaultRampStep); 
-    	rampRight = new Ramper(m_driveTrain.defaultRampStep); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,54 +45,19 @@ public class DriveWithJoystick extends CommandBase {
   public void execute() {
     // Declare variables for deadzone corrections
     double start = timer.get();
-    double turn;
-    double forward;
-    double right;
-    double turnSet;
-    double forwardSet;
-    double rightSet;
-    double rightThreshold = 0.1;
-    double deadThreshold = 0.1;
-    
 
-    // Correct deadzones
-    // Logic is: if the r
+    final double turn = m_oi.getRotation();
+    final double right = m_oi.getXValue();
+    final double forward = m_oi.getYValue();
+    m_driveTrain.driveWithJoystick(turn, right, forward);
 
-    // reading is greater than the threshold, make the setter equal to it,
-    // otherwise, make the setter equal to 0
-    turn = m_oi.getRotation();
-    right = m_oi.getXValue();
-    forward = m_oi.getYValue();
-
-    if (Math.abs(turn) > deadThreshold) {
-      turnSet = turn;
-    } else {
-      turnSet = 0;
-    }
-
-    if (Math.abs(forward) > deadThreshold) {
-      forwardSet = rampForward.ramp(forward);
-    } else {
-      forwardSet = 0;
-    }
-
-    if (Math.abs(right) > rightThreshold) {
-      rightSet = rampRight.ramp(right);
-    } else {
-      rightSet = 0;
-    }
-
-    m_driveTrain.cartesianDrive(rightSet, forwardSet, (turnSet * 0.6));
-
-    System.out.println("DriveWithJoystic.java:execute():" + Double.toString(timer.get() - start));
-    
+    //System.out.println("DriveWithJoystic.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_driveTrain.stop();
-    timer.stop();
   }
 
   // Returns true when the command should end.

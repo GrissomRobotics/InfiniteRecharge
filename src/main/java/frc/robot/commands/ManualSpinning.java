@@ -19,20 +19,19 @@ public class ManualSpinning extends CommandBase {
    */
   private final Spinner m_Spinner;
   private final OI m_oi;
-  private Timer timer;
+  private final Timer timer = new Timer(); 
 
   public ManualSpinning(Spinner spinner, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_oi = oi;
     m_Spinner = spinner;
-    timer = new Timer(); 
     addRequirements(m_Spinner);
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,16 +39,13 @@ public class ManualSpinning extends CommandBase {
   public void execute() {
     double start = timer.get();
     m_Spinner.spinManual(m_oi.getSpinnerRotation());
-    System.out.println("ManualSpinning.java:execute():" + Double.toString(timer.get() - start));
-    
-    
+    //System.out.println("ManualSpinning.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_Spinner.stopSpinner();
-    timer.stop();
   }
 
   // Returns true when the command should end.

@@ -34,24 +34,20 @@ public class RotateToAngle extends CommandBase {
   private final PIDController pid = new PIDController(kP, kI, kD);
   private static boolean commandIsFinished = false;
   private static double angleTolerance;
-  
-  
-  private static PigeonIMU gyro;
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public RotateToAngle(DriveSubsystem driveTrain, Spinner spinner, double angle, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.  
-    timer = new Timer();
     m_driveTrain = driveTrain;
     m_spinner = spinner;
     angleTolerance = tolerance;
     pid.setSetpoint(angle);
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -65,10 +61,10 @@ public class RotateToAngle extends CommandBase {
     if(Math.abs(gyroAngle-pid.getSetpoint()) <= angleTolerance){
       m_driveTrain.stop();
       commandIsFinished = true;
-    }else{
+    } else{
       m_driveTrain.cartesianDrive(0.0, 0.0, rotationRate);
     }
-    System.out.println("RotateToAngle.java:execute():" + Double.toString(timer.get() - start));
+    //System.out.println("RotateToAngle.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.

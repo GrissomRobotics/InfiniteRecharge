@@ -16,20 +16,16 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-  private SpeedController winch;
-  private SpeedController hook;
+  private SpeedController winch = new PWMVictorSPX(11);
+  private SpeedController hook = new PWMVictorSPX(10);
   private final double WINCH_SPEED = 0.75;
   private final double HOOK_SPEED = 0.75;
-
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public Climber() {
-    timer = new Timer();
+    super();
     timer.start();
     double start = timer.get();
-
-    winch = new PWMVictorSPX(11);
-    hook  = new PWMVictorSPX(10);
 
     winch.setInverted(false);
     hook.setInverted(false);
@@ -42,7 +38,7 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
     double start = timer.get();
 
-    System.out.println("Climber.java:periodic():" + Double.toString(timer.get() - start));
+    //System.out.println("Climber.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void ascend() {
@@ -70,8 +66,5 @@ public class Climber extends SubsystemBase {
 
   public void stopHook(){
     hook.set(0.0);
-  }
-
-  
+  } 
 }
-

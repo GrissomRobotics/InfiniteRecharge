@@ -20,21 +20,13 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class OI {
 
-    public Joystick driveStick;
-    public Joystick otherStick;
+    public Joystick driveStick  = new Joystick(0);
+    public Joystick otherStick  = new Joystick(1);
     public int camera_selection = 0;
 
-    private Timer timer;
+    private final Timer timer = new Timer();
 
     public OI() {
-        timer = new Timer();
-        timer.start();
-        double start = timer.get();
-
-        driveStick = new Joystick(0);
-        otherStick = new Joystick(1);
-
-        System.out.println("OI.java:IO():" + Double.toString(timer.get() - start));
     }
 
     public double getXValue() {
@@ -52,7 +44,7 @@ public class OI {
     // TODO: Map xbox axes
 
     public double getSpinnerRotation() {
-        System.out.println(otherStick.getRawAxis(3) - otherStick.getRawAxis(2));
+        //System.out.println(otherStick.getRawAxis(3) - otherStick.getRawAxis(2));
         return otherStick.getRawAxis(3) - otherStick.getRawAxis(2);
     }
 

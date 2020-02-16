@@ -20,10 +20,9 @@ public class RotationControl extends CommandBase {
    */
   private final Spinner m_Spinner;
   private WheelTracker wheelTracker;
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public RotationControl(Spinner spinner) {
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     m_Spinner = spinner;
     addRequirements(m_Spinner);
@@ -44,7 +43,7 @@ public class RotationControl extends CommandBase {
     final double start = timer.get();
     m_Spinner.spinPanelClockwise();
     wheelTracker.setNewColor(m_Spinner.getColor());
-    System.out.println("RotationControl.java:execute():" + Double.toString(timer.get() - start));
+    //System.out.println("RotationControl.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.
@@ -56,10 +55,8 @@ public class RotationControl extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     if(wheelTracker.getNumRotations() >= 3.0)
       return true;
     return false;
-    
   }
 }

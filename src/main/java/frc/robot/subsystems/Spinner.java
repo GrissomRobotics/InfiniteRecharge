@@ -27,49 +27,37 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class Spinner extends SubsystemBase {
 
-  private TalonSRX spinnerWheel;
-  private Servo sensorServo;
+  private final TalonSRX spinnerWheel = new TalonSRX(3);
   private final double SPINNER_WHEEL_SPEED = 0.75;
-  private PigeonIMU gyro;
+  private final Servo sensorServo = new Servo(3);
+  //private PigeonIMU gyro; // TODO: add back in
   // was originally public static just incase things go badly now
-  public static I2C.Port i2cPort;
-  private final ColorSensorV3 colorSensor;
-  public static ColorMatch colorMatcher;
-  private static Color kBlueTarget;
-  private static Color kGreenTarget;
-  private static Color kRedTarget;
-  private static Color kYellowTarget;
-  private static Color detectedColor;
-  private static Color targetColor;
+  private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+  private final ColorMatch colorMatcher;
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private Color detectedColor;
+  private Color targetColor;
 
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   /**
    * Creates a new Spinner.
    */
   public Spinner() {
-    timer = new Timer();
+    super();
     timer.start();
     double start = timer.get();
 
-    spinnerWheel = new TalonSRX(3);
-    sensorServo = new Servo(3);
-    gyro = new PigeonIMU(spinnerWheel);
+    //gyro = new PigeonIMU(spinnerWheel); // TODO: add back in
+
     spinnerWheel.setInverted(false);
-    /*
-     * spinnerWheel.configContinuousCurrentLimit(20,0);
-     * spinnerWheel.configPeakCurrentLimit(30,0);
-     * spinnerWheel.configPeakCurrentDuration(100,0);
-     * spinnerWheel.enableCurrentLimit(true);
-     */
-
-    i2cPort = I2C.Port.kOnboard;
-    colorSensor = new ColorSensorV3(i2cPort);
-
-    kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-    kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-    kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-    kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+    // spinnerWheel.configContinuousCurrentLimit(20,0);
+    // spinnerWheel.configPeakCurrentLimit(30,0);
+    // spinnerWheel.configPeakCurrentDuration(100,0);
+    // spinnerWheel.enableCurrentLimit(true);
 
     colorMatcher = new ColorMatch();
     colorMatcher.addColorMatch(kBlueTarget);
@@ -93,14 +81,14 @@ public class Spinner extends SubsystemBase {
         targetColor = kYellowTarget;
         break;
       default:
-        System.out.println("unexpected color");
+        System.out.println("Received unexpected color from game data");
         break;
       }
     } else {
-      System.out.println("No color data");
+      System.out.println("Could not load game color data");
     }
 
-    System.out.println("Spinner.java:Spinner()" + Double.toString(timer.get() - start));
+    System.out.println("Spinner.java:Spinner():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -114,21 +102,18 @@ public class Spinner extends SubsystemBase {
     //SmartDashboard.putString("Color: ", getColorString());
     //SmartDashboard.putNumber("Gyro", getGyroData());
 
-    System.out.println("Spinner Subsystem periodic():" + Double.toString(timer.get() - start));
+    //System.out.println("Spinner Subsystem periodic():" + Double.toString(timer.get() - start));
   }
 
   public void toggleSensor(){
-
     if(sensorServo.get() > 0.5){
       sensorServo.set(0.0);
-    }else{
+    } else {
       sensorServo.set(1.0);
     }
-
   }
 
   public void spinManual(double speed) {
-    System.out.println("spinner speed: " + speed);
     spinnerWheel.set(ControlMode.PercentOutput, speed);
   }
 
@@ -175,11 +160,11 @@ public class Spinner extends SubsystemBase {
   }
 
   public void resetGyro() {
-    gyro.setFusedHeading(0);
+    //gyro.setFusedHeading(0); // TODO: add back in
   }
 
   public double getGyroData() {
-    return gyro.getFusedHeading();
+    return 0.0; // gyro.getFusedHeading(); // TODO: add back in
   }
 
 }

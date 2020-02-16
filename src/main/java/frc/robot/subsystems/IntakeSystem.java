@@ -22,15 +22,12 @@ public class IntakeSystem extends SubsystemBase {
   private final Talon armMotor;
   private final DigitalInput upperArmLimit;
   private final DigitalInput lowerArmLimit;
-
   private final double WHEEL_SPEED = 0.75;
   private final double ARM_SPEED = 0.75;
-
-  private Timer timer;
-  
+  private final Timer timer = new Timer();
 
   public IntakeSystem() {
-    timer = new Timer();
+    super();
     timer.start();
     double start = timer.get();
 
@@ -52,9 +49,8 @@ public class IntakeSystem extends SubsystemBase {
     double start = timer.get();
     SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch());
     SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
-    
 
-    System.out.println("IntakeSubsystem.java:periodic():" + Double.toString(timer.get() - start));
+    //System.out.println("IntakeSubsystem.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void spinWheelCClockwise() {
@@ -86,14 +82,15 @@ public class IntakeSystem extends SubsystemBase {
     double armSpeed = speed;
 
     if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
+      System.out.println("Stopping arm due to lower limit switch.");
       stopArmMotor();
     } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
+      System.out.println("Stopping arm due to upper limit switch.");
       stopArmMotor();
     } else {
       armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
       armMotor.set(armSpeed);
     }
-    
   }
 
   public boolean getUpperLimitSwitch() {

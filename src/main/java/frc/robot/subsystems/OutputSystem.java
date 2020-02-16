@@ -18,19 +18,13 @@ public class OutputSystem extends SubsystemBase {
   /**
    * Creates a new OutputSystem.
    */
-  private DoubleSolenoid doorSolenoid;
+  private DoubleSolenoid doorSolenoid = new DoubleSolenoid(4, 0, 1);
   //boolean hatchIsClosed;
 
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public OutputSystem() {
-    timer = new Timer();
-    timer.start();
-    double start = timer.get();
-
-    doorSolenoid = new DoubleSolenoid(4, 0, 1);
-
-    System.out.println("OutputSystem.java:OutputSystem():" + Double.toString(timer.get() - start));
+    super();
   }
 
   @Override
@@ -40,7 +34,7 @@ public class OutputSystem extends SubsystemBase {
     
     //SmartDashboard.putBoolean("Hatch is Closed:", hatchIsClosed);
     
-    System.out.println("OutputSubsystem.java:periodic():" + Double.toString(timer.get() - start));
+    //System.out.println("OutputSubsystem.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void openDoor() {
@@ -51,16 +45,18 @@ public class OutputSystem extends SubsystemBase {
     doorSolenoid.set(Value.kReverse);
   }
 
-
   public void toggle() {
     switch(doorSolenoid.get()) {
       case kForward:
         doorSolenoid.set(Value.kReverse);
+        break;
       case kReverse:
         doorSolenoid.set(Value.kForward);
+        break;
       case kOff:
-        //
+        break;
+      default:
+        break;
     }
   }
-
 }
