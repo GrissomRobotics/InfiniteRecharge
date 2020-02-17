@@ -19,35 +19,32 @@ public class ManualBelt extends CommandBase {
   
   private final Belt m_belt;
   private final OI m_oi;
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public ManualBelt(Belt belt, OI oi) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_belt = belt;
     m_oi = oi;
-    timer = new Timer();
     addRequirements(m_belt);
-
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double start = timer.get();
+    final double start = timer.get();
     m_belt.turnBelt(m_oi.getManualBeltRotation());
-    System.out.println("ManualBelt.java:execut():" + Double.toString(timer.get() - start));
+    //System.out.println("ManualBelt.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
     m_belt.turnBeltOff();
   }
 

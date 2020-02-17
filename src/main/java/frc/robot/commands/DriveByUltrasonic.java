@@ -42,11 +42,10 @@ public class DriveByUltrasonic extends CommandBase {
   private static double distanceTolerance;
   private static boolean commandIsFinished = false;
 
-  private final Timer timer;
+  private final Timer timer = new Timer();
 
   //give input in inches
   public DriveByUltrasonic(DriveSubsystem driveTrain, Spinner spinner, double distance, double tolerance) {
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     m_driveTrain = driveTrain;
     m_spinner = spinner;
@@ -55,12 +54,12 @@ public class DriveByUltrasonic extends CommandBase {
     distanceSetpoint = distance * 25.400013716;
     distanceTolerance = tolerance;
     pid_Ultra.setSetpoint(distanceSetpoint);
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -78,11 +77,11 @@ public class DriveByUltrasonic extends CommandBase {
     if(Math.abs(ultraDistance-pid_Ultra.getSetpoint()) <= distanceTolerance){
       m_driveTrain.stop();
       commandIsFinished = true;
-    }else{
+    } else {
       m_driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
     }
     
-    System.out.println("DriveByUltrasonic.java:execute():" + Double.toString(timer.get() - start));
+    //System.out.println("DriveByUltrasonic.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.

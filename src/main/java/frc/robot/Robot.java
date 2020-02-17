@@ -34,11 +34,10 @@ public class Robot extends TimedRobot {
 
   // autonomous chooser
   private Command autonomousCommand;
-  // private SendableChooser<Command> chooser = new SendableChooser<Command>();
-  private Timer timer;
+  private SendableChooser<Command> chooser = new SendableChooser<Command>();
+  private Timer timer = new Timer();
 
   public Robot() {
-    timer = new Timer();
     timer.start();
     double start = timer.get();
   
@@ -71,15 +70,14 @@ public class Robot extends TimedRobot {
 
     // SmartDashboard.putNumber("Camera Selection:", robotMap.oi.camera_selection);
 
-    System.out.println("Robot.java:robotPeriodic():" + Double.toString(timer.get() - start));
+    //System.out.println("Robot.java:robotPeriodic():" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void teleopInit() {
-    // if (autonomousCommand != null) {
-    //   autonomousCommand.cancel();
-    // }
-
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
   }
 
   @Override
@@ -93,11 +91,10 @@ public class Robot extends TimedRobot {
 
     // autonomousCommand = chooser.getSelected();
 
-    // // schedule the autonomous command (example)
-    
-    // if (autonomousCommand != null) {
-    //   autonomousCommand.schedule();
-    // }
+    // schedule the autonomous command (example)
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    }
     
   }
 
@@ -115,5 +112,4 @@ public class Robot extends TimedRobot {
     // disabled, do not remove it
     CommandScheduler.getInstance().run();
   }
-
 }

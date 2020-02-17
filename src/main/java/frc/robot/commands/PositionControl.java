@@ -17,19 +17,18 @@ public class PositionControl extends CommandBase {
    * Creates a new PositionControl.
    */
   private final Spinner m_Spinner;
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   public PositionControl(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-    timer = new Timer();
     m_Spinner = spinner;
     addRequirements(m_Spinner);
+    timer.start();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +40,7 @@ public class PositionControl extends CommandBase {
     } else {
       m_Spinner.stopSpinner();
     }
-    System.out.println("PositionControl.java:execute():" + Double.toString(timer.get() - start));
+    //System.out.println("PositionControl.java:execute():" + Double.toString(timer.get() - start));
   }
 
   // Called once the command ends or is interrupted.

@@ -18,8 +18,8 @@ public class ExpelCellByTime extends CommandBase {
    */
   private final Belt m_belt;
   private final OutputSystem m_outputSystem;
-  private static Timer timer;
-  private static double delayTime;
+  private final Timer timer = new Timer();
+  private double delayTime;
 
   public ExpelCellByTime(Belt belt, OutputSystem outputSystem, double time) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,7 +36,6 @@ public class ExpelCellByTime extends CommandBase {
     m_belt.turnBeltClockwise();
     Timer.delay(delayTime);
     m_belt.turnBeltOff();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

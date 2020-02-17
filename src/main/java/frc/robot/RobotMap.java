@@ -44,68 +44,37 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import edu.wpi.first.wpilibj.Timer;
-/**
- * Add your docs here.
- */
+
 public class RobotMap {
 
     //subsystems
-    // public final DriveSubsystem driveTrain = new DriveSubsystem();
+    public final DriveSubsystem driveTrain = new DriveSubsystem();
     public final Spinner spinner = new Spinner();
     private final Climber climber = new Climber();
     public final Belt belt = new Belt();
     private final IntakeSystem intakeSystem = new IntakeSystem();
-    // public final OutputSystem outputSystem = new OutputSystem();
+    public final OutputSystem outputSystem = new OutputSystem();
 
     //input stuff
     public final OI oi = new OI();
     private final Joystick driveStick = new Joystick(0);
     private final Joystick otherStick = new Joystick(1);
 
-    // spinner and color detection stuff
-    public static I2C.Port i2cPort;
-    public static ColorSensorV3 m_colorSensor;
-
-    private Timer timer;
-
-
-    // constants
-    //public static final double SPINNER_WHEEL_SPEED = 0.5;
-    //public static final double WINCH_SPEED = 0.5;
+    private final Timer timer = new Timer();
 
     // camera
-    //public Thread m_visionThread;
-    //public int camera_selection = 0;
+    // public Thread m_visionThread;
+    // public int camera_selection = 0;
 
     public RobotMap() {
-
-        timer = new Timer();
         timer.start();
         double start = timer.get();
 
-        //TODO: lower framerate or resolution
-
-        // spinner and color sensor
-        //i2cPort = I2C.Port.kOnboard;
-        //m_colorSensor = new ColorSensorV3(i2cPort);
-
-        // sensor
-        //ultraSerial = new SerialPort(9600, Port.kOnboard, 8, Parity.kNone, StopBits.kOne);
-        //ultraSerial.reset();
-
-        //gyro = new PigeonIMU(0);
-        //ultra = new UltrasonicSensor(ultraSerial);
-
         configureButtonBindings();
-
-
         belt.setDefaultCommand(new ManualBelt(belt, oi));
-
         intakeSystem.setDefaultCommand(new ManualIntakeArm(intakeSystem, oi));
-
         spinner.setDefaultCommand(new ManualSpinning(spinner, oi));
-
-        // driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
+        driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
         
         //All the vision stuff
 
@@ -160,9 +129,8 @@ public class RobotMap {
         m_visionThread.start();
         
         */
-        
-        System.out.println("RobotMap.java initialization:" + Double.toString(timer.get() - start));
-        
+
+        System.out.println("RobotMap.java:RobotMap():" + Double.toString(timer.get() - start));
     }
 
     private void configureButtonBindings() {
@@ -195,5 +163,4 @@ public class RobotMap {
         //doorToggleButton.whenPressed(new ToggleDoor(outputSystem));
         //sensorToggleButton.whenPressed(new ToggleSensor(spinner));
     }
-
 }

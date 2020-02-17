@@ -8,8 +8,6 @@ public class Ramper{
 	}
 	public double ramp(double currentSpeed) {
 		double output=0;
-		
-		
 	 	if (lastSpeed<0 && currentSpeed>0) {
 	 		output = lastSpeed+step;
 	 	} 
@@ -32,5 +30,4 @@ public class Ramper{
 	public void reset(){
 		lastSpeed = 0;
 	}
-	
 }

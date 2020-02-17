@@ -13,22 +13,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Belt extends SubsystemBase {
 
-  public Talon belt;
+  private final Talon belt = new Talon(9);
   private final double BELT_SPEED = 1.0;
-
-  private Timer timer;
+  private final Timer timer = new Timer();
 
   /**
    * 
    * Creates a new Belt.
    */
   public Belt() {
-
-    timer = new Timer();
+    super();
     timer.start();
     double start = timer.get();
 
-    belt = new Talon(9);
     belt.setInverted(false);
 
     System.out.println("Belt.java:Belt():" + Double.toString(timer.get() - start));
@@ -39,7 +36,7 @@ public class Belt extends SubsystemBase {
     // This method will be called once per scheduler run
     double start = timer.get();
 
-    System.out.println("Belt.java:periodic():" + Double.toString(timer.get() - start));
+    //System.out.println("Belt.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void turnBeltCClockwise() {
@@ -55,8 +52,6 @@ public class Belt extends SubsystemBase {
   }
 
   public void turnBelt(double speed) {
-    System.out.println(speed);
     belt.set(speed);
   }
-
 }

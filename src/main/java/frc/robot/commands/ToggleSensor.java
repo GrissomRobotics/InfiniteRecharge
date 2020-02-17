@@ -15,7 +15,7 @@ public class ToggleSensor extends CommandBase {
    * Creates a new ToggleSensor.
    */
 
-  private final Spinner m_spinner;
+  private Spinner m_spinner;
 
   public ToggleSensor(Spinner spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
