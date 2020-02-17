@@ -30,7 +30,7 @@ public class Spinner extends SubsystemBase {
   private final TalonSRX spinnerWheel = new TalonSRX(3);
   private final double SPINNER_WHEEL_SPEED = 0.75;
   private final Servo sensorServo = new Servo(3);
-  //private PigeonIMU gyro; // TODO: add back in
+  private PigeonIMU gyro;
   // was originally public static just incase things go badly now
   private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   private final ColorMatch colorMatcher;
@@ -51,7 +51,7 @@ public class Spinner extends SubsystemBase {
     timer.start();
     double start = timer.get();
 
-    //gyro = new PigeonIMU(spinnerWheel); // TODO: add back in
+    gyro = new PigeonIMU(spinnerWheel);
 
     spinnerWheel.setInverted(false);
     // spinnerWheel.configContinuousCurrentLimit(20,0);
@@ -100,7 +100,7 @@ public class Spinner extends SubsystemBase {
     double start = timer.get();
 
     //SmartDashboard.putString("Color: ", getColorString());
-    //SmartDashboard.putNumber("Gyro", getGyroData());
+    SmartDashboard.putNumber("Gyro", getGyroData());
 
     //System.out.println("Spinner Subsystem periodic():" + Double.toString(timer.get() - start));
   }
@@ -160,11 +160,10 @@ public class Spinner extends SubsystemBase {
   }
 
   public void resetGyro() {
-    //gyro.setFusedHeading(0); // TODO: add back in
+    gyro.setFusedHeading(0);
   }
 
   public double getGyroData() {
-    return 0.0; // gyro.getFusedHeading(); // TODO: add back in
+    return gyro.getFusedHeading();
   }
-
 }

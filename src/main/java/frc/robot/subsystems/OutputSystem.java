@@ -18,7 +18,7 @@ public class OutputSystem extends SubsystemBase {
   /**
    * Creates a new OutputSystem.
    */
-  private DoubleSolenoid doorSolenoid = new DoubleSolenoid(4, 0, 1);
+  private DoubleSolenoid doorSolenoid = new DoubleSolenoid(1, 0, 1);
   //boolean hatchIsClosed;
 
   private final Timer timer = new Timer();
