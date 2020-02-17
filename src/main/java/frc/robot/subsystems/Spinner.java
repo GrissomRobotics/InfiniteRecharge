@@ -100,9 +100,10 @@ public class Spinner extends SubsystemBase {
     double start = timer.get();
 
     //SmartDashboard.putString("Color: ", getColorString());
-    SmartDashboard.putNumber("Gyro", getGyroData());
+    //SmartDashboard.putNumber("Gyro", getGyroData());
 
     //System.out.println("Spinner Subsystem periodic():" + Double.toString(timer.get() - start));
+    //System.out.println("Gyro Value: " + getGyroData());
   }
 
   public void toggleSensor(){

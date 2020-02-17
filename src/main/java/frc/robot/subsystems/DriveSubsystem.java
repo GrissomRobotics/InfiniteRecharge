@@ -37,8 +37,8 @@ public class DriveSubsystem extends SubsystemBase {
     private final MecanumDrive mecanumDrive;
 
     // gyro
-    //private final SerialPort ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
-    //private UltrasonicSensor ultra;
+    private final SerialPort ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
+    private UltrasonicSensor ultra;
 
     // rampers
     private final double defaultRampStep = 0.01;
@@ -57,7 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
         //ultraSerial.reset();
 
         // gyro = new PigeonIMU(1);
-        //ultra = new UltrasonicSensor(ultraSerial);
+        ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
         // sides were going in different directions, so not inverting left side.
@@ -91,6 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
         //SmartDashboard.putNumber("Ultra", getUltraReadingInch());
 
         //System.out.println("DriverSubsystem.java:periodic():" + Double.toString(timer.get() - start));
+        //System.out.println("Ultrasonic Value: " + getUltraReadingInch());
     }
 
     public void cartesianDrive(double xValue, double yValue, double rotationValue) {
@@ -136,11 +137,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     // reads in mm
     public double getUltraReading() {
-        return 0.0;//ultra.readLastRange();
+        return ultra.readLastRange();
     }
 
     // reads in inches
     public double getUltraReadingInch() {
-        return 0.0;//ultra.readLastRange() / 25.4;
+        return ultra.readLastRange() / 25.4;
     }
 }
