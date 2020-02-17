@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
   // autonomous chooser
   private Command autonomousCommand;
-  private SendableChooser<Command> chooser = new SendableChooser<Command>();
+  // private SendableChooser<Command> chooser = new SendableChooser<Command>();
   private Timer timer;
 
   public Robot() {
@@ -53,13 +53,13 @@ public class Robot extends TimedRobot {
 
     // Add commands to Autonomous Sendable Chooser
 
-    chooser.setDefaultOption("Autonomous Default",
-        new AutonomousDefault(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
-    chooser.addOption("Autonomous From Side",
-        new AutonomousFromSide(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
-    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain, robotMap.spinner));
+    // chooser.setDefaultOption("Autonomous Default",
+    //     new AutonomousDefault(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
+    // chooser.addOption("Autonomous From Side",
+    //     new AutonomousFromSide(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
+    // chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain, robotMap.spinner));
 
-    SmartDashboard.putData("Auto mode", chooser);
+    // SmartDashboard.putData("Auto mode", chooser);
 
     System.out.println("Robot.java:robotInit():" + Double.toString(timer.get() - start));
   }
@@ -69,16 +69,16 @@ public class Robot extends TimedRobot {
 
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("Camera Selection:", robotMap.oi.camera_selection);
+    // SmartDashboard.putNumber("Camera Selection:", robotMap.oi.camera_selection);
 
     System.out.println("Robot.java:robotPeriodic():" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void teleopInit() {
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
-    }
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.cancel();
+    // }
 
   }
 
@@ -89,15 +89,15 @@ public class Robot extends TimedRobot {
 
   public void autonomousInit() {
 
-    robotMap.spinner.resetGyro();
+    // robotMap.spinner.resetGyro();
 
-    autonomousCommand = chooser.getSelected();
+    // autonomousCommand = chooser.getSelected();
 
-    // schedule the autonomous command (example)
+    // // schedule the autonomous command (example)
     
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
-    }
+    // if (autonomousCommand != null) {
+    //   autonomousCommand.schedule();
+    // }
     
   }
 

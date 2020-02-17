@@ -100,7 +100,7 @@ public class Spinner extends SubsystemBase {
       System.out.println("No color data");
     }
 
-    System.out.println("Spinner.java:Spinner()" + Double.toString(timer.get() - start));
+    System.err.println("****************************************** Spinner.java:Spinner():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -118,7 +118,7 @@ public class Spinner extends SubsystemBase {
   }
 
   public void toggleSensor(){
-
+    System.out.println("**************** Running toggleSensor()");
     if(sensorServo.get() > 0.5){
       sensorServo.set(0.0);
     }else{
@@ -145,6 +145,7 @@ public class Spinner extends SubsystemBase {
   }
 
   public boolean colorIsMatched() {
+    System.out.println("**************** Running colorIsMatched()");
     detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     boolean colorIsMatched = match.color == targetColor;
@@ -152,6 +153,7 @@ public class Spinner extends SubsystemBase {
   }
 
   public String getColorString() {
+    System.out.println("**************** Running getColorString()");
     detectedColor = colorSensor.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     String colorString;
@@ -170,15 +172,18 @@ public class Spinner extends SubsystemBase {
   }
 
   public Color getColor() {
+    System.out.println("**************** Running getColor()");
     detectedColor = colorSensor.getColor();
     return detectedColor;
   }
 
   public void resetGyro() {
+    System.out.println("**************** Running resetGyro()");
     gyro.setFusedHeading(0);
   }
 
   public double getGyroData() {
+    System.out.println("**************** Running getGyroData()");
     return gyro.getFusedHeading();
   }
 

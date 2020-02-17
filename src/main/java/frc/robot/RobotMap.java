@@ -50,12 +50,12 @@ import edu.wpi.first.wpilibj.Timer;
 public class RobotMap {
 
     //subsystems
-    public final DriveSubsystem driveTrain = new DriveSubsystem();
+    // public final DriveSubsystem driveTrain = new DriveSubsystem();
     public final Spinner spinner = new Spinner();
     private final Climber climber = new Climber();
     public final Belt belt = new Belt();
     private final IntakeSystem intakeSystem = new IntakeSystem();
-    public final OutputSystem outputSystem = new OutputSystem();
+    // public final OutputSystem outputSystem = new OutputSystem();
 
     //input stuff
     public final OI oi = new OI();
@@ -74,7 +74,7 @@ public class RobotMap {
     //public static final double WINCH_SPEED = 0.5;
 
     // camera
-    public Thread m_visionThread;
+    //public Thread m_visionThread;
     //public int camera_selection = 0;
 
     public RobotMap() {
@@ -105,7 +105,7 @@ public class RobotMap {
 
         spinner.setDefaultCommand(new ManualSpinning(spinner, oi));
 
-        driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
+        // driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
         
         /*All the vision stuff
 
@@ -180,17 +180,17 @@ public class RobotMap {
         final JoystickButton sensorToggleButton = new JoystickButton(otherStick, 2);
 
         // buttons to commands
-        climbButton.whileHeld(new Climb(climber));
-        cameraButton.whenPressed(new SwapCameraFeed(oi));
-        retractHookButton.whileHeld(new RetractHook(climber));
-        extendHookButton.whileHeld(new ExtendHook(climber));
+        //climbButton.whileHeld(new Climb(climber));
+        //cameraButton.whenPressed(new SwapCameraFeed(oi));
+        //retractHookButton.whileHeld(new RetractHook(climber));
+        //extendHookButton.whileHeld(new ExtendHook(climber));
 
-        positionControlButton.whenPressed(new PositionControl(spinner));
-        rotationControlButton.whenPressed(new RotationControl(spinner));
-        cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
-        intakeCellButton.whileHeld(new SpinCellIn(intakeSystem));
-        doorToggleButton.whenPressed(new ToggleDoor(outputSystem));
-        sensorToggleButton.whenPressed(new ToggleSensor(spinner));
+        //positionControlButton.whenPressed(new PositionControl(spinner));
+        //rotationControlButton.whenPressed(new RotationControl(spinner));
+        //cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
+        //intakeCellButton.whileHeld(new SpinCellIn(intakeSystem));
+        //doorToggleButton.whenPressed(new ToggleDoor(outputSystem));
+        //sensorToggleButton.whenPressed(new ToggleSensor(spinner));
     }
 
 }

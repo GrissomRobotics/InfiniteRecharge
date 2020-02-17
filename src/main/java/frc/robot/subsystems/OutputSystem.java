@@ -28,7 +28,7 @@ public class OutputSystem extends SubsystemBase {
     timer.start();
     double start = timer.get();
 
-    doorSolenoid = new DoubleSolenoid(4, 0, 1);
+    doorSolenoid = new DoubleSolenoid(1, 0, 1);
 
     System.out.println("OutputSystem.java:OutputSystem():" + Double.toString(timer.get() - start));
   }

@@ -27,7 +27,6 @@ public class IntakeSystem extends SubsystemBase {
   private final double ARM_SPEED = 0.75;
 
   private Timer timer;
-  
 
   public IntakeSystem() {
     timer = new Timer();
@@ -52,7 +51,6 @@ public class IntakeSystem extends SubsystemBase {
     double start = timer.get();
     SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch());
     SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
-    
 
     System.out.println("IntakeSubsystem.java:periodic():" + Double.toString(timer.get() - start));
   }
@@ -84,16 +82,17 @@ public class IntakeSystem extends SubsystemBase {
   public void moveArmMotorManual(double speed) {
 
     double armSpeed = speed;
+    /*
+     * if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
+     * System.out.println("Lower Limit hit"); stopArmMotor(); } else if
+     * (getUpperLimitSwitch() && (armSpeed < 0.0)) {
+     * System.out.println("Upper Limit hit"); stopArmMotor(); } else { armSpeed =
+     * MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED); armMotor.set(armSpeed); }
+     */
+    armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
+    armMotor.set(armSpeed);
+    System.out.println("Speed for arm: " + armSpeed);
 
-    if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
-      stopArmMotor();
-    } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
-      stopArmMotor();
-    } else {
-      armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
-      armMotor.set(armSpeed);
-    }
-    
   }
 
   public boolean getUpperLimitSwitch() {
