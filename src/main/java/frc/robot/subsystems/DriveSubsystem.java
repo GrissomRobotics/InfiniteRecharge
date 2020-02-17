@@ -38,7 +38,7 @@ public class DriveSubsystem extends SubsystemBase {
     public final double defaultRampStep = 0.01;
 
     // gyro
-    private PigeonIMU gyro;
+    //private PigeonIMU gyro;
     private SerialPort ultraSerial;
     private UltrasonicSensor ultra;
 
@@ -158,12 +158,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     // reads in mm
     public double getUltraReading() {
-        return ultra.readLastRange();
+        return 0.0; //ultra.readLastRange();
     }
 
     // reads in inches
     public double getUltraReadingInch() {
-        return ultra.readLastRange() / 25.4;
+        return 0.0; //ultra.readLastRange() / 25.4;
     }
 
 }
