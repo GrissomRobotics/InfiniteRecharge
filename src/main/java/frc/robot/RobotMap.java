@@ -107,7 +107,9 @@ public class RobotMap {
 
         // driveTrain.setDefaultCommand(new DriveWithJoystick(driveTrain, oi));
         
-        /*All the vision stuff
+        //All the vision stuff
+
+        /*        
 
         m_visionThread = new Thread(() -> {
             // Get the UsbCamera from CameraServer
@@ -156,8 +158,9 @@ public class RobotMap {
         });
         m_visionThread.setDaemon(true);
         m_visionThread.start();
+        
         */
-
+        
         System.out.println("RobotMap.java initialization:" + Double.toString(timer.get() - start));
         
     }
