@@ -16,8 +16,9 @@ public class Climber extends SubsystemBase {
   /**
    * Creates a new Climber.
    */
-  private SpeedController winch = new PWMVictorSPX(11);
-  private SpeedController hook = new PWMVictorSPX(10);
+  private SpeedController winch = new PWMVictorSPX(12);
+  private SpeedController leftHook = new PWMVictorSPX(11);
+  private SpeedController rightHook = new PWMVictorSPX(10);
   private final double WINCH_SPEED = 0.75;
   private final double HOOK_SPEED = 0.75;
   private final Timer timer = new Timer();
@@ -28,7 +29,8 @@ public class Climber extends SubsystemBase {
     double start = timer.get();
 
     winch.setInverted(false);
-    hook.setInverted(false);
+    leftHook.setInverted(false);
+    rightHook.setInverted(false);
 
     System.out.println("Climber.java:Climber():" + Double.toString(timer.get() - start));
   }
@@ -52,11 +54,13 @@ public class Climber extends SubsystemBase {
   }
 
   public void extend()  {
-    hook.set(HOOK_SPEED);
+    rightHook.set(HOOK_SPEED);
+    leftHook.set(HOOK_SPEED);
   }
 
   public void retract() {
-    hook.set(-HOOK_SPEED);
+    rightHook.set(-HOOK_SPEED);
+    leftHook.set(-HOOK_SPEED);
     
   }
 
@@ -65,6 +69,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void stopHook(){
-    hook.set(0.0);
+    rightHook.set(0.0);
+    leftHook.set(0.0);
   } 
 }

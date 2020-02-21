@@ -40,9 +40,9 @@ public class Robot extends TimedRobot {
   public Robot() {
     timer.start();
     double start = timer.get();
-  
+
     robotMap = new RobotMap();
-  
+
     System.out.println("Robot.java:Robot():" + Double.toString(timer.get() - start));
   }
 
@@ -52,11 +52,11 @@ public class Robot extends TimedRobot {
 
     // Add commands to Autonomous Sendable Chooser
 
-    // chooser.setDefaultOption("Autonomous Default",
-    //     new AutonomousDefault(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
-    // chooser.addOption("Autonomous From Side",
-    //     new AutonomousFromSide(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
-    // chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain, robotMap.spinner));
+    chooser.setDefaultOption("Autonomous Default",
+        new AutonomousDefault(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
+    chooser.addOption("Autonomous From Side",
+        new AutonomousFromSide(robotMap.driveTrain, robotMap.spinner, robotMap.belt, robotMap.outputSystem));
+    chooser.addOption("Autonomous Get Off Line", new AutonomousOffLine(robotMap.driveTrain, robotMap.spinner));
 
     // SmartDashboard.putData("Auto mode", chooser);
 
@@ -70,7 +70,8 @@ public class Robot extends TimedRobot {
 
     // SmartDashboard.putNumber("Camera Selection:", robotMap.oi.camera_selection);
 
-    //System.out.println("Robot.java:robotPeriodic():" + Double.toString(timer.get() - start));
+    // System.out.println("Robot.java:robotPeriodic():" +
+    // Double.toString(timer.get() - start));
   }
 
   @Override
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
-    
+
   }
 
   public void autonomousPeriodic() {

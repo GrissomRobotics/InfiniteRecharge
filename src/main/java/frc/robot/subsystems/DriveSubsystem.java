@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,15 +16,11 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.custom.Ramper;
-import frc.robot.custom.UltrasonicSensor;
+import frc.robot.custom.UltrasonicObject;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.Parity;
-import edu.wpi.first.wpilibj.SerialPort.StopBits;
 import edu.wpi.first.wpilibj.SpeedController;
 
 //import com.ctre.phoenix.sensors.PigeonIMU;
-import frc.robot.custom.UltrasonicSensor;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -36,10 +31,6 @@ public class DriveSubsystem extends SubsystemBase {
     private final SpeedController rightRear;
     private final MecanumDrive mecanumDrive;
 
-    // gyro
-    private final SerialPort ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
-    private UltrasonicSensor ultra;
-
     // rampers
     private final double defaultRampStep = 0.01;
     private final Ramper rampForward = new Ramper(defaultRampStep);
@@ -48,16 +39,17 @@ public class DriveSubsystem extends SubsystemBase {
     // timer
     private final Timer timer = new Timer();
 
-    public DriveSubsystem() {
+    //ultra
+    UltrasonicObject m_ultra;
+
+
+    public DriveSubsystem(UltrasonicObject ultra) {
         super();
         timer.start();
         double start = timer.get();
-
-        // sensor
-        //ultraSerial.reset();
+        m_ultra = ultra;
 
         // gyro = new PigeonIMU(1);
-        ultra = new UltrasonicSensor(ultraSerial);
 
         // drive train
         // sides were going in different directions, so not inverting left side.
@@ -85,13 +77,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // TODO: Uncomment when ultra and gyro added for debugging purposes
-        // SmartDashboard.putNumber("Gyro", getGyroData());
-        double start = timer.get();
-        //SmartDashboard.putNumber("Ultra", getUltraReadingInch());
 
-        //System.out.println("DriverSubsystem.java:periodic():" + Double.toString(timer.get() - start));
-        //System.out.println("Ultrasonic Value: " + getUltraReadingInch());
+        // System.out.println("ultra: " + getUltraReading());
+
     }
 
     public void cartesianDrive(double xValue, double yValue, double rotationValue) {
@@ -135,13 +123,9 @@ public class DriveSubsystem extends SubsystemBase {
         rightRear.stopMotor();
     }
 
-    // reads in mm
+    // reads in inches
     public double getUltraReading() {
-        return 0.0; //ultra.readLastRange();
+        return m_ultra.getLastRange();
     }
 
-    // reads in inches
-    public double getUltraReadingInch() {
-        return 0.0; //ultra.readLastRange() / 25.4;
-    }
 }

@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 //Custom implementation of the MB1013 ultrasonic sensor, reading data from the serial port
 public class UltrasonicSensor {
-    private SerialPort ultrasonicSerialPort;
-    private Pattern regex = Pattern.compile("R[0-9]{4}"); // match capital R, followed by 4 digits
+    public SerialPort ultrasonicSerialPort;
+    //private Pattern regex = Pattern.compile("R[0-9]{4}"); // match capital R, followed by 4 digits
     private Timer timer = new Timer();
 
     public UltrasonicSensor(SerialPort ultraserial) {
@@ -19,6 +19,8 @@ public class UltrasonicSensor {
         ultrasonicSerialPort.reset();
         System.out.println("UltrasonicSensor.java:UltrasonicSensor():" + Double.toString(timer.get() - start));
     }
+
+    /*
 
     // reads the range in millimeters
     public double readLastRange() {
@@ -38,4 +40,5 @@ public class UltrasonicSensor {
         //System.out.println("UltrasonicSensor.java:readLastRange():" + Double.toString(timer.get() - start));
         return distance_mm;
     }
+    */
 }

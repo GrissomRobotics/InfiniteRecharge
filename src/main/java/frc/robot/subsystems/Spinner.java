@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class Spinner extends SubsystemBase {
 
   private final TalonSRX spinnerWheel = new TalonSRX(3);
-  private final double SPINNER_WHEEL_SPEED = 0.75;
+  private final double SPINNER_WHEEL_SPEED = 0.25;
   private final Servo sensorServo = new Servo(3);
   private PigeonIMU gyro;
   // was originally public static just incase things go badly now
@@ -98,6 +98,7 @@ public class Spinner extends SubsystemBase {
     // SmartDashboard.putString("Detected Color", colorString);
     // SmartDashboard.putBoolean("Color Match", colorMatched);
     double start = timer.get();
+    //System.out.println(getColorString());
 
     //SmartDashboard.putString("Color: ", getColorString());
     //SmartDashboard.putNumber("Gyro", getGyroData());
@@ -107,10 +108,10 @@ public class Spinner extends SubsystemBase {
   }
 
   public void toggleSensor(){
-    if(sensorServo.get() > 0.5){
-      sensorServo.set(0.0);
+    if(sensorServo.getAngle() > 45.0){
+      sensorServo.setAngle(0.0);
     } else {
-      sensorServo.set(1.0);
+      sensorServo.setAngle(100.0);
     }
   }
 
