@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.custom.ColorObject;
 import frc.robot.custom.UltrasonicObject;
 import frc.robot.custom.UltrasonicSensor;
 import frc.robot.subsystems.Belt;
@@ -48,6 +49,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class RobotMap {
 
+    //colorSensor
+    public Thread m_colorThread;
+    private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+    private final ColorObject colorObject = new ColorObject(colorSensor);
+
     // ultra
     public Thread m_ultraThread;
     private SerialPort ultraSerial = new SerialPort(9600, Port.kMXP, 8, Parity.kNone, StopBits.kOne);
@@ -56,7 +62,7 @@ public class RobotMap {
 
     // subsystems
     public final DriveSubsystem driveTrain = new DriveSubsystem(ultra);
-    public final Spinner spinner = new Spinner();
+    public final Spinner spinner = new Spinner(colorObject);
     private final Climber climber = new Climber();
     public final Belt belt = new Belt();
     private final IntakeSystem intakeSystem = new IntakeSystem();
@@ -81,71 +87,85 @@ public class RobotMap {
 
         // All the vision stuff
 
-        // m_visionThread = new Thread(() -> {
-        //     // Get the UsbCamera from CameraServer
-        //     UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
-        //     UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
-        //     System.out.println("camera thread did a thing!");
-        //     // Set the resolution
-        //     camera0.setResolution(160, 120);
-        //     camera1.setResolution(160, 120);
+        m_visionThread = new Thread(() -> {
+            // Get the UsbCamera from CameraServer
+            UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
+            UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+            System.out.println("camera thread did a thing!");
+            // Set the resolution
+            camera0.setResolution(160, 120);
+            camera1.setResolution(160, 120);
 
-        //     // Get a CvSink. This will capture Mats from the camera
-        //     CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0);
-        //     CvSink cvSink1 = CameraServer.getInstance().getVideo(camera1);
-        //     // Setup a CvSource. This will send images back to the Dashboard
-        //     CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+            // Get a CvSink. This will capture Mats from the camera
+            CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0);
+            CvSink cvSink1 = CameraServer.getInstance().getVideo(camera1);
+            // Setup a CvSource. This will send images back to the Dashboard
+            CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
 
-        //     // Mats are very memory expensive. Lets reuse this Mat.
-        //     Mat mat = new Mat();
+            // Mats are very memory expensive. Lets reuse this Mat.
+            Mat mat = new Mat();
 
-        //     // This cannot be 'true'. The program will never exit if it is. This
-        //     // lets the robot stop this thread when restarting robot code or
-        //     // deploying.
-        //     while (!Thread.interrupted()) {
-        //         // Tell the CvSink to grab a frame from the camera and put it
-        //         // in the source mat. If there is an error notify the output.
-        //         if (oi.camera_selection == 0) {
-        //             if (cvSink0.grabFrame(mat) == 0) {
-        //                 // Send the output the error.
-        //                 outputStream.notifyError(cvSink0.getError());
-        //                 // skip the rest of the current iteration
-        //                 continue;
-        //             }
-        //         } else {
-        //             if (cvSink1.grabFrame(mat) == 0) {
-        //                 // Send the output the error.
-        //                 outputStream.notifyError(cvSink1.getError());
-        //                 // skip the rest of the current iteration
-        //                 continue;
-        //             }
-        //         }
-
-        //         // Put a rectangle on the image
-        //         Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
-        //         // Give the output stream a new image to display
-        //         outputStream.putFrame(mat);
-        //     }
-        // });
-
-        m_ultraThread = new Thread(() -> {
-            try {
-                while (!Thread.interrupted()) {
-                
-                    System.out.println("thread running :) *******************************");
-                    ultra.readLastRange();
-                    Thread.sleep(100);
+            // This cannot be 'true'. The program will never exit if it is. This
+            // lets the robot stop this thread when restarting robot code or
+            // deploying.
+            while (!Thread.interrupted()) {
+                // Tell the CvSink to grab a frame from the camera and put it
+                // in the source mat. If there is an error notify the output.
+                if (oi.camera_selection == 0) {
+                    if (cvSink0.grabFrame(mat) == 0) {
+                        // Send the output the error.
+                        outputStream.notifyError(cvSink0.getError());
+                        // skip the rest of the current iteration
+                        continue;
+                    }
+                } else {
+                    if (cvSink1.grabFrame(mat) == 0) {
+                        // Send the output the error.
+                        outputStream.notifyError(cvSink1.getError());
+                        // skip the rest of the current iteration
+                        continue;
+                    }
                 }
-            } catch (InterruptedException e) {
-                System.out.println("*** Rude. I've been interrupted.");
+
+                // Put a rectangle on the image
+                Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+                // Give the output stream a new image to display
+                outputStream.putFrame(mat);
             }
         });
 
-        // m_visionThread.setDaemon(true);
-        // m_visionThread.start();
+        // m_ultraThread = new Thread(() -> {
+        //     try {
+        //         while (!Thread.interrupted()) {
+                
+        //             System.out.println("thread running :) *******************************");
+        //             ultra.readLastRange();
+        //             Thread.sleep(100);
+        //         }
+        //     } catch (InterruptedException e) {
+        //         System.out.println("*** Rude. I've been interrupted.");
+        //     }
+        // });
 
-        m_ultraThread.setDaemon(true);
-        m_ultraThread.start();
+        // m_colorThread = new Thread(() -> {
+        //     try {
+        //         while (!Thread.interrupted()) {
+        //             colorObject.readLastColor();
+        //             Thread.sleep(100);
+        //         }
+        //     } catch (InterruptedException e) {
+        //         System.out.println("*** Rude. I've been interrupted.");
+        //     }
+        // });
+
+        m_visionThread.setDaemon(true);
+        m_visionThread.start();
+
+        // m_colorThread.setDaemon(true);
+        // m_colorThread.start();
+
+        // m_ultraThread.setDaemon(true);
+        // m_ultraThread.start();
     }
 
     private void configureButtonBindings() {

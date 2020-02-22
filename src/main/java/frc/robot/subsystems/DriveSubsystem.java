@@ -78,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-        // System.out.println("ultra: " + getUltraReading());
+        System.out.println("ultra: " + getUltraReading());
 
     }
 

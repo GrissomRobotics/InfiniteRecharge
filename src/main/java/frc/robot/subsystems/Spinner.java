@@ -22,17 +22,19 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotMap;
+import frc.robot.custom.ColorObject;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 
 public class Spinner extends SubsystemBase {
 
   private final TalonSRX spinnerWheel = new TalonSRX(3);
-  private final double SPINNER_WHEEL_SPEED = 0.25;
+  private final double SPINNER_WHEEL_SPEED = 0.15;
   private final Servo sensorServo = new Servo(3);
   private PigeonIMU gyro;
+  private final ColorObject colorObject;
   // was originally public static just incase things go badly now
-  private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+  // private final ColorSensorV3 colorSensor;// = new ColorSensorV3(I2C.Port.kOnboard);
   private final ColorMatch colorMatcher;
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
@@ -46,10 +48,12 @@ public class Spinner extends SubsystemBase {
   /**
    * Creates a new Spinner.
    */
-  public Spinner() {
+  public Spinner(ColorObject color) {
     super();
     timer.start();
     double start = timer.get();
+
+    this.colorObject = color;
 
     gyro = new PigeonIMU(spinnerWheel);
 
@@ -88,7 +92,7 @@ public class Spinner extends SubsystemBase {
       System.out.println("Could not load game color data");
     }
 
-    System.out.println("Spinner.java:Spinner():" + Double.toString(timer.get() - start));
+    // System.out.println("Spinner.java:Spinner():" + Double.toString(timer.get() - start));
   }
 
   @Override
@@ -133,15 +137,15 @@ public class Spinner extends SubsystemBase {
 
   public boolean colorIsMatched() {
     System.out.println("**************** Running colorIsMatched()");
-    detectedColor = colorSensor.getColor();
+    detectedColor = colorObject.getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     boolean colorIsMatched = match.color == targetColor;
     return colorIsMatched;
   }
 
   public String getColorString() {
-    System.out.println("**************** Running getColorString()");
-    detectedColor = colorSensor.getColor();
+    //System.out.println("**************** Running getColorString()");
+    detectedColor = getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     String colorString;
     if (match.color == kBlueTarget) {
@@ -155,13 +159,13 @@ public class Spinner extends SubsystemBase {
     } else {
       colorString = "Unknown";
     }
+    System.out.println(colorString);
     return colorString;
   }
 
   public Color getColor() {
-    System.out.println("**************** Running getColor()");
-    detectedColor = colorSensor.getColor();
-    return detectedColor;
+    //System.out.println("**************** Running spinner.getColor()");
+    return colorObject.getColor();
   }
 
   public void resetGyro() {
