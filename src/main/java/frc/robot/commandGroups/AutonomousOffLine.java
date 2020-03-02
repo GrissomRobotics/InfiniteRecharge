@@ -8,6 +8,7 @@
 package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveByTime;
 import frc.robot.commands.DriveByUltrasonic;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Spinner;
@@ -18,13 +19,13 @@ public class AutonomousOffLine extends SequentialCommandGroup {
   /**
    * Creates a new AutonomousOffLine.
    */
-  public AutonomousOffLine( DriveSubsystem driveTrain, Spinner spinner) {
+  public AutonomousOffLine(DriveSubsystem driveTrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     //super();
     addCommands(
 
-      new DriveByUltrasonic(driveTrain, spinner, 1, 0.5)
+      new DriveByTime(driveTrain, 3)
 
     );
 

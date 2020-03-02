@@ -31,17 +31,17 @@ public class AutonomousFromSide extends SequentialCommandGroup {
     //super();
     addCommands(
 
-      new DriveByUltrasonic(driveTrain, spinner, 12, 0.5),
+      //new DriveByUltrasonic(driveTrain, spinner, 12, 0.5),
 
-      new RotateToAngle(driveTrain, spinner, 90, 0.5),
+      //new RotateToAngle(driveTrain, spinner, 90, 0.5),
 
-      new DriveByUltrasonic(driveTrain, spinner, 94, 0.5),
+      new DriveByUltrasonic(driveTrain, spinner, 94, 50)
 
-      new RotateToAngle(driveTrain, spinner, -90, 0.5),
+      //new RotateToAngle(driveTrain, spinner, -90, 0.5),
 
-      new DriveByUltrasonic(driveTrain, spinner, 1, 0.5),
+      //new DriveByUltrasonic(driveTrain, spinner, 1, 0.5),
 
-      new ExpelCellByTime(belt, outputSystem, 5)
+      //new ExpelCellByTime(belt, outputSystem, 5)
 
     );
   }
