@@ -49,7 +49,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class RobotMap {
 
-    //colorSensor
+    // colorSensor
     public Thread m_colorThread;
     private final ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
     private final ColorObject colorObject = new ColorObject(colorSensor);
@@ -73,6 +73,9 @@ public class RobotMap {
     private final Joystick driveStick = new Joystick(0);
     private final Joystick otherStick = new Joystick(1);
 
+    // button
+    private final JoystickButton cameraButton = new JoystickButton(driveStick, 2);
+
     // camera
     public Thread m_visionThread;
     public int camera_selection = 0;
@@ -87,57 +90,59 @@ public class RobotMap {
 
         // All the vision stuff
 
-        m_visionThread = new Thread(() -> {
-            // Get the UsbCamera from CameraServer
-            UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
-            UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
-            System.out.println("camera thread did a thing!");
-            // Set the resolution
-            camera0.setResolution(160, 120);
-            camera1.setResolution(160, 120);
+        // m_visionThread = new Thread(() -> {
+        // // Get the UsbCamera from CameraServer
+        // UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0);
+        // UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+        // // System.out.println("camera thread did a thing!");
+        // // Set the resolution
+        // camera0.setResolution(160, 120);
+        // camera1.setResolution(160, 120);
 
-            // Get a CvSink. This will capture Mats from the camera
-            CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0);
-            CvSink cvSink1 = CameraServer.getInstance().getVideo(camera1);
-            // Setup a CvSource. This will send images back to the Dashboard
-            CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
+        // // Get a CvSink. This will capture Mats from the camera
+        // CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0);
+        // CvSink cvSink1 = CameraServer.getInstance().getVideo(camera1);
+        // // Setup a CvSource. This will send images back to the Dashboard
+        // CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640,
+        // 480);
 
-            // Mats are very memory expensive. Lets reuse this Mat.
-            Mat mat = new Mat();
+        // // Mats are very memory expensive. Lets reuse this Mat.
+        // Mat mat = new Mat();
 
-            // This cannot be 'true'. The program will never exit if it is. This
-            // lets the robot stop this thread when restarting robot code or
-            // deploying.
-            while (!Thread.interrupted()) {
-                // Tell the CvSink to grab a frame from the camera and put it
-                // in the source mat. If there is an error notify the output.
-                if (oi.camera_selection == 0) {
-                    if (cvSink0.grabFrame(mat) == 0) {
-                        // Send the output the error.
-                        outputStream.notifyError(cvSink0.getError());
-                        // skip the rest of the current iteration
-                        continue;
-                    }
-                } else {
-                    if (cvSink1.grabFrame(mat) == 0) {
-                        // Send the output the error.
-                        outputStream.notifyError(cvSink1.getError());
-                        // skip the rest of the current iteration
-                        continue;
-                    }
-                }
+        // // This cannot be 'true'. The program will never exit if it is. This
+        // // lets the robot stop this thread when restarting robot code or
+        // // deploying.
+        // while (!Thread.interrupted()) {
+        // // Tell the CvSink to grab a frame from the camera and put it
+        // // in the source mat. If there is an error notify the output.
+        // if (oi.camera_selection == 0) {
+        // if (cvSink0.grabFrame(mat) == 0) {
+        // // Send the output the error.
+        // outputStream.notifyError(cvSink0.getError());
+        // // skip the rest of the current iteration
+        // continue;
+        // }
+        // } else {
+        // if (cvSink1.grabFrame(mat) == 0) {
+        // // Send the output the error.
+        // outputStream.notifyError(cvSink1.getError());
+        // // skip the rest of the current iteration
+        // continue;
+        // }
+        // }
 
-                // Put a rectangle on the image
-                Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
-                // Give the output stream a new image to display
-                outputStream.putFrame(mat);
-            }
-        });
+        // // Put a rectangle on the image
+        // Imgproc.rectangle(mat, new Point(100, 100), new Point(400, 400), new
+        // Scalar(255, 255, 255), 5);
+        // // Give the output stream a new image to display
+        // outputStream.putFrame(mat);
+        // }
+        // });
 
         // m_ultraThread = new Thread(() -> {
         //     try {
         //         while (!Thread.interrupted()) {
-                
+
         //             System.out.println("thread running :) *******************************");
         //             ultra.readLastRange();
         //             Thread.sleep(100);
@@ -147,22 +152,22 @@ public class RobotMap {
         //     }
         // });
 
-        // m_colorThread = new Thread(() -> {
-        //     try {
-        //         while (!Thread.interrupted()) {
-        //             colorObject.readLastColor();
-        //             Thread.sleep(100);
-        //         }
-        //     } catch (InterruptedException e) {
-        //         System.out.println("*** Rude. I've been interrupted.");
-        //     }
-        // });
+        m_colorThread = new Thread(() -> {
+            try {
+                while (!Thread.interrupted()) {
+                    colorObject.readLastColor();
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                System.out.println("*** Rude. I've been interrupted.");
+            }
+        });
 
-        m_visionThread.setDaemon(true);
-        m_visionThread.start();
+        // m_visionThread.setDaemon(true);
+        // m_visionThread.start();
 
-        // m_colorThread.setDaemon(true);
-        // m_colorThread.start();
+        m_colorThread.setDaemon(true);
+        m_colorThread.start();
 
         // m_ultraThread.setDaemon(true);
         // m_ultraThread.start();
@@ -170,13 +175,26 @@ public class RobotMap {
 
     private void configureButtonBindings() {
 
-        // buttons
-        final JoystickButton climbButton = new JoystickButton(driveStick, 7);
-        final JoystickButton cameraButton = new JoystickButton(driveStick, 2);
-        final JoystickButton extendHookButton = new JoystickButton(driveStick, 3);
-        final JoystickButton retractHookButton = new JoystickButton(driveStick, 5);
-        final JoystickButton zoomZoomButton = new JoystickButton(driveStick, 1);
+        // buttons!!!
 
+        // climbing buttons
+        final JoystickButton climbButton = new JoystickButton(driveStick, 6);
+        final JoystickButton descendButton = new JoystickButton(driveStick, 4);
+        final JoystickButton extendHookButton = new JoystickButton(driveStick, 5);
+        final JoystickButton retractHookButton = new JoystickButton(driveStick, 3);
+
+        final JoystickButton rightHookUpButton = new JoystickButton(driveStick, 10);
+        final JoystickButton rightHookDownButton = new JoystickButton(driveStick, 12);
+        final JoystickButton leftHookUpButton = new JoystickButton(driveStick, 9);
+        final JoystickButton leftHookDownButton = new JoystickButton(driveStick, 11);
+
+        //final JoystickButton commandTestingButton = new JoystickButton(driveStick, 7);
+        //final JoystickButton gyroTestingButton = new JoystickButton(driveStick, 8);
+        
+        // drive controls
+        //final JoystickButton zoomZoomButton = new JoystickButton(driveStick, 1);
+
+        // operator controls
         final JoystickButton positionControlButton = new JoystickButton(otherStick, 3);
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 4);
         final JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 2);
@@ -185,17 +203,30 @@ public class RobotMap {
         final JoystickButton sensorToggleButton = new JoystickButton(otherStick, 1);
 
         // buttons to commands
-        // climbButton.whileHeld(new Climb(climber));
-        cameraButton.whenPressed(new SwapCameraFeed(oi));
-        // retractHookButton.whileHeld(new RetractHook(climber));
-        // extendHookButton.whileHeld(new ExtendHook(climber));
-        zoomZoomButton.whileHeld(new IntakeAll(intakeSystem, belt));
+        climbButton.whileHeld(new Climb(climber));
+        descendButton.whileHeld(new Descend(climber));
+        retractHookButton.whileHeld(new RetractHook(climber));
+        extendHookButton.whileHeld(new ExtendHook(climber));
+        
+        rightHookUpButton.whileHeld(new RightHookUp(climber));
+        rightHookDownButton.whileHeld(new RightHookDown(climber));
+        leftHookUpButton.whileHeld(new LeftHookUp(climber));
+        leftHookDownButton.whileHeld(new LeftHookDown(climber));
 
+        //zoomZoomButton.whileHeld(new IntakeAll(intakeSystem, belt, oi));
+        //commandTestingButton.whenPressed(new ToggleArm(intakeSystem));
+        //gyroTestingButton.whenPressed(new RotateToAngle(driveTrain, spinner, 90, 2.5));
+
+        // operator controls
         positionControlButton.whenPressed(new PositionControl(spinner));
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
         intakeCellButton.whileHeld(new SpinCellIn(intakeSystem));
         doorToggleButton.whenPressed(new ToggleDoor(outputSystem));
         sensorToggleButton.whenPressed(new ToggleSensor(spinner));
+    }
+
+    public boolean cameraSelection() {
+        return cameraButton.get();
     }
 }

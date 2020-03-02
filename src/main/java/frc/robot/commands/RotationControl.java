@@ -43,6 +43,8 @@ public class RotationControl extends CommandBase {
     final double start = timer.get();
     m_Spinner.spinPanelClockwise();
     wheelTracker.setNewColor(m_Spinner.getColor());
+    System.out.println("radians turned: " + wheelTracker.getRadiansTurned());
+    System.out.println("rotation count: " + wheelTracker.getNumRotations());
     //System.out.println("RotationControl.java:execute():" + Double.toString(timer.get() - start));
   }
 

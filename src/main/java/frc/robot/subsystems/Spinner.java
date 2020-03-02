@@ -34,12 +34,15 @@ public class Spinner extends SubsystemBase {
   private PigeonIMU gyro;
   private final ColorObject colorObject;
   // was originally public static just incase things go badly now
-  // private final ColorSensorV3 colorSensor;// = new ColorSensorV3(I2C.Port.kOnboard);
+  // private final ColorSensorV3 colorSensor;// = new
+  // ColorSensorV3(I2C.Port.kOnboard);
   private final ColorMatch colorMatcher;
+  public Thread m_gyroThread;
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private double lastGyroValue;
   private Color detectedColor;
   private Color targetColor;
 
@@ -72,27 +75,44 @@ public class Spinner extends SubsystemBase {
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     if (gameData.length() > 0) {
       switch (gameData.charAt(0)) {
-      case 'B':
-        targetColor = kBlueTarget;
-        break;
-      case 'G':
-        targetColor = kGreenTarget;
-        break;
-      case 'R':
-        targetColor = kRedTarget;
-        break;
-      case 'Y':
-        targetColor = kYellowTarget;
-        break;
-      default:
-        System.out.println("Received unexpected color from game data");
-        break;
+        case 'B':
+          targetColor = kBlueTarget;
+          break;
+        case 'G':
+          targetColor = kGreenTarget;
+          break;
+        case 'R':
+          targetColor = kRedTarget;
+          break;
+        case 'Y':
+          targetColor = kYellowTarget;
+          break;
+        default:
+          System.out.println("Received unexpected color from game data");
+          break;
       }
     } else {
       System.out.println("Could not load game color data");
     }
 
-    // System.out.println("Spinner.java:Spinner():" + Double.toString(timer.get() - start));
+    // m_gyroThread = new Thread(() -> {
+    //   try {
+    //     while (!Thread.interrupted()) {
+
+    //       System.out.println("thread running :) *******************************");
+    //       lastGyroValue = gyro.getFusedHeading();
+    //       Thread.sleep(100);
+    //     }
+    //   } catch (InterruptedException e) {
+    //     System.out.println("*** Rude. I've been interrupted.");
+    //   }
+    // });
+
+    // m_gyroThread.setDaemon(true);
+    // m_gyroThread.start();
+
+    // System.out.println("Spinner.java:Spinner():" + Double.toString(timer.get() -
+    // start));
   }
 
   @Override
@@ -102,17 +122,18 @@ public class Spinner extends SubsystemBase {
     // SmartDashboard.putString("Detected Color", colorString);
     // SmartDashboard.putBoolean("Color Match", colorMatched);
     double start = timer.get();
-    //System.out.println(getColorString());
+    // System.out.println(getColorString());
 
-    //SmartDashboard.putString("Color: ", getColorString());
-    //SmartDashboard.putNumber("Gyro", getGyroData());
+    // SmartDashboard.putString("Color: ", getColorString());
+    // SmartDashboard.putNumber("Gyro", getGyroData());
 
-    //System.out.println("Spinner Subsystem periodic():" + Double.toString(timer.get() - start));
-    //System.out.println("Gyro Value: " + getGyroData());
+    // System.out.println("Spinner Subsystem periodic():" +
+    // Double.toString(timer.get() - start));
+    System.out.println("Gyro Value: " + getGyroData());
   }
 
-  public void toggleSensor(){
-    if(sensorServo.getAngle() > 45.0){
+  public void toggleSensor() {
+    if (sensorServo.getAngle() > 45.0) {
       sensorServo.setAngle(0.0);
     } else {
       sensorServo.setAngle(100.0);
@@ -144,7 +165,7 @@ public class Spinner extends SubsystemBase {
   }
 
   public String getColorString() {
-    //System.out.println("**************** Running getColorString()");
+    // System.out.println("**************** Running getColorString()");
     detectedColor = getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     String colorString;
@@ -164,17 +185,17 @@ public class Spinner extends SubsystemBase {
   }
 
   public Color getColor() {
-    //System.out.println("**************** Running spinner.getColor()");
+    // System.out.println("**************** Running spinner.getColor()");
     return colorObject.getColor();
   }
 
   public void resetGyro() {
-    System.out.println("**************** Running resetGyro()");
+    // System.out.println("**************** Running resetGyro()");
     gyro.setFusedHeading(0);
   }
 
   public double getGyroData() {
-    System.out.println("**************** Running getGyroData()");
-    return gyro.getFusedHeading();
+    // System.out.println("**************** Running getGyroData()");
+    return lastGyroValue;
   }
 }

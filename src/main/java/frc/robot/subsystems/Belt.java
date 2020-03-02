@@ -26,7 +26,7 @@ public class Belt extends SubsystemBase {
     timer.start();
     double start = timer.get();
 
-    belt.setInverted(false);
+    belt.setInverted(true);
 
     System.out.println("Belt.java:Belt():" + Double.toString(timer.get() - start));
   }

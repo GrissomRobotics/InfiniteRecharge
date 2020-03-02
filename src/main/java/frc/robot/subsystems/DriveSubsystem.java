@@ -68,7 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         mecanumDrive = new MecanumDrive(leftFront, leftRear, rightFront, rightRear);
 
-        mecanumDrive.setSafetyEnabled(true);
+        mecanumDrive.setSafetyEnabled(false);
         mecanumDrive.setExpiration(0.1);
         mecanumDrive.setMaxOutput(1.0);
 
@@ -126,6 +126,10 @@ public class DriveSubsystem extends SubsystemBase {
     // reads in inches
     public double getUltraReading() {
         return m_ultra.getLastRange();
+    }
+
+    public void setSafetyEnabled(boolean isOn){
+        mecanumDrive.setSafetyEnabled(isOn);
     }
 
 }

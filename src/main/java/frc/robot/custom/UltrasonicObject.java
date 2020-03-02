@@ -33,7 +33,7 @@ public class UltrasonicObject {
 
         // TODO: implement try catch
         if (s != null) {
-            ultraValue = Double.parseDouble(s.substring(1))/25.4;
+            ultraValue = Double.parseDouble(s.substring(1));
         }
 
         System.out.println("ultra from object: " + ultraValue);

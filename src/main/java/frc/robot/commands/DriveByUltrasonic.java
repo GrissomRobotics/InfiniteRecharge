@@ -26,7 +26,7 @@ public class DriveByUltrasonic extends CommandBase {
   private final DriveSubsystem m_driveTrain;
   private final Spinner m_spinner;
 
-  private static final double kP_Ultra = 1.0;
+  private static final double kP_Ultra = 0.001;
   private static final double kI_Ultra = 0.0;
   private static final double kD_Ultra = 0.0;
   private final PIDController pid_Ultra = new PIDController(kP_Ultra, kI_Ultra, kD_Ultra);
@@ -67,26 +67,36 @@ public class DriveByUltrasonic extends CommandBase {
   public void execute() {
     final double start = timer.get();
     double ultraDistance = m_driveTrain.getUltraReading();
-    double gyroAngle = m_spinner.getGyroData();
-
+    //double gyroAngle = m_spinner.getGyroData();
+    System.out.println("ultraDistance: " + ultraDistance);
+    System.out.println("ultraSetpoint: " + pid_Ultra.getSetpoint());
     double driveRate = pid_Ultra.calculate(ultraDistance);
-    double rotationRate = pid_Gyro.calculate(gyroAngle);
-    driveRate = MathUtil.clamp(driveRate, -0.1, 0.1);
-    rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
+    System.out.println("driveRate: " + driveRate);
+    //double rotationRate = pid_Gyro.calculate(gyroAngle);
+    //System.out.println("rotation rate: " + rotationRate);
+    
+    
+    driveRate = MathUtil.clamp(driveRate, -0.25, 0.25);
+
+    System.out.println("driveRate Clamped: " + driveRate);
+
+    //rotationRate = MathUtil.clamp(rotationRate, -0.1, 0.1);
+
+    //System.out.println("rotationRate Clamped: " + rotationRate);
 
     if(Math.abs(ultraDistance-pid_Ultra.getSetpoint()) <= distanceTolerance){
       m_driveTrain.stop();
       commandIsFinished = true;
     } else {
-      m_driveTrain.cartesianDrive(0.0, driveRate, rotationRate);
+      m_driveTrain.cartesianDrive(0, driveRate, 0);
     }
-    
-    //System.out.println("DriveByUltrasonic.java:execute():" + Double.toString(timer.get() - start));
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_driveTrain.stop();
   }
 
   // Returns true when the command should end.

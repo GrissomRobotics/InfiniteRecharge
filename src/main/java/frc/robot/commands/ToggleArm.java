@@ -7,51 +7,49 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Belt;
-import frc.robot.subsystems.OutputSystem;
+import frc.robot.subsystems.IntakeSystem;
 
-public class ExpelCellByTime extends CommandBase {
+public class ToggleArm extends CommandBase {
   /**
-   * Creates a new ExpelCellByTime.
+   * Creates a new ArmToggle.
    */
-  private final Belt m_belt;
-  private final OutputSystem m_outputSystem;
-  private final Timer timer = new Timer();
-  private double delayTime;
+  IntakeSystem m_intakeSystem;
 
-  public ExpelCellByTime(Belt belt, OutputSystem outputSystem, double time) {
+  public ToggleArm(IntakeSystem intakeSystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_belt = belt;
-    m_outputSystem = outputSystem;
-    addRequirements(m_belt, m_outputSystem);
-    delayTime = time;
+    m_intakeSystem = intakeSystem;
+    addRequirements(m_intakeSystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //m_outputSystem.openDoor();;
-    m_belt.turnBeltClockwise();
-    Timer.delay(delayTime);
-    m_belt.turnBeltOff();
+    System.out.println("ThE ArM is Toggling!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    if(m_intakeSystem.getLowerLimitSwitch()){
+      m_intakeSystem.moveArmUp();
+    }else{
+      m_intakeSystem.moveArmMotorDown();      
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(m_intakeSystem.getLowerLimitSwitch() || m_intakeSystem.getUpperLimitSwitch()){
+      m_intakeSystem.stopArmMotor();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_belt.turnBeltOff();
+    m_intakeSystem.stopArmMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

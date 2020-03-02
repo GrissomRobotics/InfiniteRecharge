@@ -25,6 +25,10 @@ public class WheelTracker {
         }
     }
 
+    public double getRadiansTurned(){
+        return this.radians_turned;
+    }
+
     public double getNumRotations() {
         return this.radians_turned / (2.0 * Math.PI);
     }
