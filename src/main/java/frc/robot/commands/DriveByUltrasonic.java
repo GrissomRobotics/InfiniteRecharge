@@ -26,14 +26,14 @@ public class DriveByUltrasonic extends CommandBase {
   private final DriveSubsystem m_driveTrain;
   private final Spinner m_spinner;
 
-  private static final double kP_Ultra = 0.001;
+  private static final double kP_Ultra = 0.7;
   private static final double kI_Ultra = 0.0;
-  private static final double kD_Ultra = 0.0;
+  private static final double kD_Ultra = 2.3;
   private final PIDController pid_Ultra = new PIDController(kP_Ultra, kI_Ultra, kD_Ultra);
   
-  private static final double kP_Gyro = 1.0;
+  private static final double kP_Gyro = 0.5;
   private static final double kI_Gyro = 0.0;
-  private static final double kD_Gyro = 0.0;
+  private static final double kD_Gyro = 0.2;
   private final PIDController pid_Gyro = new PIDController(kP_Gyro, kI_Gyro, kD_Gyro);
   
   //private static PigeonIMU gyro;

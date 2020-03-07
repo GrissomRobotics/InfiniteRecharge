@@ -38,7 +38,11 @@ public class OI {
     }
 
     public double getRotation() {
-        return driveStick.getRawAxis(2);// + (otherStick.getRawAxis(2)/otherSensitivity);
+        return -driveStick.getRawAxis(2);// + (otherStick.getRawAxis(2)/otherSensitivity);
+    }
+
+    public double getSensitivity() {
+        return driveStick.getRawAxis(3);
     }
 
     // TODO: Map xbox axes
@@ -55,4 +59,5 @@ public class OI {
     public double getManualArmRotation() {
         return otherStick.getRawAxis(1);
     }
+
 }

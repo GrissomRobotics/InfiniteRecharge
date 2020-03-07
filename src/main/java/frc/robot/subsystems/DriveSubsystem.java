@@ -32,7 +32,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final MecanumDrive mecanumDrive;
 
     // rampers
-    private final double defaultRampStep = 0.01;
+    private final double defaultRampStep = 0.05;
     private final Ramper rampForward = new Ramper(defaultRampStep);
     private final Ramper rampRight = new Ramper(defaultRampStep);
     
@@ -78,7 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-        System.out.println("ultra: " + getUltraReading());
+        //System.out.println("ultra: " + getUltraReading());
 
     }
 

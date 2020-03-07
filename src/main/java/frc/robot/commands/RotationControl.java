@@ -40,8 +40,9 @@ public class RotationControl extends CommandBase {
 
   @Override
   public void execute() {
+    System.out.println("ROTATION CONTROL RUNNNING************");
     final double start = timer.get();
-    m_Spinner.spinPanelClockwise();
+    //m_Spinner.spinPanelClockwise();
     wheelTracker.setNewColor(m_Spinner.getColor());
     System.out.println("radians turned: " + wheelTracker.getRadiansTurned());
     System.out.println("rotation count: " + wheelTracker.getNumRotations());

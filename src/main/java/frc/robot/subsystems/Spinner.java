@@ -129,7 +129,7 @@ public class Spinner extends SubsystemBase {
 
     // System.out.println("Spinner Subsystem periodic():" +
     // Double.toString(timer.get() - start));
-    System.out.println("Gyro Value: " + getGyroData());
+    //System.out.println("Gyro Value: " + getGyroData());
   }
 
   public void toggleSensor() {

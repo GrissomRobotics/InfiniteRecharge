@@ -92,22 +92,22 @@ public class IntakeSystem extends SubsystemBase {
   public void moveArmMotorManual(double speed) {
 
     double armSpeed = speed;
-    /*
+    
     armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
     armMotor.set(armSpeed);
-    System.out.println("Speed for arm: " + armSpeed);
-    */
+    //System.out.println("Speed for arm: " + armSpeed);
     
-    if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
-      System.out.println("Stopping arm due to lower limit switch.");
-      stopArmMotor();
-    } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
-      System.out.println("Stopping arm due to upper limit switch.");
-      stopArmMotor();
-    } else {
-      armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
-      armMotor.set(armSpeed);
-    }
+    
+    // if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
+    //   System.out.println("Stopping arm due to lower limit switch.");
+    //   stopArmMotor();
+    // } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
+    //   System.out.println("Stopping arm due to upper limit switch.");
+    //   stopArmMotor();
+    // } else {
+    //   armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
+    //   armMotor.set(armSpeed);
+    // }
     
     
   }

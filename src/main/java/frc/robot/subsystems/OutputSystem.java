@@ -46,17 +46,22 @@ public class OutputSystem extends SubsystemBase {
   }
 
   public void toggle() {
-    switch(doorSolenoid.get()) {
-      case kForward:
-        doorSolenoid.set(Value.kReverse);
-        break;
-      case kReverse:
-        doorSolenoid.set(Value.kForward);
-        break;
-      case kOff:
-        break;
-      default:
-        break;
+    if(doorSolenoid.get() == Value.kForward){
+      doorSolenoid.set(Value.kReverse);
+    }else{
+      doorSolenoid.set(Value.kForward);
     }
+    // switch(doorSolenoid.get()) {
+    //   case Value.kForward:
+    //     doorSolenoid.set(Value.kReverse);
+    //     break;
+    //   case Value.kReverse:
+    //     doorSolenoid.set(Value.kForward);
+    //     break;
+    //   case Value.kOff:
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 }

@@ -28,9 +28,9 @@ public class RotateToAngle extends CommandBase {
   private final DriveSubsystem m_driveTrain;
   private final Spinner m_spinner;
  
-  private static final double kP = 1.0;
+  private static final double kP = 0.5;
   private static final double kI = 0.0;
-  private static final double kD = 0.0;
+  private static final double kD = 0.2;
   private final PIDController pid = new PIDController(kP, kI, kD);
   private static boolean commandIsFinished = false;
   private static double angleTolerance;

@@ -15,7 +15,7 @@ public class WheelTracker {
     }
 
     public void setNewColor(Color new_color) {
-        if (new_color == this.last_color) {
+        if (new_color != this.last_color) {
             this.num_new_colors++;
         }
         if (this.num_new_colors >= this.num_new_colors_threshold) {

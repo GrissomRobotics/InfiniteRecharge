@@ -156,6 +156,7 @@ public class RobotMap {
             try {
                 while (!Thread.interrupted()) {
                     colorObject.readLastColor();
+                    System.out.println(colorObject.getColor().toString());
                     Thread.sleep(100);
                 }
             } catch (InterruptedException e) {
@@ -198,8 +199,8 @@ public class RobotMap {
         final JoystickButton positionControlButton = new JoystickButton(otherStick, 3);
         final JoystickButton rotationControlButton = new JoystickButton(otherStick, 4);
         final JoystickButton cancelSpinnerButton = new JoystickButton(otherStick, 2);
-        final JoystickButton intakeCellButton = new JoystickButton(otherStick, 5);
-        final JoystickButton doorToggleButton = new JoystickButton(otherStick, 6);
+        final JoystickButton intakeCellButton = new JoystickButton(otherStick, 6);
+        final JoystickButton doorToggleButton = new JoystickButton(otherStick, 5);
         final JoystickButton sensorToggleButton = new JoystickButton(otherStick, 1);
 
         // buttons to commands

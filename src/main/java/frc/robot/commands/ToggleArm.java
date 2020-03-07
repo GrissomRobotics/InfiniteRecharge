@@ -25,7 +25,7 @@ public class ToggleArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ThE ArM is Toggling!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    System.out.println("The Arm is Toggling!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     if(m_intakeSystem.getLowerLimitSwitch()){
       m_intakeSystem.moveArmUp();
     }else{
