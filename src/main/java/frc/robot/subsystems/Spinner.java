@@ -122,9 +122,9 @@ public class Spinner extends SubsystemBase {
     // SmartDashboard.putString("Detected Color", colorString);
     // SmartDashboard.putBoolean("Color Match", colorMatched);
     double start = timer.get();
-    // System.out.println(getColorString());
+    //System.out.println(getColorString());
 
-    // SmartDashboard.putString("Color: ", getColorString());
+    //SmartDashboard.putString("Color: ", getColorString());
     // SmartDashboard.putNumber("Gyro", getGyroData());
 
     // System.out.println("Spinner Subsystem periodic():" +

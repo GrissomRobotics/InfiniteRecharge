@@ -5,18 +5,20 @@ import edu.wpi.first.wpilibj.util.Color;
 public class WheelTracker {
     private int num_new_colors = 0;
     private int num_new_colors_threshold;
-    private Color last_color;
+    private String last_color;
     private double radians_turned = 0.0;
 
-    public WheelTracker(Color first_color, int threshold) {
+    public WheelTracker(String first_color, int threshold) {
         assert threshold >= 1;
         this.last_color = first_color;
         this.num_new_colors_threshold = threshold;
     }
 
-    public void setNewColor(Color new_color) {
-        if (new_color != this.last_color) {
+    public void setNewColor(String new_color) {
+        if (new_color.equals(this.last_color)) {
             this.num_new_colors++;
+            System.out.println("LAST COLOR: " + this.last_color);
+            System.out.println("NEW COLOR: " + new_color);
         }
         if (this.num_new_colors >= this.num_new_colors_threshold) {
             this.radians_turned += Math.PI / 4.0;

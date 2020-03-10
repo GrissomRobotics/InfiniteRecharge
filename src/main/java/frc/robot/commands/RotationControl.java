@@ -34,7 +34,7 @@ public class RotationControl extends CommandBase {
     timer.start();
     // Color detectedColor = RobotMap.m_colorSensor.getColor();
     // Called every time the scheduler runs while the command is scheduled.
-    wheelTracker= new WheelTracker(m_Spinner.getColor(), 4);
+    wheelTracker= new WheelTracker(m_Spinner.getColorString(), 4);
 
   }
 
@@ -43,7 +43,7 @@ public class RotationControl extends CommandBase {
     System.out.println("ROTATION CONTROL RUNNNING************");
     final double start = timer.get();
     //m_Spinner.spinPanelClockwise();
-    wheelTracker.setNewColor(m_Spinner.getColor());
+    wheelTracker.setNewColor(m_Spinner.getColorString());
     System.out.println("radians turned: " + wheelTracker.getRadiansTurned());
     System.out.println("rotation count: " + wheelTracker.getNumRotations());
     //System.out.println("RotationControl.java:execute():" + Double.toString(timer.get() - start));
