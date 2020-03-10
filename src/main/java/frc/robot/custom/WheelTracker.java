@@ -15,7 +15,7 @@ public class WheelTracker {
     }
 
     public void setNewColor(String new_color) {
-        if (new_color.equals(this.last_color)) {
+        if (!(new_color.equals(this.last_color))) {
             this.num_new_colors++;
             System.out.println("LAST COLOR: " + this.last_color);
             System.out.println("NEW COLOR: " + new_color);

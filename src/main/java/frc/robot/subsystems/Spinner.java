@@ -16,11 +16,16 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
+
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import frc.robot.RobotMap;
 import frc.robot.custom.ColorObject;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -28,43 +33,47 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class Spinner extends SubsystemBase {
 
+  // motor stuff
+
   private final TalonSRX spinnerWheel = new TalonSRX(3);
-  private final double SPINNER_WHEEL_SPEED = 0.15;
   private final Servo sensorServo = new Servo(3);
-  private PigeonIMU gyro;
+  private final double SPINNER_WHEEL_SPEED = 0.45;
+
+  // color stuff
+
   private final ColorObject colorObject;
-  // was originally public static just incase things go badly now
-  // private final ColorSensorV3 colorSensor;// = new
-  // ColorSensorV3(I2C.Port.kOnboard);
   private final ColorMatch colorMatcher;
-  public Thread m_gyroThread;
+
   private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-  private double lastGyroValue;
+
   private Color detectedColor;
   private Color targetColor;
 
-  private final Timer timer = new Timer();
+  //private SuppliedValueWidget<Boolean> colorWidget = Shuffleboard.getTab("Cameras").addBoolean("Color", () -> true);
 
-  /**
-   * Creates a new Spinner.
-   */
+  // gyro stuff
+
+  private PigeonIMU gyro;
+  public Thread m_gyroThread;
+  private double lastGyroValue;
+
   public Spinner(ColorObject color) {
     super();
-    timer.start();
-    double start = timer.get();
 
-    this.colorObject = color;
-
-    gyro = new PigeonIMU(spinnerWheel);
-
+    // spinnerWheel settings
     spinnerWheel.setInverted(false);
+
+    // TODO: Implement???
     // spinnerWheel.configContinuousCurrentLimit(20,0);
     // spinnerWheel.configPeakCurrentLimit(30,0);
     // spinnerWheel.configPeakCurrentDuration(100,0);
     // spinnerWheel.enableCurrentLimit(true);
+
+    // color features
+    this.colorObject = color;
 
     colorMatcher = new ColorMatch();
     colorMatcher.addColorMatch(kBlueTarget);
@@ -95,6 +104,9 @@ public class Spinner extends SubsystemBase {
       System.out.println("Could not load game color data");
     }
 
+    // GYRO THREAD
+    gyro = new PigeonIMU(spinnerWheel);
+
     // m_gyroThread = new Thread(() -> {
     //   try {
     //     while (!Thread.interrupted()) {
@@ -111,26 +123,22 @@ public class Spinner extends SubsystemBase {
     // m_gyroThread.setDaemon(true);
     // m_gyroThread.start();
 
-    // System.out.println("Spinner.java:Spinner():" + Double.toString(timer.get() -
-    // start));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // SmartDashboard.putNumber("Confidence", match.confidence);
-    // SmartDashboard.putString("Detected Color", colorString);
-    // SmartDashboard.putBoolean("Color Match", colorMatched);
-    double start = timer.get();
-    //System.out.println(getColorString());
 
-    //SmartDashboard.putString("Color: ", getColorString());
+    // System.out.println("Color: " + getColorString());
+    // System.out.println("Gyro Value: " + getGyroData());
+
+    SmartDashboard.putString("Color: ", getColorString());
     // SmartDashboard.putNumber("Gyro", getGyroData());
 
-    // System.out.println("Spinner Subsystem periodic():" +
-    // Double.toString(timer.get() - start));
-    //System.out.println("Gyro Value: " + getGyroData());
+    //colorWidget.withProperties(Map.of("colorWhenTrue", getColor()));
   }
+
+  // sensor functions
 
   public void toggleSensor() {
     if (sensorServo.getAngle() > 45.0) {
@@ -139,6 +147,8 @@ public class Spinner extends SubsystemBase {
       sensorServo.setAngle(100.0);
     }
   }
+
+  // spinnerWheel functions
 
   public void spinManual(double speed) {
     spinnerWheel.set(ControlMode.PercentOutput, speed);
@@ -156,9 +166,11 @@ public class Spinner extends SubsystemBase {
     spinnerWheel.set(ControlMode.PercentOutput, 0.0);
   }
 
+  // color functions
+
   public boolean colorIsMatched() {
     System.out.println("**************** Running colorIsMatched()");
-    detectedColor = colorObject.getColor();
+    detectedColor = getColor();
     ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
     boolean colorIsMatched = match.color == targetColor;
     return colorIsMatched;
@@ -188,6 +200,14 @@ public class Spinner extends SubsystemBase {
     // System.out.println("**************** Running spinner.getColor()");
     return colorObject.getColor();
   }
+
+  public ColorMatchResult getColorMatch(){
+    detectedColor = getColor();
+    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
+    return match;
+  }
+
+  // gyro functions
 
   public void resetGyro() {
     // System.out.println("**************** Running resetGyro()");
