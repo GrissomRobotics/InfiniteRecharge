@@ -42,7 +42,7 @@ public class OI {
     }
 
     public double getSensitivity() {
-        return driveStick.getRawAxis(3);
+        return Math.abs(driveStick.getRawAxis(3));
     }
 
     // TODO: Map xbox axes

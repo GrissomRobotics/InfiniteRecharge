@@ -87,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.driveCartesian(-xValue, yValue, rotationValue);
     }
 
-    public void driveWithJoystick(double turn, double right, double forward) {
+    public void driveWithJoystick(double turn, double right, double forward, double sensitivity) {
 
         double turnSet;
         double forwardSet;
@@ -96,24 +96,27 @@ public class DriveSubsystem extends SubsystemBase {
         double deadThreshold = 0.1;
 
         if (Math.abs(turn) > deadThreshold) {
+            turn = Math.signum(turn)*turn*turn;
             turnSet = turn;
         } else {
             turnSet = 0;
         }
 
         if (Math.abs(forward) > deadThreshold) {
+            forward = Math.signum(forward)*forward*forward;
             forwardSet = rampForward.ramp(forward);
         } else {
             forwardSet = 0;
         }
 
         if (Math.abs(right) > rightThreshold) {
+            right= Math.signum(right)*right*right;
             rightSet = rampRight.ramp(right);
         } else {
             rightSet = 0;
         }
 
-        cartesianDrive(rightSet, forwardSet, turnSet * 0.6);
+        cartesianDrive(rightSet*sensitivity, forwardSet*sensitivity, turnSet*0.6);
     }
 
     public void stop() {

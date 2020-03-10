@@ -50,7 +50,7 @@ public class DriveWithJoystick extends CommandBase {
     final double right = m_oi.getXValue();
     final double forward = m_oi.getYValue();
     final double sensitivity = m_oi.getSensitivity();
-    m_driveTrain.driveWithJoystick(turn, right, forward);
+    m_driveTrain.driveWithJoystick(turn, right, forward, sensitivity);
 
     //System.out.println("DriveWithJoystic.java:execute():" + Double.toString(timer.get() - start));
   }
