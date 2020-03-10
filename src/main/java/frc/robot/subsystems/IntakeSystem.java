@@ -20,16 +20,15 @@ public class IntakeSystem extends SubsystemBase {
    */
   private final Talon spinningWheel;
   private final Talon armMotor;
+
+  private final double WHEEL_SPEED = 0.75;
+  private final double ARM_SPEED = 0.75;
+
   private final DigitalInput upperArmLimit;
   private final DigitalInput lowerArmLimit;
-  private final double WHEEL_SPEED = 0.75;
-  private final double ARM_SPEED = 0.75; 
-  private final Timer timer = new Timer();
 
   public IntakeSystem() {
     super();
-    timer.start();
-    double start = timer.get();
 
     spinningWheel = new Talon(7);
     armMotor = new Talon(2);
@@ -42,24 +41,23 @@ public class IntakeSystem extends SubsystemBase {
 
     System.out.println("upper:" + getUpperLimitSwitch());
     System.out.println("lower:" + getLowerLimitSwitch());
-    System.out.println("IntakeSystem.java:IntakeSystem():" + Double.toString(timer.get() - start));
   }
 
-  //TODO: Toggle Arm :)
+  // TODO: Toggle Arm :)
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double start = timer.get();
 
     // System.out.println("upper:" + getUpperLimitSwitch());
     // System.out.println("lower:" + getLowerLimitSwitch());
 
-    SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch());
-    SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
+    // SmartDashboard.putBoolean("LowerArmLimit", getLowerLimitSwitch());
+    // SmartDashboard.putBoolean("UpperArmLimit", getUpperLimitSwitch());
 
-    //System.out.println("IntakeSubsystem.java:periodic():" + Double.toString(timer.get() - start));
   }
+
+  // intakeWheel functions
 
   public void spinWheelCClockwise() {
     spinningWheel.set(WHEEL_SPEED);
@@ -69,13 +67,15 @@ public class IntakeSystem extends SubsystemBase {
     spinningWheel.set(-WHEEL_SPEED);
   }
 
+  public void setSpinWheel(double speed) {
+    spinningWheel.set(speed);
+  }
+
   public void spinWheelOff() {
     spinningWheel.set(0.0);
   }
 
-  public void setSpinWheel(double speed){
-    spinningWheel.set(speed);
-  }
+  //arm functions
 
   public void moveArmMotorDown() {
     armMotor.set(ARM_SPEED);
@@ -92,25 +92,25 @@ public class IntakeSystem extends SubsystemBase {
   public void moveArmMotorManual(double speed) {
 
     double armSpeed = speed;
-    
+
     armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
     armMotor.set(armSpeed);
-    //System.out.println("Speed for arm: " + armSpeed);
-    
-    
+
+    //TODO: add limit switch logic back in
     // if (getLowerLimitSwitch() && (armSpeed > 0.0)) {
-    //   System.out.println("Stopping arm due to lower limit switch.");
-    //   stopArmMotor();
+    // System.out.println("Stopping arm due to lower limit switch.");
+    // stopArmMotor();
     // } else if (getUpperLimitSwitch() && (armSpeed < 0.0)) {
-    //   System.out.println("Stopping arm due to upper limit switch.");
-    //   stopArmMotor();
+    // System.out.println("Stopping arm due to upper limit switch.");
+    // stopArmMotor();
     // } else {
-    //   armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
-    //   armMotor.set(armSpeed);
+    // armSpeed = MathUtil.clamp(armSpeed, -ARM_SPEED, ARM_SPEED);
+    // armMotor.set(armSpeed);
     // }
-    
-    
+
   }
+
+  //limit switch
 
   public boolean getUpperLimitSwitch() {
     return upperArmLimit.get();

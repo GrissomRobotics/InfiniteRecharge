@@ -14,9 +14,11 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Belt;
 import frc.robot.subsystems.OutputSystem;
 import frc.robot.subsystems.Spinner;
+
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+
 public class AutonomousDefault extends SequentialCommandGroup {
   /**
    * Creates a new defualt.

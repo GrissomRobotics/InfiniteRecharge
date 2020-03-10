@@ -19,29 +19,24 @@ public class Climber extends SubsystemBase {
   private SpeedController winch = new PWMVictorSPX(12);
   private SpeedController leftHook = new PWMVictorSPX(11);
   private SpeedController rightHook = new PWMVictorSPX(10);
-  private final double WINCH_SPEED = 0.75;
+
+  private final double WINCH_SPEED = 0.5;
   private final double HOOK_SPEED = 0.50;
-  private final Timer timer = new Timer();
 
   public Climber() {
     super();
-    timer.start();
-    double start = timer.get();
 
     winch.setInverted(false);
     leftHook.setInverted(true);
     rightHook.setInverted(true);
-
-    System.out.println("Climber.java:Climber():" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double start = timer.get();
-
-    //System.out.println("Climber.java:periodic():" + Double.toString(timer.get() - start));
   }
+
+  //winch functions
 
   public void ascend() {
     winch.set(WINCH_SPEED);
@@ -52,6 +47,12 @@ public class Climber extends SubsystemBase {
     winch.set(-WINCH_SPEED);
     
   }
+  
+  public void stopWinch(){
+    winch.set(0.0);
+  }
+
+  //hook functions
 
   public void extend()  {
     rightHook.set(HOOK_SPEED);
@@ -63,15 +64,6 @@ public class Climber extends SubsystemBase {
     leftHook.set(-HOOK_SPEED);
     
   }
-
-  public void stopWinch(){
-    winch.set(0.0);
-  }
-
-  public void stopHook(){
-    rightHook.set(0.0);
-    leftHook.set(0.0);
-  } 
 
   public void extendRightHook(){
     rightHook.set(HOOK_SPEED);
@@ -89,4 +81,9 @@ public class Climber extends SubsystemBase {
     leftHook.set(-HOOK_SPEED);
     
   }
+  
+  public void stopHook(){
+    rightHook.set(0.0);
+    leftHook.set(0.0);
+  } 
 }

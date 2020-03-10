@@ -15,28 +15,17 @@ public class Belt extends SubsystemBase {
 
   private final Talon belt = new Talon(9);
   private final double BELT_SPEED = 1.0;
-  private final Timer timer = new Timer();
 
-  /**
-   * 
-   * Creates a new Belt.
-   */
   public Belt() {
     super();
-    timer.start();
-    double start = timer.get();
 
     belt.setInverted(true);
 
-    System.out.println("Belt.java:Belt():" + Double.toString(timer.get() - start));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double start = timer.get();
-
-    //System.out.println("Belt.java:periodic():" + Double.toString(timer.get() - start));
   }
 
   public void turnBeltCClockwise() {

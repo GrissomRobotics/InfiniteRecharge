@@ -22,7 +22,6 @@ public class DriveWithJoystick extends CommandBase {
   /**
    * Creates a new DriveWithJoystick.
    */
-  //private final DriveSubsystem driveTrain;
   private final DriveSubsystem m_driveTrain;
   private final OI m_oi;
   private final Timer timer = new Timer();

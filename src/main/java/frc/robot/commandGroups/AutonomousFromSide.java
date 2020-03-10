@@ -20,6 +20,7 @@ import frc.robot.subsystems.Spinner;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+
 public class AutonomousFromSide extends SequentialCommandGroup {
   /**
    * Creates a new Autonomous.
@@ -29,6 +30,7 @@ public class AutonomousFromSide extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     //super();
+
     addCommands(
 
       //new DriveByUltrasonic(driveTrain, spinner, 12, 0.5),
@@ -44,5 +46,6 @@ public class AutonomousFromSide extends SequentialCommandGroup {
       //new ExpelCellByTime(belt, outputSystem, 5)
 
     );
+
   }
 }

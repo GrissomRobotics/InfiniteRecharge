@@ -12,15 +12,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.commands.DriveWithJoystick;
 import frc.robot.custom.Ramper;
 import frc.robot.custom.UltrasonicObject;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
-
-//import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class DriveSubsystem extends SubsystemBase {
 
@@ -45,11 +40,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     public DriveSubsystem(UltrasonicObject ultra) {
         super();
-        timer.start();
-        double start = timer.get();
-        m_ultra = ultra;
 
-        // gyro = new PigeonIMU(1);
+        m_ultra = ultra;
 
         // drive train
         // sides were going in different directions, so not inverting left side.
@@ -72,7 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
         mecanumDrive.setExpiration(0.1);
         mecanumDrive.setMaxOutput(1.0);
 
-        System.out.println("DriverSubsystem.java:DriveSubsystem():" + Double.toString(timer.get() - start));
     }
 
     @Override
