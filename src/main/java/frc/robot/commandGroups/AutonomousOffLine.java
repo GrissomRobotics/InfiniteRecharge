@@ -27,7 +27,7 @@ public class AutonomousOffLine extends SequentialCommandGroup {
 
     addCommands(
 
-      new DriveByTime(driveTrain, 3)
+      new DriveByTime(driveTrain, 1)
 
     );
 

@@ -143,6 +143,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    robotMap.spinner.resetGyro();
     robotMap.driveTrain.setSafetyEnabled(true);
   }
 

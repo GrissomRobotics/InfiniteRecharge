@@ -26,7 +26,7 @@ public class TimedAutonomousDefault extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     
-    super(new DriveByTime(driveTrain, 3), new ExpelCellByTime(belt, outputSystem, 10));
+    super(new DriveByTime(driveTrain, 1.5), new ExpelCellByTime(belt, outputSystem, 10));
 
   }
 }
