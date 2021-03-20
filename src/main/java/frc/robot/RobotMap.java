@@ -218,12 +218,14 @@ public class RobotMap {
         //gyroTestingButton.whenPressed(new RotateToAngle(driveTrain, spinner, 90, 2.5));
 
         // operator controls
+        
         positionControlButton.whenPressed(new PositionControl(spinner));
         rotationControlButton.whenPressed(new RotationControl(spinner));
         cancelSpinnerButton.whenPressed(new DisableSpinner(spinner));
         intakeCellButton.whileHeld(new SpinCellIn(intakeSystem));
         doorToggleButton.whenPressed(new ToggleDoor(outputSystem));
         sensorToggleButton.whenPressed(new ToggleSensor(spinner));
+        
     }
 
     public boolean cameraSelection() {

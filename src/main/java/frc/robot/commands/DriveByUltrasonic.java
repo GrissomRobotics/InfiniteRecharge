@@ -37,7 +37,7 @@ public class DriveByUltrasonic extends CommandBase {
   private final PIDController pid_Gyro = new PIDController(kP_Gyro, kI_Gyro, kD_Gyro);
   
   //private static PigeonIMU gyro;
-  private static UltrasonicSensor ultra;
+  private static UltrasonicSensor Ultra;
   private static double distanceSetpoint;
   private static double distanceTolerance;
   private static boolean commandIsFinished = false;
@@ -65,7 +65,7 @@ public class DriveByUltrasonic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final double start = timer.get();
+    //Final doublestart = timer.get();
     double ultraDistance = m_driveTrain.getUltraReading();
     //double gyroAngle = m_spinner.getGyroData();
     System.out.println("ultraDistance: " + ultraDistance);

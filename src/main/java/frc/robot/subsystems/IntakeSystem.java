@@ -18,7 +18,7 @@ public class IntakeSystem extends SubsystemBase {
   /**
    * Creates a new IntakeSystems.
    */
-  private final Talon spinningWheel;
+  private final Talon  spinningWheel;
   private final Talon armMotor;
 
   private final double WHEEL_SPEED = 0.75;

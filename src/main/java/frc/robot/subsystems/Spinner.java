@@ -107,21 +107,21 @@ public class Spinner extends SubsystemBase {
     // GYRO THREAD
     gyro = new PigeonIMU(spinnerWheel);
 
-    // m_gyroThread = new Thread(() -> {
-    //   try {
-    //     while (!Thread.interrupted()) {
+    m_gyroThread = new Thread(() -> {
+      try {
+        while (!Thread.interrupted()) {
 
-    //       System.out.println("thread running :) *******************************");
-    //       lastGyroValue = gyro.getFusedHeading();
-    //       Thread.sleep(100);
-    //     }
-    //   } catch (InterruptedException e) {
-    //     System.out.println("*** Rude. I've been interrupted.");
-    //   }
-    // });
+          System.out.println("thread running :) *******************************");
+          lastGyroValue = gyro.getFusedHeading();
+          Thread.sleep(100);
+        }
+      } catch (InterruptedException e) {
+        System.out.println("*** Rude. I've been interrupted.");
+      }
+    });
 
-    // m_gyroThread.setDaemon(true);
-    // m_gyroThread.start();
+    m_gyroThread.setDaemon(true);
+    m_gyroThread.start();
 
   }
 
@@ -130,7 +130,7 @@ public class Spinner extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // System.out.println("Color: " + getColorString());
-    // System.out.println("Gyro Value: " + getGyroData());
+    System.out.println("Gyro Value: " + getGyroData());
 
     SmartDashboard.putString("Color: ", getColorString());
     // SmartDashboard.putNumber("Gyro", getGyroData());

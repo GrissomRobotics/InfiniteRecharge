@@ -3,13 +3,14 @@
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*-----------------------------------------------------  k-----------------------*/
 
 package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.DriveByUltrasonic;
+import frc.robot.commands.DriveWithGyro;
 import frc.robot.commands.ExpelCellByTime;
 import frc.robot.commands.RotateToAngle;
 import frc.robot.subsystems.DriveSubsystem;
@@ -30,12 +31,13 @@ public class AutonomousFromSide extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     //super();
+    System.out.println("COMMAND RUNNING");
 
     addCommands(
 
       //new DriveByUltrasonic(driveTrain, spinner, 12, 0.5),
 
-      new RotateToAngle(driveTrain, spinner, 90, 0.5)
+      new DriveWithGyro(driveTrain, spinner)
 
       //new DriveByUltrasonic(driveTrain, spinner, 94, 50)
 
